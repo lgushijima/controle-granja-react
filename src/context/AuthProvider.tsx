@@ -1,10 +1,9 @@
-import {AuthContextType} from '@/types/authTypes';
+import {AuthContextType, AuthType} from '@/types/authTypes';
 import {createContext, ReactNode, useState} from 'react';
 
 const defaultAuthContext: AuthContextType = {
-    setAuth: () => {
-        console.error('Not implemented.');
-    },
+    logout: () => {},
+    login: () => {},
     auth: {
         id: '',
         idCliente: '',
@@ -17,9 +16,19 @@ const defaultAuthContext: AuthContextType = {
 const AuthContext = createContext<AuthContextType>(defaultAuthContext);
 
 export const AuthProvider: React.FC<{children: ReactNode}> = ({children}) => {
-    const [auth, setAuth] = useState(defaultAuthContext.auth);
+    const [auth, setAuth] = useState<AuthType | null>(defaultAuthContext.auth);
 
-    return <AuthContext.Provider value={{auth, setAuth}}>{children}</AuthContext.Provider>;
+    const login = (data: AuthType | null) => {
+        setAuth(data);
+        localStorage.setItem('cg-cliente', JSON.stringify(data));
+    };
+
+    const logout = () => {
+        setAuth(null);
+        localStorage.removeItem('cg-cliente');
+    };
+
+    return <AuthContext.Provider value={{auth, login, logout}}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContext;

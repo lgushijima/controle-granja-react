@@ -1,6 +1,6 @@
 import useAuth from '@/hooks/useAuth';
 import axios from '@/api/axios';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 import {LoaderCircle} from 'lucide-react';
 import {Label} from '@/components/ui/label';
@@ -26,19 +26,33 @@ const loginSchema = z.object({
 type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function Login() {
-    const {setAuth} = useAuth();
+    const {auth, login} = useAuth();
     const [error, setError] = useState<AxiosError<APIErrorType> | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
+
+    useEffect(() => {
+        if (!auth?.token) {
+            const user = localStorage.getItem('cg-cliente');
+            if (user) {
+                login(JSON.parse(user));
+                navigate(from, {replace: true});
+                setIsLoading(false);
+                return;
+            }
+        }
+        setIsLoading(false);
+    });
 
     const mutation = useMutation<AuthType, AxiosError<APIErrorType>, LoginSchema>({
         mutationFn: data => {
             return axios.post('api/Auth/validarAcesso', data).then(response => response.data);
         },
         onSuccess: data => {
-            setAuth(data);
+            login(data);
             navigate(from, {replace: true});
         },
         onError: err => {
@@ -59,7 +73,9 @@ export default function Login() {
         setError(null);
     };
 
-    return (
+    return isLoading ? (
+        ''
+    ) : (
         <div className="flex justify-between items-center h-full ">
             <div className="w-full max-w-96 mx-auto border rounded-lg p-10 bg-white relative">
                 <img src="/images/logo.png" className="absolute w-40 -top-20 left-1/2 transform -translate-x-1/2" />
