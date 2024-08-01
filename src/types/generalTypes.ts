@@ -9,6 +9,7 @@ export interface AlertDialogType {
     onConfirm?: () => void;
     closeText?: string;
     confirmText?: string;
+    confirmElement?: JSX.Element;
     title?: string;
     message: string;
 }

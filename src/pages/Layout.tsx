@@ -16,7 +16,7 @@ type LoteType = {
 
 const Layout = () => {
     const {auth} = useAuth();
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(true);
 
     const queryClient = useQueryClient();
     const {data, isFetching} = useQuery<LoteType[]>(

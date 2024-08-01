@@ -1,12 +1,22 @@
 import {axiosPrivate} from '@/api/axios';
 import {useState} from 'react';
 import useAuth from '@/hooks/useAuth';
-import {useQuery} from 'react-query';
+import {useMutation, useQuery} from 'react-query';
 import {CustomTable} from '@/components/general/CustomTable';
 import {Button} from '@/components/ui/button';
+import {UserType} from '@/types/userTypes';
+import {LoaderCircle, Pencil, Trash2Icon} from 'lucide-react';
+import {CustomAlertDialog} from '@/components/general/CustomAlertDialog';
+import {AxiosError} from 'axios';
+import {APIErrorType} from '@/types/generalTypes';
+import {useAlertDialog} from '@/hooks/useAlertDialog';
 
 export default function Usuarios() {
     const {auth} = useAuth();
+    const {openAlertDialog, CustomAlertDialog} = useAlertDialog();
+    const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+
     const [pagina, setPagina] = useState(1);
     const [tamanhoPagina, setTamanhoPagina] = useState(3);
     const [ordenarPor, setOrdenarPor] = useState('Nome');
@@ -30,9 +40,28 @@ export default function Usuarios() {
         },
     );
 
-    const handleClickMaroto = (item: object) => {
+    const mutation = useMutation<boolean, AxiosError<APIErrorType>, UserType>({
+        mutationFn: data => {
+            return axiosPrivate
+                .post('api/Usuarios/Excluir', data, {
+                    headers: {Authorization: `bearer ${auth?.token}`},
+                })
+                .then(response => response.data);
+        },
+        onSuccess: data => {
+            setIsConfirmationModalOpen(false);
+        },
+        onError: err => {
+            setIsConfirmationModalOpen(false);
+        },
+    });
+
+    const handleClickMaroto = (item: UserType) => {
         console.log(item);
     };
+
+    console.log('RENDERIZOU');
+
     return (
         <div className="m-5">
             <div className="p-5 bg-white rounded-2xl">
@@ -40,17 +69,45 @@ export default function Usuarios() {
                 <p>Cadastre novos usuários, edite dados existentes, exclua registros, gerencie permissões.</p>
 
                 <div className="mt-5">
-                    <CustomTable
+                    <CustomTable<UserType>
                         config={[
                             {
                                 header: '',
                                 key: 'actions',
-                                element: item => <Button onClick={() => handleClickMaroto(item)}>Delete</Button>,
+                                width: '1px',
+                                element: item => (
+                                    <div className="flex">
+                                        <Button onClick={() => handleClickMaroto(item)}>
+                                            <Pencil size={18} strokeWidth={2} />
+                                        </Button>
+                                        <Button
+                                            onClick={() => {
+                                                //setIsConfirmationModalOpen(true);
+                                                openAlertDialog(true, {
+                                                    isOpen: true,
+                                                    title: 'Oeee',
+                                                    message: 'MAZaaaaaaaaaaaaaa',
+                                                });
+                                                setSelectedUser(item);
+                                            }}
+                                            variant={'destructive'}
+                                            className="ml-1 bg-red-700 hover:bg-red-800">
+                                            <Trash2Icon size={18} strokeWidth={1} />
+                                        </Button>
+                                    </div>
+                                ),
                             },
-                            {header: 'Nome', key: 'nome'},
-                            {header: 'Login', key: 'login'},
-                            {header: 'Perfil', key: 'perfil'},
-                            {header: 'Status', key: 'status'},
+                            {width: '200px', header: 'Nome', key: 'nome'},
+                            {width: '200px', header: 'Login', key: 'login'},
+                            {width: '200px', header: 'Perfil', key: 'perfil'},
+                            {
+                                width: '200px',
+                                header: 'Status',
+                                key: 'ativo',
+                                format: item => {
+                                    return item.ativo ? 'Ativo' : 'Inativo';
+                                },
+                            },
                         ]}
                         isFetching={isFetching}
                         data={data}
@@ -60,6 +117,28 @@ export default function Usuarios() {
                             setPagina(p);
                         }}
                     />
+
+                    <CustomAlertDialog />
+                    {/* <CustomAlertDialog
+                        isOpen={isConfirmationModalOpen}
+                        onClose={() => {
+                            setIsConfirmationModalOpen(!isConfirmationModalOpen);
+                        }}
+                        onConfirm={() => {
+                            selectedUser && mutation.mutate(selectedUser);
+                        }}
+                        confirmElement={
+                            mutation.isLoading ? (
+                                <>
+                                    <LoaderCircle className="animate-spin mr-2" /> Excluindo...
+                                </>
+                            ) : (
+                                <span>Confirm</span>
+                            )
+                        }
+                        title="Atenção!"
+                        message={`Deseja realmente excluir este usuário: \"${selectedUser?.nome}\"`}
+                    /> */}
                 </div>
             </div>
         </div>

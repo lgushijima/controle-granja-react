@@ -9,11 +9,30 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import {AlertDialogType} from '@/types/generalTypes';
-import React from 'react';
+import React, {useState} from 'react';
 
-export function CustomAlertDialog(data: AlertDialogType) {
-    return (
-        <AlertDialog open={data.isOpen}>
+export function useAlertDialog() {
+    const [isOpen, setIsOpen] = useState(false);
+    const [data, setData] = useState<AlertDialogType>({
+        isOpen: false,
+        title: 'Oops',
+        message: 'sorry',
+        onClose: () => {
+            setIsOpen(false);
+        },
+    });
+
+    const openAlertDialog = (open: boolean, data: AlertDialogType) => {
+        if (open) {
+            setData(data);
+            if (open && !isOpen) setIsOpen(true);
+        } else {
+            setIsOpen(false);
+        }
+    };
+
+    const CustomAlertDialog = () => (
+        <AlertDialog open={isOpen}>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     {data.title && <AlertDialogTitle>{data.title}</AlertDialogTitle>}
@@ -38,4 +57,9 @@ export function CustomAlertDialog(data: AlertDialogType) {
             </AlertDialogContent>
         </AlertDialog>
     );
+
+    return {
+        openAlertDialog,
+        CustomAlertDialog,
+    };
 }
