@@ -6,27 +6,22 @@ import {CustomTable} from '@/components/general/CustomTable';
 import {Button} from '@/components/ui/button';
 import {UserType} from '@/types/userTypes';
 import {LoaderCircle, Pencil, Trash2Icon} from 'lucide-react';
-import {CustomAlertDialog} from '@/components/general/CustomAlertDialog';
 import {AxiosError} from 'axios';
-import {APIErrorType} from '@/types/generalTypes';
-import {useAlertDialog} from '@/hooks/useAlertDialog';
+import {APIErrorType, APIQueryPaginationResponseType} from '@/types/generalTypes';
+import useAlertDialog from '@/hooks/useAlertDialog';
 
 export default function Usuarios() {
     const {auth} = useAuth();
-    const {openAlertDialog, CustomAlertDialog} = useAlertDialog();
+    const {openAlertDialog} = useAlertDialog();
     const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
     const [pagina, setPagina] = useState(1);
-    const [tamanhoPagina, setTamanhoPagina] = useState(3);
-    const [ordenarPor, setOrdenarPor] = useState('Nome');
-    const [ordenacao, setOrdenacao] = useState('asc');
+    const [tamanhoPagina] = useState(15);
+    const [ordenarPor] = useState('Nome');
+    const [ordenacao] = useState('asc');
 
-    interface APIType {
-        total: number;
-        lista: UserType[];
-    }
-    const {data, isFetching} = useQuery<APIType>(
+    const {data, isFetching} = useQuery<APIQueryPaginationResponseType<UserType>>(
         `get-usuarios-${pagina}-${ordenarPor}-${ordenacao}`,
         async () => {
             const response = await axiosPrivate.get(
@@ -86,13 +81,32 @@ export default function Usuarios() {
                                         </Button>
                                         <Button
                                             onClick={() => {
-                                                //setIsConfirmationModalOpen(true);
-                                                openAlertDialog(true, {
-                                                    isOpen: true,
-                                                    title: 'Oeee',
-                                                    message: 'MAZaaaaaaaaaaaaaa',
-                                                });
                                                 setSelectedUser(item);
+                                                openAlertDialog(true, {
+                                                    title: 'Atenção!',
+                                                    subtitle: 'Confirme a ação antes de prosseguir',
+                                                    message: (
+                                                        <label>
+                                                            Deseja realmente <b>EXCLUIR</b> este usuário:
+                                                            <b className="ml-1 uppercase">{item.nome}</b> ?
+                                                        </label>
+                                                    ),
+                                                    enableClose: true,
+                                                    closeText: 'Cancelar',
+                                                    enableConfirm: true,
+                                                    confirmText: 'EXCLUIR',
+                                                    onConfirm: () => {
+                                                        openAlertDialog(true, {
+                                                            title: 'Aguarde!',
+                                                            subtitle: 'Este processo pode demorar alguns instantes',
+                                                            message: 'Processando dados...',
+                                                        });
+                                                        setTimeout(() => {
+                                                            openAlertDialog(false);
+                                                        }, 5000);
+                                                        return false;
+                                                    },
+                                                });
                                             }}
                                             variant={'destructive'}
                                             className="ml-1 bg-red-700 hover:bg-red-800">
@@ -121,28 +135,6 @@ export default function Usuarios() {
                             setPagina(p);
                         }}
                     />
-
-                    <CustomAlertDialog />
-                    {/* <CustomAlertDialog
-                        isOpen={isConfirmationModalOpen}
-                        onClose={() => {
-                            setIsConfirmationModalOpen(!isConfirmationModalOpen);
-                        }}
-                        onConfirm={() => {
-                            selectedUser && mutation.mutate(selectedUser);
-                        }}
-                        confirmElement={
-                            mutation.isLoading ? (
-                                <>
-                                    <LoaderCircle className="animate-spin mr-2" /> Excluindo...
-                                </>
-                            ) : (
-                                <span>Confirm</span>
-                            )
-                        }
-                        title="Atenção!"
-                        message={`Deseja realmente excluir este usuário: \"${selectedUser?.nome}\"`}
-                    /> */}
                 </div>
             </div>
         </div>

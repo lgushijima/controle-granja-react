@@ -46,11 +46,7 @@ export function CustomTable<T>({config, data, page, pageSize, onPageClick, isFet
                         <TableRow key={idx}>
                             {config.map((c: CustomTableConfigProps<T>) => (
                                 <TableCell key={c.key} width={c.width}>
-                                    {c.element
-                                        ? React.cloneElement(c.element(item))
-                                        : c.format
-                                        ? c.format(item)
-                                        : (item as any)[c.key]}
+                                    {c.element ? c.element(item) : c.format ? c.format(item) : (item as any)[c.key]}
                                 </TableCell>
                             ))}
                             <TableCell />

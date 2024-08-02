@@ -6,7 +6,6 @@ import {LoaderCircle} from 'lucide-react';
 import {Label} from '@/components/ui/label';
 import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
-import {CustomAlertDialog} from '@/components/general/CustomAlertDialog';
 
 import {useNavigate, useLocation} from 'react-router-dom';
 import {useForm} from 'react-hook-form';
@@ -17,6 +16,7 @@ import {useMutation} from 'react-query';
 import {AuthType} from '@/types/authTypes';
 import {AxiosError} from 'axios';
 import {APIErrorType} from '@/types/generalTypes';
+import useAlertDialog from '@/hooks/useAlertDialog';
 
 const loginSchema = z.object({
     login: z.string().min(2),
@@ -26,8 +26,9 @@ const loginSchema = z.object({
 type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function Login() {
+    const {openAlertDialog} = useAlertDialog();
     const {auth, login} = useAuth();
-    const [error, setError] = useState<AxiosError<APIErrorType> | null>(null);
+
     const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
@@ -56,8 +57,13 @@ export default function Login() {
             navigate(from, {replace: true});
         },
         onError: err => {
-            console.error('Erro na autenticação', err);
-            setError(err);
+            openAlertDialog(true, {
+                title: 'Oops!',
+                titleClassName: 'text-red-700',
+                subtitle: 'Falha na autenticação',
+                message: err?.response?.data ? err.response.data?.error : 'Não foi possível autenticar seu usuário',
+                enableClose: true,
+            });
         },
     });
 
@@ -67,10 +73,6 @@ export default function Login() {
 
     const handleLoginSubmit = async (data: LoginSchema) => {
         mutation.mutate(data);
-    };
-
-    const handleCloseAlert = () => {
-        setError(null);
     };
 
     return isLoading ? (
@@ -116,17 +118,6 @@ export default function Login() {
                             'Login'
                         )}
                     </Button>
-
-                    <CustomAlertDialog
-                        isOpen={error != null}
-                        onClose={handleCloseAlert}
-                        title="Oops!"
-                        message={
-                            error?.response?.data
-                                ? error.response.data?.error
-                                : 'Não foi possível autenticar seu usuário'
-                        }
-                    />
                 </form>
 
                 <div className="text-center text-xs text-gray-400 mt-10">versão 2024.6.17.1</div>
