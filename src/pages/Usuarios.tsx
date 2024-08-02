@@ -11,7 +11,7 @@ import useAlertDialog from '@/hooks/useAlertDialog';
 
 export default function Usuarios() {
     const {auth} = useAuth();
-    const {openAlertDialog} = useAlertDialog();
+    const {openAlertDialog, closeAlertDialog, openAlertDialogLoading, openAlertDialogConfirmation} = useAlertDialog();
     const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
@@ -81,27 +81,12 @@ export default function Usuarios() {
                                         <Button
                                             onClick={() => {
                                                 setSelectedUser(item);
-                                                openAlertDialog(true, {
-                                                    title: 'Atenção!',
-                                                    subtitle: 'Confirme a ação antes de prosseguir',
-                                                    message: (
-                                                        <label>
-                                                            Deseja realmente <b>EXCLUIR</b> este usuário:
-                                                            <b className="ml-1 uppercase">{item.nome}</b> ?
-                                                        </label>
-                                                    ),
-                                                    enableClose: true,
-                                                    closeText: 'Cancelar',
-                                                    enableConfirm: true,
-                                                    confirmText: 'EXCLUIR',
+                                                openAlertDialogConfirmation({
+                                                    reference: item.nome,
                                                     onConfirm: () => {
-                                                        openAlertDialog(true, {
-                                                            title: 'Aguarde!',
-                                                            subtitle: 'Este processo pode demorar alguns instantes',
-                                                            message: 'Processando dados...',
-                                                        });
+                                                        openAlertDialogLoading();
                                                         setTimeout(() => {
-                                                            openAlertDialog(false);
+                                                            closeAlertDialog();
                                                         }, 5000);
                                                         return false;
                                                     },

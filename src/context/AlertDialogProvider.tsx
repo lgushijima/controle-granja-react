@@ -1,4 +1,3 @@
-import React from 'react';
 import {createContext, ReactNode, useState} from 'react';
 import {
     AlertDialog,
@@ -16,7 +15,10 @@ interface Props {
 }
 
 export interface AlertDialogContextType {
-    openAlertDialog: (open: boolean, data?: AlertDialogType) => void;
+    openAlertDialog: (data: AlertDialogType) => void;
+    closeAlertDialog: () => void;
+    openAlertDialogLoading: () => void;
+    openAlertDialogConfirmation: (data: AlertDialogDeleteConfirmationType) => void;
 }
 
 export interface AlertDialogType {
@@ -39,9 +41,17 @@ export interface AlertDialogType {
     message: string | JSX.Element;
     messageClassName?: string;
 }
+interface AlertDialogDeleteConfirmationType {
+    reference: string;
+    message?: string | JSX.Element;
+    onConfirm: () => boolean;
+}
 
 const defaultValue: AlertDialogContextType = {
     openAlertDialog: () => {},
+    closeAlertDialog: () => {},
+    openAlertDialogLoading: () => {},
+    openAlertDialogConfirmation: () => {},
 };
 
 const AlertDialogContext = createContext<AlertDialogContextType>(defaultValue);
@@ -50,15 +60,50 @@ export const AlertDialogProvider = ({children}: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [data, setData] = useState<AlertDialogType>({title: '', message: ''});
 
-    const openAlertDialog = (open: boolean, data?: AlertDialogType) => {
-        setIsOpen(open);
+    const closeAlertDialog = () => {
+        setIsOpen(false);
+    };
+
+    const openAlertDialog = (data: AlertDialogType) => {
+        setIsOpen(true);
         if (data) {
             setData(data);
         }
     };
 
+    const openAlertDialogLoading = () => {
+        setIsOpen(true);
+        setData({
+            title: 'Aguarde!',
+            subtitle: 'Este processo pode demorar alguns instantes',
+            message: 'Processando dados...',
+        });
+    };
+
+    const openAlertDialogConfirmation = (data: AlertDialogDeleteConfirmationType) => {
+        setIsOpen(true);
+        setData({
+            title: 'Atenção!',
+            subtitle: 'Confirme a ação antes de prosseguir',
+            message: data.message ? (
+                data.message
+            ) : (
+                <label>
+                    Deseja realmente <b>EXCLUIR</b> este registro:
+                    <b className="ml-1 uppercase">{data.reference}</b> ?
+                </label>
+            ),
+            enableClose: true,
+            closeText: 'Cancelar',
+            enableConfirm: true,
+            confirmText: 'EXCLUIR',
+            onConfirm: data.onConfirm,
+        });
+    };
+
     return (
-        <AlertDialogContext.Provider value={{openAlertDialog}}>
+        <AlertDialogContext.Provider
+            value={{openAlertDialog, closeAlertDialog, openAlertDialogLoading, openAlertDialogConfirmation}}>
             <AlertDialog open={isOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
@@ -67,13 +112,16 @@ export const AlertDialogProvider = ({children}: Props) => {
                         </AlertDialogTitle>
 
                         {data.subtitle && (
-                            <div className={`mt-0 text-left italic text-gray-400 ${data.subtitleClassName || ''}`}>
+                            <div
+                                className={`mt-0 text-left italic text-sm text-gray-400 ${
+                                    data.subtitleClassName || ''
+                                }`}>
                                 {data.subtitle}
                             </div>
                         )}
 
                         <AlertDialogDescription
-                            className={`mt-2 pt-2 mb-4 text-base border-t box-border ${data.messageClassName || ''}`}>
+                            className={`my-4 pt-4 text-base border-t box-border ${data.messageClassName || ''}`}>
                             {data.message}
                         </AlertDialogDescription>
                     </AlertDialogHeader>

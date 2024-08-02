@@ -25,7 +25,7 @@ const loginSchema = z.object({
 type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function Login() {
-    const {openAlertDialog} = useAlertDialog();
+    const {openAlertDialog, closeAlertDialog, openAlertDialogLoading} = useAlertDialog();
     const {auth, login} = useAuth();
 
     const [isLoading, setIsLoading] = useState(true);
@@ -54,9 +54,10 @@ export default function Login() {
         onSuccess: data => {
             login(data);
             navigate(from, {replace: true});
+            closeAlertDialog();
         },
         onError: err => {
-            openAlertDialog(true, {
+            openAlertDialog({
                 title: 'Oops!',
                 titleClassName: 'text-red-700',
                 subtitle: 'Falha na autenticação',
@@ -71,6 +72,7 @@ export default function Login() {
     });
 
     const handleLoginSubmit = async (data: LoginSchema) => {
+        openAlertDialogLoading();
         mutation.mutate(data);
     };
 
