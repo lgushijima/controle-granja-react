@@ -4,7 +4,6 @@ import {useQuery, useQueryClient} from 'react-query';
 import {axiosPrivate} from '@/api/axios';
 import {Button} from '@/components/ui/button';
 import {useState} from 'react';
-import {Menu, LoaderCircle, Home, Sheet, Users, Settings} from 'lucide-react';
 import ProfileDropDownMenu from '@/components/general/ProfileDropDownMenu';
 
 type LoteType = {
@@ -60,11 +59,11 @@ const Layout = () => {
                         <div className="flex items-center">
                             <Button
                                 variant={'link'}
-                                className="text-white"
+                                className="text-white hover:no-underline"
                                 onClick={() => {
                                     setMenuOpen(!menuOpen);
                                 }}>
-                                <Menu />
+                                <i className="fal fa-bars text-2xl" />
                             </Button>
                             <img src="/images/logo.png" className="w-16" />
                             <h2 className="text-xl">CONTROLE DE GRANJA</h2>
@@ -87,17 +86,15 @@ const Layout = () => {
                                     <Link
                                         to={`/`}
                                         className="flex items-center pl-5 py-2 transition-all hover:bg-neutral-100 relative">
-                                        <Home size={20} strokeWidth={1} className="mr-2" /> Dashboard
+                                        <i className="fal fa-home text-xl mr-2" /> Dashboard
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
                                         to={`lotes`}
                                         className="flex items-center pl-5 py-2 transition-all hover:bg-neutral-100 relative">
-                                        <Sheet size={20} strokeWidth={1} className="mr-2" /> Lotes
-                                        {isFetching && (
-                                            <LoaderCircle size={12} className="absolute top-3 right-2 animate-spin" />
-                                        )}
+                                        <i className="fal fa-clipboard-list-check text-xl mr-2" /> Lotes
+                                        {isFetching && <i className="fal fa-spinner fa-spin absolute top-3 right-2 " />}
                                     </Link>
 
                                     <ul className="mb-2">
@@ -119,14 +116,14 @@ const Layout = () => {
                                     <Link
                                         to={`usuarios`}
                                         className="flex items-center pl-5 py-2 transition-all hover:bg-neutral-100">
-                                        <Users size={20} strokeWidth={1} className="mr-2" /> Usuários
+                                        <i className="fal fa-users text-xl mr-2" /> Usuários
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
                                         to={`conta`}
                                         className="flex items-center pl-5 py-2 transition-all hover:bg-neutral-100">
-                                        <Settings size={20} strokeWidth={1} className="mr-2" /> Configurações da Conta
+                                        <i className="fal fa-cogs text-xl mr-2" /> Configurações da Conta
                                     </Link>
                                 </li>
                             </ul>

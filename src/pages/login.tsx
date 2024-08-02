@@ -2,7 +2,6 @@ import useAuth from '@/hooks/useAuth';
 import axios from '@/api/axios';
 import {useEffect, useState} from 'react';
 
-import {LoaderCircle} from 'lucide-react';
 import {Label} from '@/components/ui/label';
 import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
@@ -112,7 +111,7 @@ export default function Login() {
                     <Button type="submit" className="w-full mt-4" disabled={mutation.isLoading}>
                         {mutation.isLoading ? (
                             <>
-                                <LoaderCircle className="animate-spin mr-2" /> Autenticando...
+                                <i className="fal fa-spinner fa-spin mr-2" /> Autenticando...
                             </>
                         ) : (
                             'Login'

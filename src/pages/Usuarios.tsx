@@ -5,7 +5,6 @@ import {useMutation, useQuery} from 'react-query';
 import {CustomTable} from '@/components/general/CustomTable';
 import {Button} from '@/components/ui/button';
 import {UserType} from '@/types/userTypes';
-import {LoaderCircle, Pencil, Trash2Icon} from 'lucide-react';
 import {AxiosError} from 'axios';
 import {APIErrorType, APIQueryPaginationResponseType} from '@/types/generalTypes';
 import useAlertDialog from '@/hooks/useAlertDialog';
@@ -77,7 +76,7 @@ export default function Usuarios() {
                                 element: item => (
                                     <div className="flex">
                                         <Button onClick={() => handleClickMaroto(item)}>
-                                            <Pencil size={18} strokeWidth={2} />
+                                            <i className="fal fa-pencil" />
                                         </Button>
                                         <Button
                                             onClick={() => {
@@ -110,7 +109,7 @@ export default function Usuarios() {
                                             }}
                                             variant={'destructive'}
                                             className="ml-1 bg-red-700 hover:bg-red-800">
-                                            <Trash2Icon size={18} strokeWidth={1} />
+                                            <i className="fal fa-trash-alt" />
                                         </Button>
                                     </div>
                                 ),

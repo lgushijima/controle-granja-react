@@ -8,7 +8,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import useAuth from '@/hooks/useAuth';
-import {User} from 'lucide-react';
 
 const ProfileDropDownMenu = () => {
     const {auth, logout} = useAuth();
@@ -22,7 +21,9 @@ const ProfileDropDownMenu = () => {
             <DropdownMenuTrigger>
                 <div className="flex items-center ">
                     <p className="mr-3">Olá {auth?.nome}!</p>
-                    <User size={38} className="rounded-full bg-white text-primary p-1" />
+                    <div className="flex items-center justify-center rounded-full bg-white w-10 h-10  text-primary p-1">
+                        <i className="fal fa-user text-2xl " />
+                    </div>
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-48 mr-5">
