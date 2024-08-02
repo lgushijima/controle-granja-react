@@ -1,6 +1,10 @@
 import {AuthContextType, AuthType} from '@/types/authTypes';
 import {createContext, ReactNode, useState} from 'react';
 
+interface Props {
+    children: ReactNode;
+}
+
 const defaultAuthContext: AuthContextType = {
     logout: () => {},
     login: () => {},
@@ -15,7 +19,7 @@ const defaultAuthContext: AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>(defaultAuthContext);
 
-export const AuthProvider: React.FC<{children: ReactNode}> = ({children}) => {
+export const AuthProvider = ({children}: Props) => {
     const [auth, setAuth] = useState<AuthType | null>(defaultAuthContext.auth);
 
     const login = (data: AuthType | null) => {

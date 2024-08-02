@@ -22,7 +22,11 @@ export default function Usuarios() {
     const [ordenarPor, setOrdenarPor] = useState('Nome');
     const [ordenacao, setOrdenacao] = useState('asc');
 
-    const {data, isFetching} = useQuery(
+    interface APIType {
+        total: number;
+        lista: UserType[];
+    }
+    const {data, isFetching} = useQuery<APIType>(
         `get-usuarios-${pagina}-${ordenarPor}-${ordenacao}`,
         async () => {
             const response = await axiosPrivate.get(
@@ -69,7 +73,7 @@ export default function Usuarios() {
                 <p>Cadastre novos usuários, edite dados existentes, exclua registros, gerencie permissões.</p>
 
                 <div className="mt-5">
-                    <CustomTable<UserType>
+                    <CustomTable
                         config={[
                             {
                                 header: '',

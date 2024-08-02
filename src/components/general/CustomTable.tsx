@@ -12,7 +12,7 @@ interface CustomTableConfigProps<T> {
 
 interface CustomTableProps<T> {
     config: CustomTableConfigProps<T>[];
-    data: {
+    data?: {
         total: number;
         lista: T[];
     };
@@ -65,12 +65,13 @@ export function CustomTable<T>({config, data, page, pageSize, onPageClick, isFet
                                 <CustomTablePagination
                                     page={page}
                                     pageSize={pageSize}
-                                    total={total}
+                                    total={total || 0}
                                     onPageClick={onPageClick}
                                 />
 
                                 <div className="flex mx-0 whitespace-nowrap text-gray-500">
-                                    Página {page} de {Math.ceil(total / pageSize)} | Total de registros: {total}
+                                    Página {page} de {Math.ceil(total || 0 / pageSize)} | Total de registros:{' '}
+                                    {total || 0}
                                 </div>
                             </div>
                         </TableCell>
