@@ -8,12 +8,13 @@ import {UserType} from '@/types/userTypes';
 import {AxiosError} from 'axios';
 import {APIErrorType, APIQueryPaginationResponseType} from '@/types/generalTypes';
 import useAlertDialog from '@/hooks/useAlertDialog';
+import {UsuarioCadastroModal} from './UsuarioCadastroModal';
 
 export default function Usuarios() {
     const {auth} = useAuth();
     const {openAlertDialog, closeAlertDialog, openAlertDialogLoading, openAlertDialogConfirmation} = useAlertDialog();
     const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
-    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+    const [isUsuarioModalOpen, setIsUsuarioModalOpen] = useState(false);
 
     const [pagina, setPagina] = useState(1);
     const [tamanhoPagina] = useState(15);
@@ -46,19 +47,26 @@ export default function Usuarios() {
                 })
                 .then(response => response.data);
         },
-        onSuccess: data => {
-            setIsConfirmationModalOpen(false);
+        onSuccess: () => {
+            closeAlertDialog();
         },
         onError: err => {
-            setIsConfirmationModalOpen(false);
+            openAlertDialog({
+                title: 'Oops!',
+                titleClassName: 'text-red-700',
+                subtitle: 'Não foi possível completar esta ação.',
+                message: err?.response?.data
+                    ? err.response.data?.error
+                    : 'Ocorreu um erro ao tentar salvar os dados informados.',
+                enableClose: true,
+            });
         },
     });
 
-    const handleClickMaroto = (item: UserType) => {
-        console.log(item);
+    const handleCloseDialog = () => {
+        setIsUsuarioModalOpen(false);
+        setSelectedUser(null);
     };
-
-    console.log('RENDERIZOU');
 
     return (
         <div className="m-5">
@@ -75,7 +83,11 @@ export default function Usuarios() {
                                 width: '1px',
                                 element: item => (
                                     <div className="flex">
-                                        <Button onClick={() => handleClickMaroto(item)}>
+                                        <Button
+                                            onClick={() => {
+                                                setSelectedUser(item);
+                                                setIsUsuarioModalOpen(true);
+                                            }}>
                                             <i className="fal fa-pencil" />
                                         </Button>
                                         <Button
@@ -85,9 +97,7 @@ export default function Usuarios() {
                                                     reference: item.nome,
                                                     onConfirm: () => {
                                                         openAlertDialogLoading();
-                                                        setTimeout(() => {
-                                                            closeAlertDialog();
-                                                        }, 5000);
+                                                        mutation.mutate(item);
                                                         return false;
                                                     },
                                                 });
@@ -121,6 +131,14 @@ export default function Usuarios() {
                     />
                 </div>
             </div>
+
+            {selectedUser && (
+                <UsuarioCadastroModal
+                    isOpen={isUsuarioModalOpen}
+                    selectedUser={selectedUser}
+                    onClose={handleCloseDialog}
+                />
+            )}
         </div>
     );
 }

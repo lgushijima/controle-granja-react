@@ -60,15 +60,15 @@ export const AlertDialogProvider = ({children}: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [data, setData] = useState<AlertDialogType>({title: '', message: ''});
 
-    const closeAlertDialog = () => {
-        setIsOpen(false);
-    };
-
     const openAlertDialog = (data: AlertDialogType) => {
         setIsOpen(true);
         if (data) {
             setData(data);
         }
+    };
+
+    const closeAlertDialog = () => {
+        setIsOpen(false);
     };
 
     const openAlertDialogLoading = () => {

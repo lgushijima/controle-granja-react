@@ -1,4 +1,3 @@
-import React from 'react';
 import {Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow} from '@/components/ui/table';
 import {CustomTablePagination} from './CustomTablePagination';
 
