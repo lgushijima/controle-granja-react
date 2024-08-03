@@ -84,7 +84,9 @@ export const AlertDialogProvider = ({children}: Props) => {
         setIsOpen(true);
         setData({
             title: 'Atenção!',
+            titleClassName: 'text-red-600',
             subtitle: 'Confirme a ação antes de prosseguir',
+            subtitleClassName: 'text-red-400',
             message: data.message ? (
                 data.message
             ) : (
@@ -121,7 +123,7 @@ export const AlertDialogProvider = ({children}: Props) => {
                         )}
 
                         <AlertDialogDescription
-                            className={`my-4 pt-4 text-base border-t box-border ${data.messageClassName || ''}`}>
+                            className={`mt-4 mb-10 pt-4 text-base border-t box-border ${data.messageClassName || ''}`}>
                             {data.message}
                         </AlertDialogDescription>
                     </AlertDialogHeader>

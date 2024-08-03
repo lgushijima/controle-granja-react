@@ -92,6 +92,7 @@ export default function Usuarios() {
                                         </Button>
                                         <Button
                                             onClick={() => {
+                                                console.log(item);
                                                 setSelectedUser(item);
                                                 openAlertDialogConfirmation({
                                                     reference: item.nome,
@@ -103,7 +104,7 @@ export default function Usuarios() {
                                                 });
                                             }}
                                             variant={'destructive'}
-                                            className="ml-1 bg-red-700 hover:bg-red-800">
+                                            className="ml-1 bg-red-300 hover:bg-red-400">
                                             <i className="fal fa-trash-alt" />
                                         </Button>
                                     </div>

@@ -27,6 +27,8 @@ import {zodResolver} from '@hookform/resolvers/zod';
 
 const userSchema = z
     .object({
+        id: z.string().optional(),
+        idCliente: z.string().optional(),
         nome: z.string().min(3),
         login: z.string().min(3),
         senha: z.string(),
@@ -89,6 +91,8 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
     } = useForm<UserSchema>({
         defaultValues: selectedUser || {
             ativo: true,
+            id: '',
+            idCliente: '',
             nome: '',
             perfil: '',
             senha: '',
@@ -111,6 +115,8 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(handleSaveSubmit)}>
+                    <input type="hidden" {...register('id')} />
+
                     <div className="my-4 pt-4 border-t">
                         <div className="flex flex-wrap -mx-2">
                             <div className="w-full px-2 mb-2">
