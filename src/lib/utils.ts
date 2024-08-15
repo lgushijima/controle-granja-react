@@ -32,3 +32,20 @@ export function getPaginationArray(pageSize: number, page: number, total: number
 
     return pages;
 }
+
+export function objectToQueryString(obj: Record<string, any>): string {
+    const params = new URLSearchParams();
+
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            const value = obj[key];
+            if (Array.isArray(value)) {
+                value.forEach(val => params.append(key, val));
+            } else if (value !== undefined && value !== null) {
+                params.append(key, value.toString());
+            }
+        }
+    }
+
+    return params.toString();
+}

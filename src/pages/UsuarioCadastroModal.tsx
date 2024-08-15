@@ -29,18 +29,18 @@ const userSchema = z
     .object({
         id: z.string().optional(),
         idCliente: z.string().optional(),
-        nome: z.string().min(3),
-        login: z.string().min(3),
-        senha: z.string(),
-        senhaConfirmacao: z.string(),
-        perfil: z.string().min(3),
-        ativo: z.boolean(),
+        nome: z.string({message: 'Valor inválido'}).min(3, 'Campo obrigatório e mínimo de 3 caracteres.'),
+        login: z.string({message: 'Valor inválido'}).min(3, 'Campo obrigatório e mínimo de 3 caracteres.'),
+        senha: z.string({message: 'Valor inválido'}).min(4, 'Campo obrigatório e mínimo de 4 caracteres.'),
+        senhaConfirmacao: z.string({message: 'Valor inválido'}),
+        perfil: z.string({message: 'Valor inválido'}).min(1, 'Campo obrigatório'),
+        ativo: z.boolean({message: 'Valor inválido'}),
         // ativo: z.enum(['1', '0'], {
         //     errorMap: () => ({message: 'Selecione um status válido'}),
         // }),
     })
-    .superRefine(({senha}, ctx) => {
-        if (senha) {
+    .superRefine(({id, senha}, ctx) => {
+        if (!id || senha) {
             const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
             const containsLowercase = (ch: string) => /[a-z]/.test(ch);
             const containsSpecialChar = (ch: string) => /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(ch);
@@ -55,10 +55,12 @@ const userSchema = z
                 else if (containsLowercase(ch)) countOfLowerCase++;
                 else if (containsSpecialChar(ch)) countOfSpecialChar++;
             }
-            if (countOfLowerCase < 1 || countOfUpperCase < 1 || countOfSpecialChar < 1 || countOfNumbers < 1) {
+            const isInvalid =
+                countOfLowerCase < 1 || countOfUpperCase < 1 || countOfSpecialChar < 1 || countOfNumbers < 1;
+            if (isInvalid && false) {
                 ctx.addIssue({
                     code: 'custom',
-                    message: 'password does not meet complexity requirements',
+                    message: 'A senha não cumpre os critérios minímos de segurança.',
                     path: ['senha'],
                 });
             }
@@ -78,7 +80,7 @@ type UserSchema = z.infer<typeof userSchema>;
 
 interface UsuarioCadastroModalProps {
     isOpen: boolean;
-    selectedUser: UserType | null;
+    selectedUser: UserType;
     onClose: () => void;
 }
 
@@ -109,21 +111,25 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[460px] md:max-w-[600px] lg:max-w-[800px] rounded-md gap-0 bg-slate-50">
-                <DialogHeader>
-                    <DialogTitle>{selectedUser ? 'Editar Usuário' : 'Cadastrar Novo Usuário'}</DialogTitle>
-                    <DialogDescription>Preencha corretamente todos os campos abaixo</DialogDescription>
+                <DialogHeader className=" space-y-0">
+                    <DialogTitle className="text-xl">
+                        {selectedUser.id ? 'Editar Usuário' : 'Cadastrar Novo Usuário'}
+                    </DialogTitle>
+                    <DialogDescription className="mt-0 text-left italic text-sm text-gray-400">
+                        Preencha corretamente todos os campos abaixo
+                    </DialogDescription>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(handleSaveSubmit)}>
                     <input type="hidden" {...register('id')} />
 
-                    <div className="my-4 pt-4 border-t">
+                    <div className="mt-4 mb-10 pt-4 border-t">
                         <div className="flex flex-wrap -mx-2">
                             <div className="w-full px-2 mb-2">
                                 <Label htmlFor="nome" className="">
-                                    Nome{' '}
+                                    Nome
                                     {errors.nome && (
-                                        <span className="text-red-700 text-sm" title={errors.nome.message}>
+                                        <span className="text-red-700 text-sm ml-1" title={errors.nome.message}>
                                             <i className="fad fa-exclamation-triangle animate-bounce" />
                                         </span>
                                     )}
@@ -135,18 +141,35 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
                             <div className="w-full md:w-6/12 px-2 mb-2">
                                 <Label htmlFor="login" className="">
                                     Usuário
+                                    {errors.login && (
+                                        <span className="text-red-700 text-sm ml-1" title={errors.login.message}>
+                                            <i className="fad fa-exclamation-triangle animate-bounce" />
+                                        </span>
+                                    )}
                                 </Label>
                                 <Input id="login" className=" bg-white" autoComplete="false" {...register('login')} />
                             </div>
                             <div className="w-full md:w-3/12 px-2  mb-2">
                                 <Label htmlFor="senha" className="">
                                     Senha
+                                    {errors.senha && (
+                                        <span className="text-red-700 text-sm ml-1" title={errors.senha.message}>
+                                            <i className="fad fa-exclamation-triangle animate-bounce" />
+                                        </span>
+                                    )}
                                 </Label>
                                 <Input id="senha" type={'password'} className="bg-white" {...register('senha')} />
                             </div>
                             <div className="w-full md:w-3/12 px-2  mb-2">
                                 <Label htmlFor="senhaConfirmacao" className="">
                                     Confirmar Senha
+                                    {errors.senhaConfirmacao && (
+                                        <span
+                                            className="text-red-700 text-sm ml-1"
+                                            title={errors.senhaConfirmacao.message}>
+                                            <i className="fad fa-exclamation-triangle animate-bounce" />
+                                        </span>
+                                    )}
                                 </Label>
                                 <Input
                                     id="senhaConfirmacao"
@@ -160,6 +183,11 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
                             <div className="w-full md:w-6/12 px-2 mb-2">
                                 <Label htmlFor="perfil" className="">
                                     Perfil
+                                    {errors.perfil && (
+                                        <span className="text-red-700 text-sm ml-1" title={errors.perfil.message}>
+                                            <i className="fad fa-exclamation-triangle animate-bounce" />
+                                        </span>
+                                    )}
                                 </Label>
                                 <Controller
                                     name="perfil"
@@ -185,6 +213,11 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
                             <div className="w-full md:w-6/12 px-2  mb-2">
                                 <Label htmlFor="ativo" className="">
                                     Status
+                                    {errors.ativo && (
+                                        <span className="text-red-700 text-sm ml-1" title={errors.ativo.message}>
+                                            <i className="fad fa-exclamation-triangle animate-bounce" />
+                                        </span>
+                                    )}
                                 </Label>
                                 <Controller
                                     name="ativo"
@@ -212,7 +245,7 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
                     </div>
 
                     <DialogFooter className="mt-6">
-                        <Button type="button" variant={'secondary'} className="min-w-36 mb-2" onClick={onClose}>
+                        <Button type="button" variant={'outline'} className="min-w-36 mb-2 " onClick={onClose}>
                             Fechar
                         </Button>
                         <Button type="submit" className="min-w-36 mb-2">

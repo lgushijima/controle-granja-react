@@ -66,6 +66,10 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    .form-row {
+        @apply w-full px-2 mb-2;
+    }
 }
 
 html,

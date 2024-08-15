@@ -20,7 +20,10 @@ const defaultAuthContext: AuthContextType = {
 const AuthContext = createContext<AuthContextType>(defaultAuthContext);
 
 export const AuthProvider = ({children}: Props) => {
-    const [auth, setAuth] = useState<AuthType | null>(defaultAuthContext.auth);
+    const [auth, setAuth] = useState<AuthType | null>(() => {
+        const data = localStorage.getItem('cg-cliente');
+        return data ? JSON.parse(data) : null;
+    });
 
     const login = (data: AuthType | null) => {
         setAuth(data);

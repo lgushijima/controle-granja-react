@@ -11,7 +11,7 @@ import {useForm} from 'react-hook-form';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 
-import {useMutation} from 'react-query';
+import {useMutation} from '@tanstack/react-query';
 import {AuthType} from '@/types/authTypes';
 import {AxiosError} from 'axios';
 import {APIErrorType} from '@/types/generalTypes';
@@ -28,27 +28,12 @@ export default function Login() {
     const {openAlertDialog, closeAlertDialog, openAlertDialogLoading} = useAlertDialog();
     const {auth, login} = useAuth();
 
-    const [isLoading, setIsLoading] = useState(true);
-
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
 
-    useEffect(() => {
-        if (!auth?.token) {
-            const user = localStorage.getItem('cg-cliente');
-            if (user) {
-                login(JSON.parse(user));
-                navigate(from, {replace: true});
-                setIsLoading(false);
-                return;
-            }
-        }
-        setIsLoading(false);
-    });
-
     const mutation = useMutation<AuthType, AxiosError<APIErrorType>, LoginSchema>({
-        mutationFn: data => {
+        mutationFn: async data => {
             return axios.post('api/Auth/validarAcesso', data).then(response => response.data);
         },
         onSuccess: data => {
@@ -76,9 +61,7 @@ export default function Login() {
         mutation.mutate(data);
     };
 
-    return isLoading ? (
-        ''
-    ) : (
+    return (
         <div className="flex justify-between items-center h-full ">
             <div className="w-full max-w-96 mx-auto border rounded-lg p-10 bg-white relative">
                 <img src="/images/logo.png" className="absolute w-40 -top-20 left-1/2 transform -translate-x-1/2" />
@@ -110,8 +93,8 @@ export default function Login() {
                         />
                     </div>
 
-                    <Button type="submit" className="w-full mt-4" disabled={mutation.isLoading}>
-                        {mutation.isLoading ? (
+                    <Button type="submit" className="w-full mt-4" disabled={mutation.isPending}>
+                        {mutation.isPending ? (
                             <>
                                 <i className="fal fa-spinner fa-spin mr-2" /> Autenticando...
                             </>

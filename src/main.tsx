@@ -7,7 +7,7 @@ import App from './App.tsx';
 import {AuthProvider} from './context/AuthProvider.tsx';
 
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import {QueryClientProvider} from 'react-query';
+import {QueryClientProvider} from '@tanstack/react-query';
 import {queryClient} from './api/queryCliente.ts';
 import {AlertDialogProvider} from './context/AlertDialogProvider.tsx';
 
@@ -17,9 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <BrowserRouter>
                 <AuthProvider>
                     <AlertDialogProvider>
-                        <Routes>
-                            <Route path="/*" element={<App />} />
-                        </Routes>
+                        <App />
                     </AlertDialogProvider>
                 </AuthProvider>
             </BrowserRouter>

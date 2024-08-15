@@ -1,3 +1,8 @@
+import {PaginationType} from './generalTypes';
+
+export interface UserSearchType extends PaginationType {
+    pesquisa: string;
+}
 export interface UserType {
     id: string;
     idCliente: string;

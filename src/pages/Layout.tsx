@@ -1,6 +1,6 @@
 import {Link, Outlet} from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
-import {useQuery, useQueryClient} from 'react-query';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
 import {axiosPrivate} from '@/api/axios';
 import {Button} from '@/components/ui/button';
 import {useState} from 'react';
@@ -18,24 +18,21 @@ const Layout = () => {
     const [menuOpen, setMenuOpen] = useState(true);
 
     const queryClient = useQueryClient();
-    const {data, isFetching} = useQuery<LoteType[]>(
-        'getlotes',
-        async () => {
+    const {data, isFetching} = useQuery<LoteType[]>({
+        queryKey: ['getlotes'],
+        queryFn: async () => {
             const response = await axiosPrivate.get('api/Lotes/buscarLotes?ativo=true', {
                 headers: {Authorization: `bearer ${auth?.token}`},
             });
             return response.data;
         },
-        {
-            //refetchOnWindowFocus: true,
-            staleTime: 1000 * 60 * 5, // 1 minute
-            refetchInterval: 1000 * 60 * 15, // 5 minutos
-        },
-    );
+        staleTime: 1000 * 60 * 5, // 1 minute
+        refetchInterval: 1000 * 60 * 15, // 5 minutos
+    });
 
     const invalidateQuery = async () => {
         //-- option 1
-        const previousData = queryClient.getQueryData<LoteType[]>('getlotes');
+        const previousData = queryClient.getQueryData<LoteType[]>(['getlotes']);
         if (previousData) {
             const nextData = previousData.map(item => {
                 if (item.id === 'abc') {
@@ -44,7 +41,7 @@ const Layout = () => {
                     return item;
                 }
             });
-            queryClient.setQueryData('getlotes', nextData);
+            queryClient.setQueryData(['getlotes'], nextData);
         }
 
         //-- option 2: force new api request
@@ -111,6 +108,13 @@ const Layout = () => {
                                             );
                                         })}
                                     </ul>
+                                </li>
+                                <li>
+                                    <Link
+                                        to={`usuarios`}
+                                        className="flex items-center pl-5 py-2 transition-all hover:bg-neutral-100">
+                                        <i className="fal fa-chart-line text-xl mr-2" /> Relatórios
+                                    </Link>
                                 </li>
                                 <li>
                                     <Link

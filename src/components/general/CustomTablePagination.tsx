@@ -8,6 +8,7 @@ import {
     PaginationPrevious,
 } from '@/components/ui/pagination';
 import {getPaginationArray} from '@/lib/utils';
+import {useSearchParams} from 'react-router-dom';
 
 interface CustomTablePaginationProps {
     page: number;
@@ -19,6 +20,16 @@ interface CustomTablePaginationProps {
 export function CustomTablePagination({page, pageSize, total, onPageClick}: CustomTablePaginationProps) {
     const pages = getPaginationArray(pageSize, page, total, 1);
 
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const handlePageClick = (page: number) => {
+        onPageClick(page);
+        setSearchParams(params => {
+            params.set('page', String(page));
+            return params;
+        });
+    };
+
     return (
         <Pagination className=" mx-0 w-auto">
             <PaginationContent>
@@ -26,7 +37,7 @@ export function CustomTablePagination({page, pageSize, total, onPageClick}: Cust
                     <PaginationPrevious
                         href="#"
                         onClick={() => {
-                            if (page - 1 > 0) onPageClick(page - 1);
+                            if (page - 1 > 0) handlePageClick(page - 1);
                         }}
                     />
                 </PaginationItem>
@@ -38,7 +49,7 @@ export function CustomTablePagination({page, pageSize, total, onPageClick}: Cust
                                     isActive={p == page}
                                     href="#"
                                     onClick={() => {
-                                        onPageClick(p);
+                                        handlePageClick(p);
                                     }}>
                                     {p}
                                 </PaginationLink>
@@ -52,7 +63,7 @@ export function CustomTablePagination({page, pageSize, total, onPageClick}: Cust
                     <PaginationNext
                         href="#"
                         onClick={() => {
-                            if (page + 1 <= pages[pages.length - 1]) onPageClick(page + 1);
+                            if (page + 1 <= pages[pages.length - 1]) handlePageClick(page + 1);
                         }}
                     />
                 </PaginationItem>
