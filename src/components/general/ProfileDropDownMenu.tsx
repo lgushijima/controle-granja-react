@@ -21,7 +21,7 @@ const ProfileDropDownMenu = () => {
             <DropdownMenuTrigger>
                 <div className="flex items-center ">
                     <p className="mr-3">Olá {auth?.nome}!</p>
-                    <div className="flex items-center justify-center rounded-full bg-white w-10 h-10  text-primary p-1">
+                    <div className="user-dropdown">
                         <i className="fal fa-user text-2xl " />
                     </div>
                 </div>

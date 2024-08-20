@@ -4,8 +4,8 @@ const LoteDetalhe = () => {
     let {loteId} = useParams();
 
     return (
-        <div className="m-5">
-            <div className="p-5 bg-white rounded-2xl">Lote {loteId}</div>
+        <div className="p-5 h-full">
+            <div className="p-5 h-full bg-white rounded-2xl">Lote {loteId}</div>
         </div>
     );
 };

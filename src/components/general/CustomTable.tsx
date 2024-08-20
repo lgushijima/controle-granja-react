@@ -25,7 +25,7 @@ export function CustomTable<T>({config, data, page, pageSize, onPageClick, isFet
     const total = data?.total;
 
     return (
-        <div className="relative ">
+        <div className="relative h-full">
             {<div className={`table-loading ${isFetching ? 'active' : ''}`}>Carregando dados...</div>}
             <Table>
                 <TableHeader>
@@ -38,7 +38,7 @@ export function CustomTable<T>({config, data, page, pageSize, onPageClick, isFet
                 </TableHeader>
                 <TableBody className="relative min">
                     {data?.lista.map((item: T, idx: number) => (
-                        <TableRow key={idx}>
+                        <TableRow key={idx} style={{height: '1px'}}>
                             {config.map((c: CustomTableConfigProps<T>) => (
                                 <TableCell key={c.key} width={c.width}>
                                     {c.element ? c.element(item) : c.format ? c.format(item) : (item as any)[c.key]}
@@ -47,22 +47,17 @@ export function CustomTable<T>({config, data, page, pageSize, onPageClick, isFet
                             <TableCell />
                         </TableRow>
                     ))}
+                    <TableRow></TableRow>
                 </TableBody>
 
                 <TableFooter>
                     <TableRow>
                         <TableCell colSpan={config.length + 1}>
                             <div className="flex items-center justify-between">
-                                <CustomTablePagination
-                                    page={page}
-                                    pageSize={pageSize}
-                                    total={total || 0}
-                                    onPageClick={onPageClick}
-                                />
+                                <CustomTablePagination page={page} pageSize={pageSize} total={total || 0} onPageClick={onPageClick} />
 
                                 <div className="flex mx-0 whitespace-nowrap text-gray-500">
-                                    Página {page} de {Math.ceil(total || 0 / pageSize)} | Total de registros:{' '}
-                                    {total || 0}
+                                    Página {page} de {Math.ceil(total || 0 / pageSize)} | Total de registros: {total || 0}
                                 </div>
                             </div>
                         </TableCell>

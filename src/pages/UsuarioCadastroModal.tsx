@@ -145,18 +145,16 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose, onSuccess}:
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[460px] md:max-w-[600px] lg:max-w-[800px] rounded-md gap-0 ">
-                <DialogHeader className=" space-y-0">
-                    <DialogTitle className="text-xl">{selectedUser.id ? 'Editar Usuário' : 'Cadastrar Novo Usuário'}</DialogTitle>
-                    <DialogDescription className="mt-0 text-left italic text-sm text-gray-400">
-                        Preencha corretamente todos os campos abaixo
-                    </DialogDescription>
+            <DialogContent className="modal modal-md">
+                <DialogHeader className="modal-header">
+                    <DialogTitle>{selectedUser.id ? 'Editar Usuário' : 'Cadastrar Novo Usuário'}</DialogTitle>
+                    <DialogDescription>Preencha corretamente todos os campos abaixo</DialogDescription>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(handleSaveSubmit)}>
                     <input type="hidden" {...register('id')} />
 
-                    <div className="mt-4 mb-10 pt-4 border-t">
+                    <div className="modal-content">
                         <div className="form-row">
                             <TextInput label="Nome" divClassName="" name="nome" register={register('nome')} fieldError={errors.nome} />
                         </div>
@@ -212,11 +210,11 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose, onSuccess}:
                         </div>
                     </div>
 
-                    <DialogFooter className="mt-6">
+                    <DialogFooter className="modal-footer">
                         <Button type="button" className="btn btn-secondary" onClick={onClose}>
                             Fechar
                         </Button>
-                        <Button type="submit" className="btn btn-primary">
+                        <Button type="submit" className="btn btn-primary px-10">
                             Salvar
                         </Button>
                     </DialogFooter>

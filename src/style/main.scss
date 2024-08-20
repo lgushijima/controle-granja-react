@@ -1,5 +1,8 @@
 ﻿@import './variables';
-@import './base-components';
+@import './components/button';
+@import './components/form';
+@import './components/modal';
+@import './components/page';
 @import './globals.css';
 
 html,
@@ -10,6 +13,9 @@ body,
     min-height: 100%;
     height: 100%;
     background-color: #e3efe1;
+    *:focus-visible {
+        outline: none;
+    }
 }
 ::placeholder {
     color: #ccc !important;

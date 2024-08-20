@@ -3,8 +3,6 @@
 @use '../variables.scss';
 /*BUTTONS*/
 .btn {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
   min-width: 32px;
   align-items: center;
   outline: none;
@@ -108,6 +106,89 @@
   .col .ctrl-label {
     @apply text-gray-500; }
 
+@use '../../globals.css';
+@use '../variables.scss';
+.modal {
+  @apply rounded-md gap-0; }
+  .modal .modal-header {
+    @apply space-y-0 pb-4 border-b; }
+    .modal .modal-header h2 {
+      @apply font-semibold tracking-tight text-left text-xl; }
+    .modal .modal-header p {
+      @apply mt-0 text-left italic text-sm text-gray-400; }
+  .modal .modal-content {
+    @apply mt-4 mb-10; }
+  .modal .modal-footer {
+    @apply mt-6; }
+    .modal .modal-footer button {
+      @apply mt-2 sm:mt-0; }
+  .modal.modal-md {
+    @apply sm:max-w-[460px] md:max-w-[600px] lg:max-w-[800px]; }
+
+@use '../../globals.css';
+@use '../variables.scss';
+.main-content {
+  @apply flex h-full flex-col; }
+  .main-content .header-wrapper {
+    @apply bg-primary px-5; }
+    .main-content .header-wrapper > div {
+      @apply flex items-center justify-between font-semibold text-white py-2; }
+      .main-content .header-wrapper > div .header-left,
+      .main-content .header-wrapper > div .header-right {
+        @apply flex items-center; }
+      .main-content .header-wrapper > div .user-dropdown {
+        @apply flex items-center justify-center rounded-full bg-white w-10 h-10  text-primary p-1; }
+  .main-content .body-content {
+    @apply relative flex-1; }
+    .main-content .body-content .sidebar {
+      @apply absolute bg-white py-2 h-full w-72 transition-all z-20; }
+      .main-content .body-content .sidebar > nav {
+        @apply relative text-gray-700 font-medium; }
+        .main-content .body-content .sidebar > nav > ul > li > a {
+          @apply flex items-center pl-3 py-2 transition-all hover:bg-slate-50 relative; }
+          .main-content .body-content .sidebar > nav > ul > li > a.active {
+            @apply bg-slate-100 border-l-4 border-primary; }
+          .main-content .body-content .sidebar > nav > ul > li > a > i {
+            @apply text-xl mr-2 w-6; }
+        .main-content .body-content .sidebar > nav > ul > li > ul {
+          @apply mb-2; }
+          .main-content .body-content .sidebar > nav > ul > li > ul > li > a {
+            @apply block pl-14 py-1 font-normal transition-all hover:bg-slate-50; }
+            .main-content .body-content .sidebar > nav > ul > li > ul > li > a.active {
+              @apply bg-slate-100 border-l-4 border-primary font-semibold; }
+            .main-content .body-content .sidebar > nav > ul > li > ul > li > a > span {
+              @apply block text-xs; }
+    .main-content .body-content .page-wrapper {
+      @apply flex h-full relative transition-all; }
+      .main-content .body-content .page-wrapper > div {
+        @apply absolute top-0 left-0 right-0 bottom-0 overflow-x-hidden overflow-y-auto z-10; }
+
+.page-content {
+  @apply p-5 h-full; }
+  .page-content > div {
+    @apply h-full relative bg-white rounded-2xl; }
+    .page-content > div > div {
+      @apply p-5 absolute top-0 bottom-0 left-0 right-0 grid overflow-auto;
+      grid-template-rows: auto auto 1fr auto; }
+
+@media screen and (max-width: 800px) {
+  .main-content .header-wrapper {
+    @apply px-3; }
+    .main-content .header-wrapper .header-left h2 {
+      @apply hidden; }
+    .main-content .header-wrapper .header-left button {
+      @apply px-2; }
+    .main-content .header-wrapper .header-right p {
+      @apply text-base; }
+    .main-content .header-wrapper .header-right .user-dropdown {
+      @apply w-8 h-8; }
+      .main-content .header-wrapper .header-right .user-dropdown i {
+        @apply text-lg; }
+  .sidebar {
+    @apply shadow-xl; }
+  .page-wrapper {
+    @apply ml-0; } }
+
 html,
 body,
 #root {
@@ -116,6 +197,10 @@ body,
   min-height: 100%;
   height: 100%;
   background-color: #e3efe1; }
+  html *:focus-visible,
+  body *:focus-visible,
+  #root *:focus-visible {
+    outline: none; }
 
 ::placeholder {
   color: #ccc !important;

@@ -1,0 +1,108 @@
+@use '../../globals.css';
+@use '../variables.scss';
+
+.main-content {
+    @apply flex h-full flex-col;
+
+    .header-wrapper {
+        @apply bg-primary px-5;
+        > div {
+            @apply flex items-center justify-between font-semibold text-white py-2;
+
+            .header-left,
+            .header-right {
+                @apply flex items-center;
+            }
+
+            .user-dropdown {
+                @apply flex items-center justify-center rounded-full bg-white w-10 h-10  text-primary p-1;
+            }
+        }
+    }
+
+    .body-content {
+        @apply relative flex-1;
+
+        .sidebar {
+            @apply absolute bg-white py-2 h-full w-72 transition-all z-20;
+            > nav {
+                @apply relative text-gray-700 font-medium;
+
+                > ul > li {
+                    > a {
+                        @apply flex items-center pl-3 py-2 transition-all hover:bg-slate-50 relative;
+                        &.active {
+                            @apply bg-slate-100 border-l-4 border-primary;
+                        }
+                        > i {
+                            @apply text-xl mr-2 w-6;
+                        }
+                    }
+                    > ul {
+                        @apply mb-2;
+                        > li > a {
+                            @apply block pl-14 py-1 font-normal transition-all hover:bg-slate-50;
+                            &.active {
+                                @apply bg-slate-100 border-l-4 border-primary font-semibold;
+                            }
+                            > span {
+                                @apply block text-xs;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .page-wrapper {
+            @apply flex h-full relative transition-all;
+            > div {
+                @apply absolute top-0 left-0 right-0 bottom-0 overflow-x-hidden overflow-y-auto z-10;
+            }
+        }
+    }
+}
+
+.page-content {
+    @apply p-5 h-full;
+
+    > div {
+        @apply h-full relative bg-white rounded-2xl;
+
+        > div {
+            @apply p-5 absolute top-0 bottom-0 left-0 right-0 grid overflow-auto;
+            grid-template-rows: auto auto 1fr auto;
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .main-content .header-wrapper {
+        @apply px-3;
+        .header-left {
+            h2 {
+                @apply hidden;
+            }
+            button {
+                @apply px-2;
+            }
+        }
+        .header-right {
+            p {
+                @apply text-base;
+            }
+            .user-dropdown {
+                @apply w-8 h-8;
+                i {
+                    @apply text-lg;
+                }
+            }
+        }
+    }
+    .sidebar {
+        @apply shadow-xl;
+    }
+    .page-wrapper {
+        @apply ml-0;
+    }
+}

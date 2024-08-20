@@ -86,40 +86,37 @@ export default function Usuarios() {
     };
 
     return (
-        <div className="m-5">
-            <div className="p-5 bg-white rounded-2xl">
-                <div className="page-title">
-                    <h2>Gerenciamento de Usuários</h2>
-                    <p>Cadastre novos usuários, edite dados existentes, exclua registros, gerencie permissões.</p>
-                </div>
-
+        <div className="page-content">
+            <div>
                 <div>
-                    <form onSubmit={handleSubmit(handleSearch)}>
-                        <div className="mt-4 mb-10">
-                            <div className="form-row">
-                                <TextInput label="Nome" divClassName="md:w-2/12" name="pesquisa" register={register('pesquisa')} />
+                    <div className="page-title">
+                        <h2>Gerenciamento de Usuários</h2>
+                        <p>Cadastre novos usuários, edite dados existentes, exclua registros, gerencie permissões.</p>
+                    </div>
 
-                                <div className="col sm:w-auto">
-                                    <Label>&nbsp;</Label>
-                                    <div>
-                                        <Button type="submit" className="btn btn-secondary">
-                                            Pesquisar
-                                        </Button>
-                                    </div>
+                    <form onSubmit={handleSubmit(handleSearch)} className="my-4">
+                        <div className="form-row">
+                            <TextInput label="Nome" divClassName="md:w-2/12" name="pesquisa" register={register('pesquisa')} />
+
+                            <div className="col sm:w-auto">
+                                <Label>&nbsp;</Label>
+                                <div>
+                                    <Button type="submit" className="btn btn-secondary">
+                                        Pesquisar
+                                    </Button>
                                 </div>
-                                <div className="col flex-1 self-end text-right">
-                                    <Label>&nbsp;</Label>
-                                    <div>
-                                        <Button type="button" onClick={handleNewClick} className="btn btn-primary">
-                                            <i className="fas fa-plus mr-2"></i>Cadastrar
-                                        </Button>
-                                    </div>
+                            </div>
+                            <div className="col flex-1 self-end text-right">
+                                <Label>&nbsp;</Label>
+                                <div>
+                                    <Button type="button" onClick={handleNewClick} className="btn btn-primary">
+                                        <i className="fas fa-plus mr-2"></i>Cadastrar
+                                    </Button>
                                 </div>
                             </div>
                         </div>
                     </form>
-                </div>
-                <div className="mt-5">
+
                     <CustomTable
                         config={[
                             {
@@ -177,18 +174,18 @@ export default function Usuarios() {
                         }}
                     />
                 </div>
-            </div>
 
-            {selectedUser && (
-                <UsuarioCadastroModal
-                    isOpen={isUsuarioModalOpen}
-                    selectedUser={selectedUser}
-                    onClose={handleCloseDialog}
-                    onSuccess={data => {
-                        refetch();
-                    }}
-                />
-            )}
+                {selectedUser && (
+                    <UsuarioCadastroModal
+                        isOpen={isUsuarioModalOpen}
+                        selectedUser={selectedUser}
+                        onClose={handleCloseDialog}
+                        onSuccess={data => {
+                            refetch();
+                        }}
+                    />
+                )}
+            </div>
         </div>
     );
 }

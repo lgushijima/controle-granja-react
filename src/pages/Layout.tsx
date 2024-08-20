@@ -1,4 +1,4 @@
-import {Link, Outlet} from 'react-router-dom';
+import {Link, Outlet, useLocation} from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
 import {useQuery, useQueryClient} from '@tanstack/react-query';
 import {axiosPrivate} from '@/api/axios';
@@ -16,6 +16,7 @@ type LoteType = {
 const Layout = () => {
     const {auth} = useAuth();
     const [menuOpen, setMenuOpen] = useState(true);
+    const location = useLocation();
 
     const queryClient = useQueryClient();
     const {data, isFetching} = useQuery<LoteType[]>({
@@ -48,100 +49,88 @@ const Layout = () => {
         //await queryClient.invalidateQueries(['getlotes']);
     };
 
+    const isMenuActive = (path: string, startsWith: string = '') => {
+        if (startsWith) return location.pathname.startsWith(startsWith) ? 'active' : '';
+        else return location.pathname == path ? 'active' : '';
+    };
+
     return (
-        <>
-            <div className="flex h-full flex-col">
-                <div className="bg-primary px-5">
-                    <div className="flex items-center justify-between font-semibold text-white py-2">
-                        <div className="flex items-center">
-                            <Button
-                                variant={'link'}
-                                className="text-white hover:no-underline"
-                                onClick={() => {
-                                    setMenuOpen(!menuOpen);
-                                }}>
-                                <i className="fal fa-bars text-2xl" />
-                            </Button>
-                            <img src="/images/logo.png" className="w-16" />
-                            <h2 className="text-xl">CONTROLE DE GRANJA</h2>
-                        </div>
-                        <div className="flex items-center">
-                            <ProfileDropDownMenu />
-                        </div>
+        <div className="main-content">
+            <div className="header-wrapper">
+                <div className="">
+                    <div className="header-left">
+                        <Button
+                            variant={'link'}
+                            className="text-white hover:no-underline"
+                            onClick={() => {
+                                setMenuOpen(!menuOpen);
+                            }}>
+                            <i className="fal fa-bars text-2xl" />
+                        </Button>
+                        <img src="/images/logo.png" className="w-16" />
+                        <h2>CONTROLE DE GRANJA</h2>
                     </div>
-                </div>
-
-                <div className="relative flex-1 ">
-                    <div
-                        id="sidebar"
-                        className={`absolute bg-white py-2 h-full w-72 transition-all z-20 ${
-                            menuOpen ? 'ml-0' : '-ml-72'
-                        }`}>
-                        <nav className="relative text-gray-700 font-medium">
-                            <ul>
-                                <li>
-                                    <Link
-                                        to={`/`}
-                                        className="flex items-center pl-5 py-2 transition-all hover:bg-neutral-100 relative">
-                                        <i className="fal fa-home text-xl mr-2" /> Dashboard
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to={`lotes`}
-                                        className="flex items-center pl-5 py-2 transition-all hover:bg-neutral-100 relative">
-                                        <i className="fal fa-clipboard-list-check text-xl mr-2" /> Lotes
-                                        {isFetching && <i className="fal fa-spinner fa-spin absolute top-3 right-2 " />}
-                                    </Link>
-
-                                    <ul className="mb-2">
-                                        {data?.map((item: any) => {
-                                            return (
-                                                <li key={item.id} className="">
-                                                    <Link
-                                                        to={`lote/${item.id}`}
-                                                        className="block pl-14 py-1 font-normal transition-all hover:bg-neutral-100">
-                                                        Lote {item.numeroLote} - Aviário {item.numeroAviario}
-                                                        <span className="block text-xs">{item.dataModificacao}</span>
-                                                    </Link>
-                                                </li>
-                                            );
-                                        })}
-                                    </ul>
-                                </li>
-                                <li>
-                                    <Link
-                                        to={`usuarios`}
-                                        className="flex items-center pl-5 py-2 transition-all hover:bg-neutral-100">
-                                        <i className="fal fa-chart-line text-xl mr-2" /> Relatórios
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to={`usuarios`}
-                                        className="flex items-center pl-5 py-2 transition-all hover:bg-neutral-100">
-                                        <i className="fal fa-users text-xl mr-2" /> Usuários
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to={`conta`}
-                                        className="flex items-center pl-5 py-2 transition-all hover:bg-neutral-100">
-                                        <i className="fal fa-cogs text-xl mr-2" /> Configurações da Conta
-                                    </Link>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-
-                    <div className={`flex h-full relative transition-all ${menuOpen ? 'ml-72' : 'ml-0'}`}>
-                        <div className="absolute top-0 left-0 right-0 bottom-0 overflow-x-hidden overflow-y-auto z-10">
-                            <Outlet />
-                        </div>
+                    <div className="header-right">
+                        <ProfileDropDownMenu />
                     </div>
                 </div>
             </div>
-        </>
+
+            <div className="body-content ">
+                <div id="sidebar" className={`sidebar ${menuOpen ? 'ml-0' : '-ml-72'}`}>
+                    <nav>
+                        <ul>
+                            <li>
+                                <Link to={`/`} className={isMenuActive('/')}>
+                                    <i className="fal fa-home" /> Dashboard
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to={`lotes`} className={isMenuActive('/lotes', '/lote')}>
+                                    <i className="fal fa-clipboard-list-check" /> Lotes
+                                    {isFetching && <i className="fal fa-spinner fa-spin absolute top-3 right-2 " />}
+                                </Link>
+
+                                <ul>
+                                    {data?.map((item: any) => {
+                                        const isActive = location.pathname == `/lote/${item.id}`;
+                                        return (
+                                            <li key={item.id}>
+                                                <Link to={`lote/${item.id}`} className={isActive ? 'active' : ''}>
+                                                    Lote {item.numeroLote} - Aviário {item.numeroAviario}
+                                                    <span>{item.dataModificacao}</span>
+                                                </Link>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </li>
+                            <li>
+                                <Link to={`relatorios`} className={isMenuActive('/relatorios')}>
+                                    <i className="fal fa-chart-line" /> Relatórios
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to={`usuarios`} className={isMenuActive('/usuarios')}>
+                                    <i className="fal fa-users" /> Usuários
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to={`conta`} className={isMenuActive('/conta')}>
+                                    <i className="fal fa-cogs" /> Configurações da Conta
+                                </Link>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div className={`page-wrapper ${menuOpen ? 'ml-72' : 'ml-0'}`}>
+                    <div>
+                        <Outlet />
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

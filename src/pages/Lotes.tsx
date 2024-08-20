@@ -1,7 +1,7 @@
 export default function Lotes() {
     return (
-        <div className="m-5">
-            <div className="p-5 bg-white rounded-2xl">Lotes</div>
+        <div className="p-5 h-full">
+            <div className="p-5 h-full bg-white rounded-2xl">Lotes</div>
         </div>
     );
 }

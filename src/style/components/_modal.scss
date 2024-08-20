@@ -1,0 +1,32 @@
+@use '../../globals.css';
+@use '../variables.scss';
+
+.modal {
+    @apply rounded-md gap-0;
+
+    .modal-header {
+        @apply space-y-0 pb-4 border-b;
+
+        h2 {
+            @apply font-semibold tracking-tight text-left text-xl;
+        }
+        p {
+            @apply mt-0 text-left italic text-sm text-gray-400;
+        }
+    }
+
+    .modal-content {
+        @apply mt-4 mb-10;
+    }
+
+    .modal-footer {
+        @apply mt-6;
+        button {
+            @apply mt-2 sm:mt-0;
+        }
+    }
+
+    &.modal-md {
+        @apply sm:max-w-[460px] md:max-w-[600px] lg:max-w-[800px];
+    }
+}
