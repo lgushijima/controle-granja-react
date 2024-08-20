@@ -22,6 +22,11 @@
 .form-row {
     @apply flex flex-wrap -mx-2;
 }
+
 .col {
     @apply w-full px-2 mb-2;
+
+    .ctrl-label {
+        @apply text-gray-500;
+    }
 }

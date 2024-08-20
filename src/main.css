@@ -105,6 +105,8 @@
 
 .col {
   @apply w-full px-2 mb-2; }
+  .col .ctrl-label {
+    @apply text-gray-500; }
 
 html,
 body,

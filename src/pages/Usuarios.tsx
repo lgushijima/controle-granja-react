@@ -13,6 +13,7 @@ import {Input} from '@/components/ui/input';
 import {useForm} from 'react-hook-form';
 import {useSearchParams} from 'react-router-dom';
 import {deleteUser, getUsers} from '@/api/user';
+import TextInput from '@/components/forms/TextInput';
 
 export default function Usuarios() {
     const {auth, logout} = useAuth();
@@ -54,9 +55,7 @@ export default function Usuarios() {
                 title: 'Oops!',
                 titleClassName: 'text-red-700',
                 subtitle: 'Não foi possível completar esta ação.',
-                message: err?.response?.data
-                    ? err.response.data?.error
-                    : 'Ocorreu um erro ao tentar salvar os dados informados.',
+                message: err?.response?.data ? err.response.data?.error : 'Ocorreu um erro ao tentar salvar os dados informados.',
                 enableClose: true,
             });
         },
@@ -98,17 +97,8 @@ export default function Usuarios() {
                     <form onSubmit={handleSubmit(handleSearch)}>
                         <div className="mt-4 mb-10">
                             <div className="form-row">
-                                <div className="col md:w-2/12">
-                                    <Label htmlFor="pesquisa" className="">
-                                        Nome
-                                    </Label>
-                                    <Input
-                                        id="pesquisa"
-                                        className=" bg-white"
-                                        autoComplete="false"
-                                        {...register('pesquisa')}
-                                    />
-                                </div>
+                                <TextInput label="Nome" divClassName="md:w-2/12" name="pesquisa" register={register('pesquisa')} />
+
                                 <div className="col sm:w-auto">
                                     <Label>&nbsp;</Label>
                                     <div>
