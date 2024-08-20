@@ -47,6 +47,7 @@ export default function Usuarios() {
         mutationFn: data => deleteUser(data, auth?.token),
         onSuccess: (_, variables, context) => {
             closeAlertDialog();
+            refetch();
         },
         onError: err => {
             openAlertDialog({
@@ -88,14 +89,16 @@ export default function Usuarios() {
     return (
         <div className="m-5">
             <div className="p-5 bg-white rounded-2xl">
-                <h2 className="text-xl font-semibold">Gerenciamento de Usuários</h2>
-                <p>Cadastre novos usuários, edite dados existentes, exclua registros, gerencie permissões.</p>
+                <div className="page-title">
+                    <h2>Gerenciamento de Usuários</h2>
+                    <p>Cadastre novos usuários, edite dados existentes, exclua registros, gerencie permissões.</p>
+                </div>
 
                 <div>
                     <form onSubmit={handleSubmit(handleSearch)}>
-                        <div className="mt-4 mb-10 pt-4 border-t">
-                            <div className="flex flex-wrap -mx-2">
-                                <div className="form-row md:w-2/12">
+                        <div className="mt-4 mb-10">
+                            <div className="form-row">
+                                <div className="col md:w-2/12">
                                     <Label htmlFor="pesquisa" className="">
                                         Nome
                                     </Label>
@@ -106,18 +109,18 @@ export default function Usuarios() {
                                         {...register('pesquisa')}
                                     />
                                 </div>
-                                <div className="form-row  w-auto">
+                                <div className="col sm:w-auto">
                                     <Label>&nbsp;</Label>
                                     <div>
-                                        <Button type="submit" variant={'secondary'}>
+                                        <Button type="submit" className="btn btn-secondary">
                                             Pesquisar
                                         </Button>
                                     </div>
                                 </div>
-                                <div className="form-row flex-1 self-end text-right">
+                                <div className="col flex-1 self-end text-right">
                                     <Label>&nbsp;</Label>
                                     <div>
-                                        <Button type="button" onClick={handleNewClick}>
+                                        <Button type="button" onClick={handleNewClick} className="btn btn-primary">
                                             <i className="fas fa-plus mr-2"></i>Cadastrar
                                         </Button>
                                     </div>
@@ -136,6 +139,7 @@ export default function Usuarios() {
                                 element: item => (
                                     <div className="flex">
                                         <Button
+                                            className="btn btn-primary-outline mr-1"
                                             onClick={() => {
                                                 setSelectedUser(item);
                                                 setIsUsuarioModalOpen(true);
@@ -156,7 +160,7 @@ export default function Usuarios() {
                                                 });
                                             }}
                                             variant={'destructive'}
-                                            className="ml-1 bg-red-300 hover:bg-red-400">
+                                            className="btn btn-danger-outline">
                                             <i className="fal fa-trash-alt" />
                                         </Button>
                                     </div>
@@ -190,6 +194,9 @@ export default function Usuarios() {
                     isOpen={isUsuarioModalOpen}
                     selectedUser={selectedUser}
                     onClose={handleCloseDialog}
+                    onSuccess={data => {
+                        refetch();
+                    }}
                 />
             )}
         </div>

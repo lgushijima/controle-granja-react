@@ -1,0 +1,27 @@
+@use '../../globals.css';
+@use '../variables.scss';
+
+.fa,
+.fas,
+.fal,
+.fad,
+.fab,
+.far {
+    line-height: inherit !important;
+}
+.page-title {
+    @apply border-b pb-4 text-gray-400;
+
+    h2 {
+        @apply text-xl font-semibold text-gray-700;
+    }
+    p {
+    }
+}
+
+.form-row {
+    @apply flex flex-wrap -mx-2;
+}
+.col {
+    @apply w-full px-2 mb-2;
+}

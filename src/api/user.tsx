@@ -13,3 +13,8 @@ export async function deleteUser(data: UserType, token?: string) {
     const header = token ? {headers: {Authorization: `bearer ${token}`}} : {};
     return axiosPrivate.post('api/Usuarios/Excluir', data, header).then(response => response.data);
 }
+
+export async function saveUser(data: UserType, token?: string) {
+    const header = token ? {headers: {Authorization: `bearer ${token}`}} : {};
+    return axiosPrivate.post('api/Usuarios/Salvar', data, header).then(response => response.data);
+}

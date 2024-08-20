@@ -25,19 +25,23 @@ export function CustomTablePagination({page, pageSize, total, onPageClick}: Cust
     const handlePageClick = (page: number) => {
         onPageClick(page);
         setSearchParams(params => {
-            params.set('page', String(page));
+            params.set('p', String(page));
             return params;
         });
     };
+
+    const hasPrev = page - 1 > 0;
+    const hasNext = page + 1 <= pages[pages.length - 1];
 
     return (
         <Pagination className=" mx-0 w-auto">
             <PaginationContent>
                 <PaginationItem>
                     <PaginationPrevious
+                        className={`btn btn-secondary-link ${!hasPrev ? 'disabled' : ''}`}
                         href="#"
                         onClick={() => {
-                            if (page - 1 > 0) handlePageClick(page - 1);
+                            if (hasPrev) handlePageClick(page - 1);
                         }}
                     />
                 </PaginationItem>
@@ -46,6 +50,7 @@ export function CustomTablePagination({page, pageSize, total, onPageClick}: Cust
                         <PaginationItem key={p}>
                             {p >= 1 ? (
                                 <PaginationLink
+                                    className={`btn btn-secondary-outline ${p == page ? 'active' : ''}`}
                                     isActive={p == page}
                                     href="#"
                                     onClick={() => {
@@ -61,9 +66,10 @@ export function CustomTablePagination({page, pageSize, total, onPageClick}: Cust
                 })}
                 <PaginationItem>
                     <PaginationNext
+                        className={`btn btn-secondary-link ${!hasNext ? 'disabled' : ''}`}
                         href="#"
                         onClick={() => {
-                            if (page + 1 <= pages[pages.length - 1]) handlePageClick(page + 1);
+                            if (hasNext) handlePageClick(page + 1);
                         }}
                     />
                 </PaginationItem>

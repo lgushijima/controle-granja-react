@@ -25,15 +25,11 @@ export function CustomTable<T>({config, data, page, pageSize, onPageClick, isFet
     const total = data?.total;
 
     return (
-        <div className="relative">
-            {isFetching && (
-                <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
-                    Loading...
-                </div>
-            )}
+        <div className="relative ">
+            {<div className={`table-loading ${isFetching ? 'active' : ''}`}>Carregando dados...</div>}
             <Table>
                 <TableHeader>
-                    <TableRow>
+                    <TableRow className="hover:bg-transparent">
                         {config?.map((c: CustomTableConfigProps<T>) => (
                             <TableHead key={c.key}>{c.header}</TableHead>
                         ))}

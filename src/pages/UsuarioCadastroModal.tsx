@@ -24,6 +24,12 @@ import {UserType} from '@/types/userTypes';
 import {z} from 'zod';
 import {Controller, useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useMutation} from '@tanstack/react-query';
+import {AxiosError} from 'axios';
+import {APIErrorType} from '@/types/generalTypes';
+import useAlertDialog from '@/hooks/useAlertDialog';
+import {saveUser} from '@/api/user';
+import useAuth from '@/hooks/useAuth';
 
 const userSchema = z
     .object({
@@ -31,7 +37,7 @@ const userSchema = z
         idCliente: z.string().optional(),
         nome: z.string({message: 'Valor inválido'}).min(3, 'Campo obrigatório e mínimo de 3 caracteres.'),
         login: z.string({message: 'Valor inválido'}).min(3, 'Campo obrigatório e mínimo de 3 caracteres.'),
-        senha: z.string({message: 'Valor inválido'}).min(4, 'Campo obrigatório e mínimo de 4 caracteres.'),
+        senha: z.string().optional(),
         senhaConfirmacao: z.string({message: 'Valor inválido'}),
         perfil: z.string({message: 'Valor inválido'}).min(1, 'Campo obrigatório'),
         ativo: z.boolean({message: 'Valor inválido'}),
@@ -40,24 +46,30 @@ const userSchema = z
         // }),
     })
     .superRefine(({id, senha}, ctx) => {
-        if (!id || senha) {
+        if ((id && senha) || !id) {
             const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
             const containsLowercase = (ch: string) => /[a-z]/.test(ch);
             const containsSpecialChar = (ch: string) => /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(ch);
+
             let countOfUpperCase = 0,
                 countOfLowerCase = 0,
                 countOfNumbers = 0,
                 countOfSpecialChar = 0;
-            for (let i = 0; i < senha.length; i++) {
-                let ch = senha.charAt(i);
-                if (!isNaN(+ch)) countOfNumbers++;
-                else if (containsUppercase(ch)) countOfUpperCase++;
-                else if (containsLowercase(ch)) countOfLowerCase++;
-                else if (containsSpecialChar(ch)) countOfSpecialChar++;
+
+            if (senha) {
+                for (let i = 0; i < senha.length; i++) {
+                    let ch = senha.charAt(i);
+                    if (!isNaN(+ch)) countOfNumbers++;
+                    else if (containsUppercase(ch)) countOfUpperCase++;
+                    else if (containsLowercase(ch)) countOfLowerCase++;
+                    else if (containsSpecialChar(ch)) countOfSpecialChar++;
+                }
             }
+
             const isInvalid =
                 countOfLowerCase < 1 || countOfUpperCase < 1 || countOfSpecialChar < 1 || countOfNumbers < 1;
-            if (isInvalid && false) {
+
+            if (isInvalid) {
                 ctx.addIssue({
                     code: 'custom',
                     message: 'A senha não cumpre os critérios minímos de segurança.',
@@ -82,9 +94,33 @@ interface UsuarioCadastroModalProps {
     isOpen: boolean;
     selectedUser: UserType;
     onClose: () => void;
+    onSuccess?: (data: UserType) => void;
 }
 
-export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCadastroModalProps) {
+export function UsuarioCadastroModal({isOpen, selectedUser, onClose, onSuccess}: UsuarioCadastroModalProps) {
+    const {auth} = useAuth();
+    const {openAlertDialog, closeAlertDialog, openAlertDialogLoading} = useAlertDialog();
+
+    const mutation = useMutation<UserType, AxiosError<APIErrorType>, UserType>({
+        mutationFn: data => saveUser(data, auth?.token),
+        onSuccess: (data, variables, context) => {
+            closeAlertDialog();
+            onClose();
+            if (typeof onSuccess === 'function') onSuccess(data);
+        },
+        onError: err => {
+            openAlertDialog({
+                title: 'Oops!',
+                titleClassName: 'text-red-700',
+                subtitle: 'Não foi possível completar esta ação.',
+                message: err?.response?.data
+                    ? err.response.data?.error
+                    : 'Ocorreu um erro ao tentar salvar os dados informados.',
+                enableClose: true,
+            });
+        },
+    });
+
     const {
         control,
         register,
@@ -105,7 +141,16 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
     });
 
     const handleSaveSubmit = (data: UserSchema) => {
-        console.log(data);
+        openAlertDialogLoading();
+        mutation.mutate({
+            ativo: data.ativo,
+            id: data.id || '',
+            idCliente: data.idCliente || '',
+            nome: data.nome,
+            perfil: data.perfil,
+            login: data.login,
+            senha: data.senha || '',
+        });
     };
 
     return (
@@ -124,8 +169,8 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
                     <input type="hidden" {...register('id')} />
 
                     <div className="mt-4 mb-10 pt-4 border-t">
-                        <div className="flex flex-wrap -mx-2">
-                            <div className="w-full px-2 mb-2">
+                        <div className="form-row">
+                            <div className="col">
                                 <Label htmlFor="nome" className="">
                                     Nome
                                     {errors.nome && (
@@ -137,8 +182,8 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
                                 <Input id="nome" className=" bg-white" autoComplete="false" {...register('nome')} />
                             </div>
                         </div>
-                        <div className="flex flex-wrap -mx-2">
-                            <div className="w-full md:w-6/12 px-2 mb-2">
+                        <div className="form-row">
+                            <div className="col md:w-6/12">
                                 <Label htmlFor="login" className="">
                                     Usuário
                                     {errors.login && (
@@ -149,7 +194,7 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
                                 </Label>
                                 <Input id="login" className=" bg-white" autoComplete="false" {...register('login')} />
                             </div>
-                            <div className="w-full md:w-3/12 px-2  mb-2">
+                            <div className="col md:w-3/12">
                                 <Label htmlFor="senha" className="">
                                     Senha
                                     {errors.senha && (
@@ -160,7 +205,7 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
                                 </Label>
                                 <Input id="senha" type={'password'} className="bg-white" {...register('senha')} />
                             </div>
-                            <div className="w-full md:w-3/12 px-2  mb-2">
+                            <div className="col md:w-3/12">
                                 <Label htmlFor="senhaConfirmacao" className="">
                                     Confirmar Senha
                                     {errors.senhaConfirmacao && (
@@ -179,8 +224,8 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-wrap -mx-2">
-                            <div className="w-full md:w-6/12 px-2 mb-2">
+                        <div className="form-row">
+                            <div className="col md:w-6/12">
                                 <Label htmlFor="perfil" className="">
                                     Perfil
                                     {errors.perfil && (
@@ -210,7 +255,7 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose}: UsuarioCad
                                     )}
                                 />
                             </div>
-                            <div className="w-full md:w-6/12 px-2  mb-2">
+                            <div className="col md:w-6/12">
                                 <Label htmlFor="ativo" className="">
                                     Status
                                     {errors.ativo && (

@@ -1,0 +1,136 @@
+@import url(./globals.css);
+@use '../../globals.css';
+@use '../variables.scss';
+/*BUTTONS*/
+.btn {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  min-width: 32px;
+  align-items: center;
+  outline: none;
+  box-shadow: none;
+  transition: all 0.1s ease-in; }
+  .btn:not(:disabled):not(.disabled):focus, .btn:not(:disabled):not(.disabled):active, .btn:not(:disabled):not(.disabled):hover {
+    outline: none;
+    box-shadow: none; }
+  .btn.disabled {
+    @apply text-gray-300; }
+    .btn.disabled:hover {
+      @apply text-gray-300; }
+  .btn.btn-primary:not(:disabled):not(.disabled) {
+    color: #fff;
+    background-color: #7ac2cd;
+    border-color: #7ac2cd; }
+    .btn.btn-primary:not(:disabled):not(.disabled):focus, .btn.btn-primary:not(:disabled):not(.disabled):active, .btn.btn-primary:not(:disabled):not(.disabled):hover {
+      color: #fff;
+      border-color: #55b1bf;
+      background-color: #55b1bf; }
+  .btn.btn-primary-outline:not(:disabled):not(.disabled) {
+    color: #7ac2cd;
+    background-color: #edf7f8;
+    border-color: #b2dce2;
+    border-width: 1px; }
+    .btn.btn-primary-outline:not(:disabled):not(.disabled).active {
+      color: #fff;
+      background-color: #7ac2cd;
+      border-color: #7ac2cd; }
+    .btn.btn-primary-outline:not(:disabled):not(.disabled):focus, .btn.btn-primary-outline:not(:disabled):not(.disabled):active, .btn.btn-primary-outline:not(:disabled):not(.disabled):hover {
+      color: #fff;
+      border-color: #44a7b6;
+      background-color: #44a7b6; }
+  .btn.btn-secondary:not(:disabled):not(.disabled) {
+    color: #fff;
+    background-color: #575757;
+    border-color: #575757; }
+    .btn.btn-secondary:not(:disabled):not(.disabled):focus, .btn.btn-secondary:not(:disabled):not(.disabled):active, .btn.btn-secondary:not(:disabled):not(.disabled):hover {
+      color: #fff;
+      border-color: #313131;
+      background-color: #313131; }
+  .btn.btn-secondary-outline:not(:disabled):not(.disabled) {
+    color: #575757;
+    background-color: transparent;
+    border-color: #d7d6d6;
+    border-width: 1px; }
+    .btn.btn-secondary-outline:not(:disabled):not(.disabled).active {
+      color: #fff;
+      background-color: #575757;
+      border-color: #575757; }
+    .btn.btn-secondary-outline:not(:disabled):not(.disabled):focus, .btn.btn-secondary-outline:not(:disabled):not(.disabled):active, .btn.btn-secondary-outline:not(:disabled):not(.disabled):hover {
+      color: #fff;
+      border-color: #313131;
+      background-color: #313131; }
+  .btn.btn-secondary-link:not(:disabled):not(.disabled) {
+    color: #575757;
+    background-color: transparent;
+    border-color: transparent; }
+    .btn.btn-secondary-link:not(:disabled):not(.disabled):focus, .btn.btn-secondary-link:not(:disabled):not(.disabled):active, .btn.btn-secondary-link:not(:disabled):not(.disabled):hover {
+      color: #fff;
+      border-color: #313131;
+      background-color: #313131; }
+  .btn.btn-danger:not(:disabled):not(.disabled) {
+    color: #fff;
+    background-color: #dd7c7c;
+    border-color: #dd7c7c; }
+    .btn.btn-danger:not(:disabled):not(.disabled):focus, .btn.btn-danger:not(:disabled):not(.disabled):active, .btn.btn-danger:not(:disabled):not(.disabled):hover {
+      color: #fff;
+      border-color: #cd3f3f;
+      background-color: #cd3f3f; }
+  .btn.btn-danger-outline:not(:disabled):not(.disabled) {
+    color: #dd7c7c;
+    background-color: #fefafa;
+    border-color: #edb9b9;
+    border-width: 1px; }
+    .btn.btn-danger-outline:not(:disabled):not(.disabled):focus, .btn.btn-danger-outline:not(:disabled):not(.disabled):active, .btn.btn-danger-outline:not(:disabled):not(.disabled):hover {
+      color: #fff;
+      border-color: #cd3f3f;
+      background-color: #cd3f3f; }
+
+@use '../../globals.css';
+@use '../variables.scss';
+.fa,
+.fas,
+.fal,
+.fad,
+.fab,
+.far {
+  line-height: inherit !important; }
+
+.page-title {
+  @apply border-b pb-4 text-gray-400; }
+  .page-title h2 {
+    @apply text-xl font-semibold text-gray-700; }
+
+.form-row {
+  @apply flex flex-wrap -mx-2; }
+
+.col {
+  @apply w-full px-2 mb-2; }
+
+html,
+body,
+#root {
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+  height: 100%;
+  background-color: #e3efe1; }
+
+::placeholder {
+  color: #ccc !important;
+  opacity: 1; }
+
+::-ms-input-placeholder {
+  color: #ccc !important; }
+
+.table-loading {
+  @apply absolute left-0 right-0 bottom-0 flex items-center justify-center transition-all;
+  top: 2.5rem;
+  background: rgba(255, 255, 255, 0.85);
+  z-index: -1;
+  opacity: 0; }
+  .table-loading.active {
+    opacity: 1;
+    z-index: 5; }
+
+.w-auto {
+  width: auto; }
