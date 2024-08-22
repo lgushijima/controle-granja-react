@@ -49,3 +49,45 @@ export function objectToQueryString(obj: Record<string, any>): string {
 
     return params.toString();
 }
+
+export const sortArrayData = (
+    data: Array<any>,
+    sortColumns: Array<string> | string,
+    sortOrders: Array<string> | string,
+    isNumber: boolean = false,
+) => {
+    if (!data || !Array.isArray(data)) {
+        return [];
+    }
+
+    if (!Array.isArray(sortColumns)) {
+        sortColumns = [sortColumns];
+    }
+    if (!Array.isArray(sortOrders)) {
+        sortOrders = [sortOrders];
+    }
+
+    const compare = (a: any, b: any, sortColumn: string, sortOrder: string) => {
+        let valueA = isNumber ? parseFloat(a[sortColumn]) : a[sortColumn];
+        let valueB = isNumber ? parseFloat(b[sortColumn]) : b[sortColumn];
+
+        if (valueA < valueB) {
+            return sortOrder === 'asc' ? -1 : 1;
+        }
+        if (valueA > valueB) {
+            return sortOrder === 'asc' ? 1 : -1;
+        }
+
+        return 0;
+    };
+
+    const sortedData = [...data].sort((a, b) => {
+        for (let i = 0; i < sortColumns.length; i++) {
+            const result = compare(a, b, sortColumns[i], sortOrders[i] || 'asc');
+            if (result !== 0) return result;
+        }
+        return 0;
+    });
+
+    return sortedData;
+};

@@ -171,6 +171,65 @@
       @apply p-5 absolute top-0 bottom-0 left-0 right-0 grid overflow-auto;
       grid-template-rows: auto auto 1fr auto; }
 
+.section-content {
+  @apply relative bg-white rounded-2xl mb-2; }
+  .section-content > div {
+    @apply p-5; }
+    .section-content > div .data-list {
+      @apply mt-4 border rounded-lg overflow-hidden; }
+      .section-content > div .data-list > div {
+        @apply flex items-center leading-3 border-b last-of-type:border-b-0; }
+        .section-content > div .data-list > div span {
+          @apply text-gray-400 inline-flex w-64 p-1 uppercase text-sm; }
+        .section-content > div .data-list > div label {
+          @apply text-gray-700 inline-flex w-auto p-1 font-semibold; }
+
+.table-week .table-title {
+  @apply flex items-center justify-between text-slate-500; }
+  .table-week .table-title h3 {
+    @apply text-lg font-semibold; }
+  .table-week .table-title div {
+    @apply text-sm; }
+
+.table-week .table-footer {
+  @apply text-right pr-4 mt-2; }
+  .table-week .table-footer div {
+    @apply text-sm  text-slate-500; }
+    .table-week .table-footer div span {
+      @apply inline-block min-w-16 text-right font-semibold; }
+
+.table-week table {
+  @apply w-full table-fixed text-sm; }
+  .table-week table tr > th:first-of-type,
+  .table-week table tr > td:first-of-type {
+    @apply w-12; }
+  .table-week table thead th {
+    @apply py-1 border border-slate-300 h-32 relative text-left; }
+    .table-week table thead th:first-of-type > span {
+      @apply rotate-0 left-0 right-0 justify-center; }
+    .table-week table thead th span {
+      @apply absolute left-2/4 -rotate-90 origin-left inline-flex max-w-24 h-12 items-center text-sm text-slate-500 font-medium uppercase;
+      bottom: calc(0px - 6px); }
+  .table-week table tbody td {
+    @apply py-1 border border-slate-300; }
+
+.table-week.with-totals table tbody tr:last-of-type {
+  background-color: #e3efe1; }
+  .table-week.with-totals table tbody tr:last-of-type td {
+    @apply font-semibold; }
+    .table-week.with-totals table tbody tr:last-of-type td:first-of-type {
+      @apply font-semibold uppercase text-xs; }
+
+.table-week.with-totals table tbody tr td:first-of-type {
+  @apply text-sm text-slate-500 font-normal; }
+
+.table-week.with-totals table tbody tr td:last-of-type {
+  @apply font-semibold;
+  background-color: #e3efe1; }
+
+.non-interactive-series {
+  pointer-events: none; }
+
 @media screen and (max-width: 800px) {
   .main-content .header-wrapper {
     @apply px-3; }
@@ -187,7 +246,9 @@
   .sidebar {
     @apply shadow-xl; }
   .page-wrapper {
-    @apply ml-0; } }
+    @apply ml-0; }
+  .section-content > div .data-list > div span {
+    @apply w-32; } }
 
 html,
 body,

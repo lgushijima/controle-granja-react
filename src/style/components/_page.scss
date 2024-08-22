@@ -76,6 +76,98 @@
     }
 }
 
+.section-content {
+    @apply relative bg-white rounded-2xl mb-2;
+    > div {
+        @apply p-5;
+
+        .data-list {
+            @apply mt-4 border rounded-lg overflow-hidden;
+            > div {
+                @apply flex items-center leading-3 border-b last-of-type:border-b-0;
+                span {
+                    @apply text-gray-400 inline-flex w-64 p-1 uppercase text-sm;
+                }
+                label {
+                    @apply text-gray-700 inline-flex w-auto p-1 font-semibold;
+                }
+            }
+        }
+    }
+}
+
+.table-week {
+    .table-title {
+        @apply flex items-center justify-between text-slate-500;
+        h3 {
+            @apply text-lg font-semibold;
+        }
+        div {
+            @apply text-sm;
+        }
+    }
+    .table-footer {
+        @apply text-right pr-4 mt-2;
+
+        div {
+            @apply text-sm  text-slate-500;
+            span {
+                @apply inline-block min-w-16 text-right font-semibold;
+            }
+        }
+    }
+    table {
+        @apply w-full table-fixed text-sm;
+        tr > th:first-of-type,
+        tr > td:first-of-type {
+            @apply w-12;
+        }
+        thead {
+            th {
+                @apply py-1 border border-slate-300 h-32 relative text-left;
+
+                &:first-of-type > span {
+                    @apply rotate-0 left-0 right-0 justify-center;
+                }
+                span {
+                    @apply absolute left-2/4 -rotate-90 origin-left inline-flex max-w-24 h-12 items-center text-sm text-slate-500 font-medium uppercase;
+                    bottom: calc(0px - 6px);
+                }
+            }
+        }
+        tbody {
+            td {
+                @apply py-1 border border-slate-300;
+            }
+        }
+    }
+
+    &.with-totals table tbody tr {
+        &:last-of-type {
+            background-color: $primary-aux;
+            td {
+                &:first-of-type {
+                    @apply font-semibold uppercase text-xs;
+                }
+                @apply font-semibold;
+            }
+        }
+        td {
+            &:first-of-type {
+                @apply text-sm text-slate-500 font-normal;
+            }
+            &:last-of-type {
+                @apply font-semibold;
+                background-color: $primary-aux;
+            }
+        }
+    }
+}
+
+.non-interactive-series {
+    pointer-events: none;
+}
+
 @media screen and (max-width: 800px) {
     .main-content .header-wrapper {
         @apply px-3;
@@ -104,5 +196,8 @@
     }
     .page-wrapper {
         @apply ml-0;
+    }
+    .section-content > div .data-list > div span {
+        @apply w-32;
     }
 }

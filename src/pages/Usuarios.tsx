@@ -9,7 +9,6 @@ import {APIErrorType, APIQueryPaginationResponseType} from '@/types/generalTypes
 import useAlertDialog from '@/hooks/useAlertDialog';
 import {UsuarioCadastroModal} from './UsuarioCadastroModal';
 import {Label} from '@/components/ui/label';
-import {Input} from '@/components/ui/input';
 import {useForm} from 'react-hook-form';
 import {useSearchParams} from 'react-router-dom';
 import {deleteUser, getUsers} from '@/api/user';
@@ -135,7 +134,6 @@ export default function Usuarios() {
                                         </Button>
                                         <Button
                                             onClick={() => {
-                                                console.log(item);
                                                 setSelectedUser(item);
                                                 openAlertDialogConfirmation({
                                                     reference: item.nome,
