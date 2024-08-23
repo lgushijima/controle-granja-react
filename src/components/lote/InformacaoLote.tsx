@@ -17,46 +17,50 @@ const InformacaoLote = ({lote, parceiro, data}: Props) => {
                     <p>Última atualização de dados: {dateFormat.format(new Date(data))}</p>
                 </div>
 
-                <div className="data-list">
-                    <div>
-                        <span>Lote: </span>
-                        <label>{lote.nrLote}</label>
+                <div className="data-card-wrapper grid-cols-1 xl:grid-cols-2">
+                    <div className="data-card">
+                        <div>
+                            <span className="w-48">Lote: </span>
+                            <label>{lote.nrLote}</label>
+                        </div>
+                        <div>
+                            <span className="w-48">Número do Aviário: </span>
+                            <label>{lote.nrAviario}</label>
+                        </div>
+                        <div>
+                            <span className="w-48">Número da Cama: </span>
+                            <label>{lote.nrCama}</label>
+                        </div>
+                        <div>
+                            <span className="w-48">Intervalo:</span>
+                            <label>{lote.intervalo}</label>
+                        </div>
+                        <div>
+                            <span className="w-48">Nome do Técnico:</span>
+                            <label>{lote.nomeTecnico}</label>
+                        </div>
                     </div>
-                    <div>
-                        <span>Número do Aviário: </span>
-                        <label>{lote.nrAviario}</label>
-                    </div>
-                    <div>
-                        <span>Número da Cama: </span>
-                        <label>{lote.nrCama}</label>
-                    </div>
-                    <div>
-                        <span>Intervalo:</span>
-                        <label>{lote.intervalo}</label>
-                    </div>
-                    <div>
-                        <span>Nome do Técnico:</span>
-                        <label>{lote.nomeTecnico}</label>
-                    </div>
-                    <div>
-                        <span>Nome do Parceiro: </span>
-                        <label>{parceiro.proprietarioNome}</label>
-                    </div>
-                    <div>
-                        <span>Código do Parceiro: </span>
-                        <label>{parceiro.codigoParceiro}</label>
-                    </div>
-                    <div>
-                        <span>Localização do Aviário: </span>
-                        <label>{parceiro.localizacao}</label>
-                    </div>
-                    <div>
-                        <span>Município: </span>
-                        <label>{parceiro.municipio}</label>
-                    </div>
-                    <div>
-                        <span>UF: </span>
-                        <label>{parceiro.uf}</label>
+                    <div className="data-card">
+                        <div>
+                            <span className="w-48">Nome do Parceiro: </span>
+                            <label>{parceiro.proprietarioNome}</label>
+                        </div>
+                        <div>
+                            <span className="w-48">Código do Parceiro: </span>
+                            <label>{parceiro.codigoParceiro}</label>
+                        </div>
+                        <div>
+                            <span className="w-48">Localização do Aviário: </span>
+                            <label>{parceiro.localizacao}</label>
+                        </div>
+                        <div>
+                            <span className="w-48">Município: </span>
+                            <label>{parceiro.municipio}</label>
+                        </div>
+                        <div>
+                            <span className="w-48">UF: </span>
+                            <label>{parceiro.uf}</label>
+                        </div>
                     </div>
                 </div>
             </div>

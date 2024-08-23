@@ -81,12 +81,20 @@
     > div {
         @apply p-5;
 
-        .data-list {
-            @apply mt-4 border rounded-lg overflow-hidden;
+        .data-card-wrapper {
+            @apply grid gap-4;
+        }
+        .data-card {
+            @apply border rounded-lg overflow-hidden;
+            &.with-title > div:first-of-type {
+                background-color: $primary-aux;
+            }
+
             > div {
-                @apply flex items-center leading-3 border-b last-of-type:border-b-0;
+                @apply flex items-center border-b last-of-type:border-b-0;
+
                 span {
-                    @apply text-gray-400 inline-flex w-64 p-1 uppercase text-sm;
+                    @apply text-gray-400 inline-flex p-1 uppercase text-sm;
                 }
                 label {
                     @apply text-gray-700 inline-flex w-auto p-1 font-semibold;

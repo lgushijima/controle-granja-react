@@ -94,7 +94,7 @@
   line-height: inherit !important; }
 
 .page-title {
-  @apply border-b pb-4 text-gray-400; }
+  @apply border-b pb-4 text-gray-400 mb-4; }
   .page-title h2 {
     @apply text-xl font-semibold text-gray-700; }
 
@@ -175,13 +175,17 @@
   @apply relative bg-white rounded-2xl mb-2; }
   .section-content > div {
     @apply p-5; }
-    .section-content > div .data-list {
-      @apply mt-4 border rounded-lg overflow-hidden; }
-      .section-content > div .data-list > div {
-        @apply flex items-center leading-3 border-b last-of-type:border-b-0; }
-        .section-content > div .data-list > div span {
-          @apply text-gray-400 inline-flex w-64 p-1 uppercase text-sm; }
-        .section-content > div .data-list > div label {
+    .section-content > div .data-card-wrapper {
+      @apply grid gap-4; }
+    .section-content > div .data-card {
+      @apply border rounded-lg overflow-hidden; }
+      .section-content > div .data-card.with-title > div:first-of-type {
+        background-color: #e3efe1; }
+      .section-content > div .data-card > div {
+        @apply flex items-center border-b last-of-type:border-b-0; }
+        .section-content > div .data-card > div span {
+          @apply text-gray-400 inline-flex p-1 uppercase text-sm; }
+        .section-content > div .data-card > div label {
           @apply text-gray-700 inline-flex w-auto p-1 font-semibold; }
 
 .table-week .table-title {

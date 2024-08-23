@@ -1,6 +1,7 @@
 import {getLote} from '@/api/lote';
 import AcoesTomadas from '@/components/lote/AcoesTomadas';
 import CarregamentoLote from '@/components/lote/CarregamentoLote';
+import ChartAcoesTomadas from '@/components/lote/ChartAcoesTomadas';
 import ChartConsumoAgua from '@/components/lote/ChartConsumoAgua';
 import ChartMortalidade from '@/components/lote/ChartMortalidade';
 import ChartPesagem from '@/components/lote/ChartPesagem';
@@ -71,7 +72,8 @@ const LoteDetalhe = () => {
             <ChartTemperatura lote={jsonLote} />
             <ChartConsumoAgua lote={jsonLote} />
             <ChartUmidade lote={jsonLote} />
-            <AcoesTomadas lote={jsonLote} />
+            <ChartAcoesTomadas lote={jsonLote} />
+            {/* <AcoesTomadas lote={jsonLote} /> */}
         </div>
     );
 };

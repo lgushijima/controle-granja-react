@@ -69,6 +69,7 @@ const MortalidadeDiaria = ({lote}: Props) => {
             percentual,
             totalAcumulado,
             totalRemanescente,
+            totalSemana: totalSemana.total,
         });
     }
 
@@ -127,10 +128,12 @@ const MortalidadeDiaria = ({lote}: Props) => {
 
                                 <div className="table-footer">
                                     <div>
-                                        Total Acumulado:<span>{numberFormat.format(s.totalAcumulado || 0)}</span>
+                                        Total Acumulado:
+                                        <span>{s.totalSemana == 0 ? '--' : numberFormat.format(s.totalAcumulado || 0)}</span>
                                     </div>
                                     <div>
-                                        Total Remanescente:<span>{numberFormat.format(s.totalRemanescente || 0)}</span>
+                                        Total Remanescente:
+                                        <span>{s.totalSemana == 0 ? '--' : numberFormat.format(s.totalRemanescente || 0)}</span>
                                     </div>
                                 </div>
                             </div>

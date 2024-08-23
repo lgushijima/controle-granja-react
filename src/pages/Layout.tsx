@@ -76,7 +76,7 @@ const Layout = () => {
                 </div>
             </div>
 
-            <div className="body-content ">
+            <div className="body-content">
                 <div id="sidebar" className={`sidebar ${menuOpen ? 'ml-0' : '-ml-72'}`}>
                     <nav>
                         <ul>

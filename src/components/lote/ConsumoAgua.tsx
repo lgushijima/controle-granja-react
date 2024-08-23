@@ -17,14 +17,17 @@ const ConsumoAgua = ({lote}: Props) => {
         let item = acao || {id: i, hidrometro: 0, consumo: 0};
 
         diasConsumoAgua.push(item);
-        let leituraAnterior = i == 1 ? leituraInicial : diasConsumoAgua[i - 2].hidrometro || 0;
-        if (leituraAnterior > item.hidrometro) {
-            const digits = leituraAnterior.toString().length;
-            let valorMaximo = Math.pow(10, digits);
 
-            item.consumo = (valorMaximo - leituraAnterior + item.hidrometro) / 100;
-        } else {
-            item.consumo = (item.hidrometro - leituraAnterior) / 100;
+        let leituraAnterior = i == 1 ? leituraInicial : diasConsumoAgua[i - 2].hidrometro || 0;
+        if (item.hidrometro > 0) {
+            if (leituraAnterior > item.hidrometro) {
+                const digits = leituraAnterior.toString().length;
+                let valorMaximo = Math.pow(10, digits);
+
+                item.consumo = (valorMaximo - leituraAnterior + item.hidrometro) / 100;
+            } else {
+                item.consumo = (item.hidrometro - leituraAnterior) / 100;
+            }
         }
     }
 
@@ -90,10 +93,16 @@ const ConsumoAgua = ({lote}: Props) => {
 
                                 <div className="table-footer">
                                     <div>
-                                        Total Consumido na Semana (m³):<span>{numberFormat.format(s.totalConsumoAguaSemana || 0)}</span>
+                                        Total Consumido na Semana (m³):
+                                        <span>
+                                            {s.totalConsumoAguaSemana == 0 ? '--' : numberFormat.format(s.totalConsumoAguaSemana || 0)}
+                                        </span>
                                     </div>
                                     <div>
-                                        Total Acumulado (m³):<span>{numberFormat.format(s.totalConsumoAguaAcumulado || 0)}</span>
+                                        Total Acumulado (m³):
+                                        <span>
+                                            {s.totalConsumoAguaSemana == 0 ? '--' : numberFormat.format(s.totalConsumoAguaAcumulado || 0)}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

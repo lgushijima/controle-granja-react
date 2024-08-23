@@ -10,7 +10,7 @@
     line-height: inherit !important;
 }
 .page-title {
-    @apply border-b pb-4 text-gray-400;
+    @apply border-b pb-4 text-gray-400 mb-4;
 
     h2 {
         @apply text-xl font-semibold text-gray-700;

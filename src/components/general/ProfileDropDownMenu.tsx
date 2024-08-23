@@ -16,11 +16,26 @@ const ProfileDropDownMenu = () => {
         logout();
     };
 
+    const getPerfil = () => {
+        const perfil = auth?.perfil;
+        switch (perfil) {
+            case 'granjeiro':
+                return 'Granjeiro';
+            case 'proprietario':
+                return 'Proprietário';
+            case 'tecnico':
+                return 'Técnico';
+        }
+    };
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
                 <div className="flex items-center ">
-                    <p className="mr-3">Olá {auth?.nome}!</p>
+                    <div className="leading-4">
+                        <p className="mr-3">Olá {auth?.nome}!</p>
+                        <p className="font-sm font-normal">({getPerfil()})</p>
+                    </div>
                     <div className="user-dropdown">
                         <i className="fal fa-user text-2xl " />
                     </div>
