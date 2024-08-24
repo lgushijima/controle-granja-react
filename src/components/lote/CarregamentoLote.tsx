@@ -36,7 +36,7 @@ const CarregamentoLote = ({lote}: Props) => {
                         </div>
                         <div>
                             <span className="w-48">Nº de Pessoas para Descarregamento:</span>
-                            <label>{lote.nrPessoasDescarregamento}</label>
+                            <label>{lote.numeroPessoasDescarregamento}</label>
                         </div>
                     </div>
                     <div className="data-card">
@@ -50,7 +50,7 @@ const CarregamentoLote = ({lote}: Props) => {
                         </div>
                         <div>
                             <span className="w-48">Nº de Pintos Mortos: </span>
-                            <label>{numberFormat.format(Number(lote.nrMortos))}</label>
+                            <label>{numberFormat.format(Number(lote.numeroPintosMortos))}</label>
                         </div>
                         <div>
                             <span className="w-48">Uniformidade: </span>
@@ -76,7 +76,7 @@ const CarregamentoLote = ({lote}: Props) => {
                         </div>
                         <div>
                             <span className="w-48">Leitura inicial do hidrômetro:</span>
-                            <label>{lote.hidrometro}</label>
+                            <label>{lote.leituraInicialHidrometro}</label>
                         </div>
                     </div>
                 </div>

@@ -12,13 +12,13 @@ const RacaoRecebidaLote = ({lote}: Props) => {
     let totalEnviado = 0;
     let sobraLote = 0;
     sortArrayData(lote.racao, 'data', 'desc').forEach((racao: any) => {
-        totalRecebido += racao.movimento == 'recebido' ? racao.peso : 0;
-        totalEnviado += racao.movimento == 'enviado' ? racao.peso : 0;
+        totalRecebido += racao.movimento == 1 ? racao.peso : 0;
+        totalEnviado += racao.movimento == 2 ? racao.peso : 0;
     });
 
     if (!lote.racaoInfo) lote.racaoInfo = {};
 
-    sobraLote = totalRecebido - totalEnviado - (lote.racaoInfo.totalConsumido || 0);
+    sobraLote = totalRecebido - totalEnviado - (lote.totalRacaoConsumido || 0);
 
     return (
         <section className="section-content">
@@ -36,10 +36,8 @@ const RacaoRecebidaLote = ({lote}: Props) => {
                                     <span className="flex-1 justify-end">
                                         NF: #{i.notaFiscal}
                                         <i
-                                            title={i.movimento == 'recebido' ? 'Recebido' : 'Enviado'}
-                                            className={`text-primary mx-1 fas ${
-                                                i.movimento == 'recebido' ? 'fa-arrow-down' : 'fa-arrow-up'
-                                            }`}></i>
+                                            title={i.movimento == 1 ? 'Recebido' : 'Enviado'}
+                                            className={`text-primary mx-1 fas ${i.movimento == 1 ? 'fa-arrow-down' : 'fa-arrow-up'}`}></i>
                                     </span>
                                 </div>
                                 <div>
@@ -48,11 +46,11 @@ const RacaoRecebidaLote = ({lote}: Props) => {
                                 </div>
                                 <div>
                                     <span className="w-32">Peso:</span>
-                                    <label>{numberFormat.format(Number(i.peso))}</label>
+                                    <label>{numberFormat.format(i.peso)}</label>
                                 </div>
                                 <div>
                                     <span className="w-32">Parceiro:</span>
-                                    <label>{i.nomeParceiro}</label>
+                                    <label>{i.parceiro}</label>
                                 </div>
                                 <div>
                                     <span className="w-32">Obs.: </span>
@@ -69,11 +67,11 @@ const RacaoRecebidaLote = ({lote}: Props) => {
                         </div>
                         <div>
                             <span className="w-64">Frangos para consumo próprio:</span>
-                            <label>{numberFormat.format(lote.racaoInfo.consumoProprio)}</label>
+                            <label>{numberFormat.format(lote.quantidadeConsumoProprio)}</label>
                         </div>
                         <div>
                             <span className="w-64">Sobra do lote anterior:</span>
-                            <label>{numberFormat.format(lote.racaoInfo.sobraLoteAnterior)}</label>
+                            <label>{numberFormat.format(lote.sobraRacaoLoteAnterior)}</label>
                         </div>
                         <div>
                             <span className="w-64">Total recebido:</span>
@@ -85,7 +83,7 @@ const RacaoRecebidaLote = ({lote}: Props) => {
                         </div>
                         <div>
                             <span className="w-64">Total Consumido:</span>
-                            <label>{numberFormat.format(lote.racaoInfo.totalConsumido)}</label>
+                            <label>{numberFormat.format(lote.totalRacaoConsumido)}</label>
                         </div>
                         <div>
                             <span className="w-64">Sobra do lote atual:</span>
@@ -93,11 +91,7 @@ const RacaoRecebidaLote = ({lote}: Props) => {
                         </div>
                         <div>
                             <span className="w-64">Data de início do consumo de ração:</span>
-                            <label>
-                                {lote.racaoInfo.dataInicioConsumoRacao
-                                    ? dateFormat.format(new Date(lote.racaoInfo.dataInicioConsumoRacao))
-                                    : ''}
-                            </label>
+                            <label>{lote.dataInicioConsumoRacao ? dateFormat.format(new Date(lote.dataInicioConsumoRacao)) : ''}</label>
                         </div>
                     </div>
                 </div>

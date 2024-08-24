@@ -20,7 +20,7 @@ const ProdutoQuimico = ({lote}: Props) => {
                         sortArrayData(lote.produtoQuimico, 'data', 'desc').map((i: any) => (
                             <div key={i.id} className="data-card with-title">
                                 <div>
-                                    <label>{dateFormat.format(i.data)}</label>
+                                    <label>{dateFormat.format(new Date(i.data))}</label>
                                 </div>
                                 <div>
                                     <span className="w-24">Produto:</span>
@@ -28,7 +28,7 @@ const ProdutoQuimico = ({lote}: Props) => {
                                 </div>
                                 <div>
                                     <span className="w-24">Quantidade:</span>
-                                    <label>{numberFormat.format(Number(i.quantidade))}</label>
+                                    <label>{numberFormat.format(i.quantidade)}</label>
                                 </div>
                                 <div>
                                     <span className="w-24">Partida:</span>

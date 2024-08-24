@@ -23,11 +23,11 @@ const ChartTemperatura = ({lote}: Props) => {
     }
 
     let chartTemperatura = lote.controleTemperatura
-        ? sortArrayData(lote.controleTemperatura, 'id', 'asc', true).map((t: any, i: number) => {
-              return {x: i + 1, y: t.temperatura || 0};
+        ? sortArrayData(lote.controleTemperatura, 'dia', 'asc', true).map((t: any, i: number) => {
+              return {x: t.dia, y: t.temperatura || 0};
           })
         : [];
-
+    console.log(lote.controleTemperatura);
     const data = [
         {
             id: 'Mínimo ideal',

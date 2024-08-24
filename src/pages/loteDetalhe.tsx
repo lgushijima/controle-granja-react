@@ -48,31 +48,26 @@ const LoteDetalhe = () => {
 
     if (!data) return;
 
-    const {lote, parceiro, atualizado} = data;
-    const jsonLote = JSON.parse(lote);
-    const jsonParceiro = JSON.parse(parceiro);
-
-    console.log(jsonLote);
-    console.log(jsonParceiro);
+    console.log(data);
     return (
         <div className="p-5">
-            <InformacaoLote lote={jsonLote} parceiro={jsonParceiro} data={atualizado} />
-            <CarregamentoLote lote={jsonLote} />
-            <FormacaoLote lote={jsonLote} />
-            <VacinaLote lote={jsonLote} />
-            <RacaoRecebidaLote lote={jsonLote} />
-            <PesagemLote lote={jsonLote} />
-            <ControlePHeCloro lote={jsonLote} />
-            <MortalidadeDiaria lote={jsonLote} />
-            <ConsumoAgua lote={jsonLote} />
-            <ProdutoQuimico lote={jsonLote} />
-            <Medicamentos lote={jsonLote} />
-            <ChartPesagem lote={jsonLote} />
-            <ChartMortalidade lote={jsonLote} />
-            <ChartTemperatura lote={jsonLote} />
-            <ChartConsumoAgua lote={jsonLote} />
-            <ChartUmidade lote={jsonLote} />
-            <ChartAcoesTomadas lote={jsonLote} />
+            <InformacaoLote lote={data} parceiro={data.cliente} data={data.dataModificacao} />
+            <CarregamentoLote lote={data} />
+            <FormacaoLote lote={data} />
+            <VacinaLote lote={data} />
+            <RacaoRecebidaLote lote={data} />
+            <PesagemLote lote={data} />
+            <ControlePHeCloro lote={data} />
+            <MortalidadeDiaria lote={data} />
+            <ConsumoAgua lote={data} />
+            <ProdutoQuimico lote={data} />
+            <Medicamentos lote={data} />
+            <ChartPesagem lote={data} />
+            <ChartMortalidade lote={data} />
+            <ChartTemperatura lote={data} />
+            <ChartConsumoAgua lote={data} />
+            <ChartUmidade lote={data} />
+            <ChartAcoesTomadas lote={data} />
             {/* <AcoesTomadas lote={jsonLote} /> */}
         </div>
     );

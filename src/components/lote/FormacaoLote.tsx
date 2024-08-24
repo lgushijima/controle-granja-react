@@ -10,8 +10,8 @@ const FormacaoLote = ({lote}: Props) => {
     let totalAlojado = 0;
     if (lote.formacao) {
         lote.formacao.forEach((l: any) => {
-            totalProgramado += Number(l.qtProgramado) || 0;
-            totalAlojado += Number(l.qtAlojado) || 0;
+            totalProgramado += Number(l.quantidadeProgramado) || 0;
+            totalAlojado += Number(l.quantidadeAlojado) || 0;
         });
     }
 
@@ -35,7 +35,7 @@ const FormacaoLote = ({lote}: Props) => {
                                 </div>
                                 <div>
                                     <span className="w-64">Recria Certificada Global: </span>
-                                    <label>{i.recriaCertificadaGlobal ? 'Sim' : 'Não'}</label>
+                                    <label>{i.recriaCertGlobal ? 'Sim' : 'Não'}</label>
                                 </div>
                                 <div>
                                     <span className="w-64">Lote Produção: </span>
@@ -43,15 +43,15 @@ const FormacaoLote = ({lote}: Props) => {
                                 </div>
                                 <div>
                                     <span className="w-64">Prod. Certificada Global: </span>
-                                    <label>{i.producaoCertificadaGlobal ? 'Sim' : 'Não'}</label>
+                                    <label>{i.producaoCertGlobal ? 'Sim' : 'Não'}</label>
                                 </div>
                                 <div>
                                     <span className="w-64">Programado: </span>
-                                    <label>{numberFormat.format(Number(i.qtProgramado))}</label>
+                                    <label>{numberFormat.format(i.quantidadeProgramado)}</label>
                                 </div>
                                 <div>
                                     <span className="w-64">Alojado: </span>
-                                    <label>{numberFormat.format(Number(i.qtAlojado))}</label>
+                                    <label>{numberFormat.format(i.quantidadeAlojado)}</label>
                                 </div>
                                 <div>
                                     <span className="w-64">Idade da Matriz: </span>
@@ -63,7 +63,7 @@ const FormacaoLote = ({lote}: Props) => {
                                 </div>
                                 <div>
                                     <span className="w-64">Sexo: </span>
-                                    <label>{i.sexo == 'f' ? 'Fêmea' : 'Macho'}</label>
+                                    <label>{i.sexo == 1 ? 'Macho' : 'Fêmea'}</label>
                                 </div>
                                 <div>
                                     <span className="w-64">Origem:</span>

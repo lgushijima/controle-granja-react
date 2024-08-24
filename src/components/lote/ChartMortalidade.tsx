@@ -7,8 +7,8 @@ interface Props {
 
 const ChartMortalidade = ({lote}: Props) => {
     let chartMortalidade = lote.mortalidade
-        ? sortArrayData(lote.mortalidade, 'id', 'asc', true).map((t: any, i: number) => {
-              return {x: i + 1, y: (t.natural || 0) + (t.refugo || 0) + (t.locomocao || 0) + (t.outro || 0)};
+        ? sortArrayData(lote.mortalidade, 'dia', 'asc', true).map((t: any, i: number) => {
+              return {x: t.dia, y: (t.natural || 0) + (t.refugo || 0) + (t.locomocao || 0) + (t.outros || 0)};
           })
         : [];
 
@@ -22,8 +22,10 @@ const ChartMortalidade = ({lote}: Props) => {
                 return {x: i + 1, y: mediaMortalidade};
             });
 
-        for (let day = 1; day <= 56; day++) {
-            if (linhaMedia.indexOf((i: any) => i.x == day) == -1) linhaMedia.push({x: day, y: linhaMedia[0].y});
+        if (linhaMedia.length > 0) {
+            for (let day = 1; day <= 56; day++) {
+                if (linhaMedia.indexOf((i: any) => i.x == day) == -1) linhaMedia.push({x: day, y: linhaMedia[0].y});
+            }
         }
     }
 

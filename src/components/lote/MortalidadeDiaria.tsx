@@ -12,8 +12,8 @@ const MortalidadeDiaria = ({lote}: Props) => {
     let totalAlojado = 0;
     if (lote.formacao) {
         lote.formacao.forEach((formacao: any) => {
-            totalProgramado += formacao.qtProgramado;
-            totalAlojado += formacao.qtAlojado;
+            totalProgramado += formacao.quantidadeProgramado;
+            totalAlojado += formacao.quantidadeAlojado;
         });
     }
 
@@ -22,12 +22,12 @@ const MortalidadeDiaria = ({lote}: Props) => {
         {label: 'Natural', key: 'natural'},
         {label: 'Problema\nLocomotor', key: 'locomocao'},
         {label: 'Refugo/\nCaquéticos', key: 'refugo'},
-        {label: 'Outros', key: 'outro'},
+        {label: 'Outros', key: 'outros'},
         {label: 'Total', key: 'total'},
     ];
     for (let i = 1; i <= 56; i++) {
-        let data = lote.mortalidade ? lote.mortalidade.find((f: any) => f.id == i) : null;
-        let item = data ? {...data} : {id: i};
+        let data = lote.mortalidade ? lote.mortalidade.find((f: any) => f.dia == i) : null;
+        let item = data ? {...data} : {dia: i};
 
         //-- calculate total per line
         item.total = 0;
@@ -48,7 +48,7 @@ const MortalidadeDiaria = ({lote}: Props) => {
     for (let i = 0; i < diasMortalidade.length; i += 7) {
         let semana = (i + 7) / 7;
         let dias = diasMortalidade.slice(i, i + 7);
-        let totalSemana: {[key: string]: any} = {id: 'total'};
+        let totalSemana: {[key: string]: any} = {dia: 'total'};
 
         //-- create a total line for week
         mortalidadeColumns.forEach(column => {
@@ -101,25 +101,25 @@ const MortalidadeDiaria = ({lote}: Props) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {s.dias.map((dia: any) => (
-                                            <tr key={dia.id}>
+                                        {s.dias.map((item: any) => (
+                                            <tr key={item.dia}>
                                                 <td align="center" className="">
-                                                    <span>{dia.id}</span>
+                                                    <span>{item.dia}</span>
                                                 </td>
                                                 <td align="center" className="">
-                                                    <div>{dia.natural || 0}</div>
+                                                    <div>{item.natural || 0}</div>
                                                 </td>
                                                 <td align="center" className="">
-                                                    <div>{dia.locomocao || 0}</div>
+                                                    <div>{item.locomocao || 0}</div>
                                                 </td>
                                                 <td align="center" className="">
-                                                    <div>{dia.refugo || 0}</div>
+                                                    <div>{item.refugo || 0}</div>
                                                 </td>
                                                 <td align="center" className="">
-                                                    <div>{dia.outros || 0}</div>
+                                                    <div>{item.outros || 0}</div>
                                                 </td>
                                                 <td align="center" className="">
-                                                    <div>{dia.total || 0}</div>
+                                                    <div>{item.total || 0}</div>
                                                 </td>
                                             </tr>
                                         ))}

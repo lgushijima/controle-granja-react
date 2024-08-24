@@ -9,24 +9,24 @@ const ConsumoAgua = ({lote}: Props) => {
     const numberFormat = new Intl.NumberFormat('pt-BR');
 
     let diasConsumoAgua = [];
-    let leituraInicial = lote.hidrometro || 0;
+    let leituraInicial = lote.leituraInicialHidrometro || 0;
     let totalConsumoAguaAcumulado = 0;
 
     for (let i = 1; i <= 56; i++) {
-        let acao = lote.consumoAgua ? lote.consumoAgua.find((f: any) => f.id == i) : null;
-        let item = acao || {id: i, hidrometro: 0, consumo: 0};
+        let acao = lote.consumoAgua ? lote.consumoAgua.find((f: any) => f.dia == i) : null;
+        let item = acao || {dia: i, leituraHidrometro: 0, consumo: 0};
 
         diasConsumoAgua.push(item);
 
-        let leituraAnterior = i == 1 ? leituraInicial : diasConsumoAgua[i - 2].hidrometro || 0;
-        if (item.hidrometro > 0) {
-            if (leituraAnterior > item.hidrometro) {
+        let leituraAnterior = i == 1 ? leituraInicial : diasConsumoAgua[i - 2].leituraHidrometro || 0;
+        if (item.leituraHidrometro > 0) {
+            if (leituraAnterior > item.leituraHidrometro) {
                 const digits = leituraAnterior.toString().length;
                 let valorMaximo = Math.pow(10, digits);
 
-                item.consumo = (valorMaximo - leituraAnterior + item.hidrometro) / 100;
+                item.consumo = (valorMaximo - leituraAnterior + item.leituraHidrometro) / 100;
             } else {
-                item.consumo = (item.hidrometro - leituraAnterior) / 100;
+                item.consumo = (item.leituraHidrometro - leituraAnterior) / 100;
             }
         }
     }
@@ -76,12 +76,12 @@ const ConsumoAgua = ({lote}: Props) => {
                                     </thead>
                                     <tbody>
                                         {s.dias.map((dia: any) => (
-                                            <tr key={dia.id}>
+                                            <tr key={dia.dia}>
                                                 <td align="center" className="">
-                                                    <span>{dia.id}</span>
+                                                    <span>{dia.dia}</span>
                                                 </td>
                                                 <td align="center" className="">
-                                                    <div>{dia.hidrometro || 0}</div>
+                                                    <div>{dia.leituraHidrometro || 0}</div>
                                                 </td>
                                                 <td align="center" className="">
                                                     <div>{dia.consumo || 0}</div>

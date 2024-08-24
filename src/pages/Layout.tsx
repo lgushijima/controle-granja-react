@@ -22,7 +22,7 @@ const Layout = () => {
     const {data, isFetching} = useQuery<LoteType[]>({
         queryKey: ['getlotes'],
         queryFn: async () => {
-            const response = await axiosPrivate.get('api/Lotes/buscarLotes?ativo=true', {
+            const response = await axiosPrivate.get('api/Lotes/buscarLotes', {
                 headers: {Authorization: `bearer ${auth?.token}`},
             });
             return response.data;

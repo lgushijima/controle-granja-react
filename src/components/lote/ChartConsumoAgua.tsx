@@ -7,8 +7,8 @@ interface Props {
 
 const ChartConsumoAgua = ({lote}: Props) => {
     let chartConsumoAgua = lote.consumoAgua
-        ? sortArrayData(lote.consumoAgua, 'id', 'asc', true).map((t: any, i: number) => {
-              return {x: i + 1, y: t.consumo || 0};
+        ? sortArrayData(lote.consumoAgua, 'dia', 'asc', true).map((t: any, i: number) => {
+              return {x: t.dia, y: t.consumo || 0};
           })
         : [];
 
@@ -21,9 +21,10 @@ const ChartConsumoAgua = ({lote}: Props) => {
             .map((_, i) => {
                 return {x: i + 1, y: media};
             });
-
-        for (let day = 1; day <= 56; day++) {
-            if (linhaMedia.indexOf((i: any) => i.x == day) == -1) linhaMedia.push({x: day, y: linhaMedia[0].y});
+        if (linhaMedia.length > 0) {
+            for (let day = 1; day <= 56; day++) {
+                if (linhaMedia.indexOf((i: any) => i.x == day) == -1) linhaMedia.push({x: day, y: linhaMedia[0].y});
+            }
         }
     }
 

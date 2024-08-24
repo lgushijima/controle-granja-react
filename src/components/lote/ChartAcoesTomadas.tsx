@@ -19,14 +19,14 @@ const ChartAcoesTomadas = ({lote}: Props) => {
         {id: 5, key: 'aquecedor', text: 'Aquecedores'},
     ];
 
-    let chartUmidade: any[] = [];
+    let chartAcao: any[] = [];
 
     if (lote.acaoTomada) {
-        sortArrayData(lote.acaoTomada, 'id', 'asc', true).forEach((a: any, i: number) => {
+        sortArrayData(lote.acaoTomada, 'dia', 'asc', true).forEach((a: any, i: number) => {
             for (let prop in a) {
                 let map = chartMap.find(m => m.key == prop);
                 if (map && a[map.key] == true) {
-                    chartUmidade.push({x: i + 1, y: map.id, color: '#444444'});
+                    chartAcao.push({x: a.dia, y: map.id, color: '#444444'});
                 }
             }
         });
@@ -35,7 +35,7 @@ const ChartAcoesTomadas = ({lote}: Props) => {
     const data = [
         {
             id: 'Ações Tomadas',
-            data: chartUmidade,
+            data: chartAcao,
             color: '#444444',
         },
     ];
@@ -86,7 +86,9 @@ const ChartAcoesTomadas = ({lote}: Props) => {
                             },
                         }}
                         tooltip={data => {
-                            return <p className="bg-gray-800 text-white p-2 text-xs rounded-lg">Dia: {data.node.data.x}</p>;
+                            if (data) {
+                                return <p className="bg-gray-800 text-white p-2 text-xs rounded-lg">Dia: {data?.node?.data?.x}</p>;
+                            }
                         }}
                         legends={[
                             {

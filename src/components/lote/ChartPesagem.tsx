@@ -17,7 +17,7 @@ const ChartPesagem = ({lote}: Props) => {
                 let pesoAnterior = 0;
 
                 const item = data[i];
-                pesoAnterior = item.referencia === 'inicial' ? pesoInicial : result[i - 1].peso || pesoInicial;
+                pesoAnterior = item.referencia === 1 ? pesoInicial : result[i - 1].peso || pesoInicial;
                 const peso = (pesoAnterior || 0) * (item.conversao || 0);
                 result.push({...item, ...{peso}});
             }
@@ -32,21 +32,21 @@ const ChartPesagem = ({lote}: Props) => {
     }
 
     let chartPesagem = lote.pesagem
-        ? lote.pesagem.map((t: any, i: number) => {
-              return {x: t.idade, y: t.peso || 0};
+        ? sortArrayData(lote.pesagem, 'idade', 'asc', true).map((t: any, i: number) => {
+              return {x: t.idade, y: t.pesoMedio || 0};
           })
         : [];
 
     const data = [
         {
-            id: 'Pesagem média',
-            color: '#444444',
-            data: chartPesagem,
-        },
-        {
             id: 'Meta de peso médio',
             color: '#51c159',
             data: metaPesagemData,
+        },
+        {
+            id: 'Pesagem média',
+            color: '#444444',
+            data: [{x: 1, y: pesoInicial}, ...chartPesagem],
         },
     ];
 

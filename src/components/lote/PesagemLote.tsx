@@ -5,7 +5,6 @@ interface Props {
 }
 
 const PesagemLote = ({lote}: Props) => {
-    const dateFormat = new Intl.DateTimeFormat('pt-BR');
     const numberFormat = new Intl.NumberFormat('pt-BR');
 
     return (
@@ -27,15 +26,15 @@ const PesagemLote = ({lote}: Props) => {
                                 </div>
                                 <div>
                                     <span className="w-24">Qtde. Aves:</span>
-                                    <label>{numberFormat.format(Number(i.qtAves))}</label>
+                                    <label>{numberFormat.format(i.quantidadeAves)}</label>
                                 </div>
                                 <div>
                                     <span className="w-24">Peso Médio: </span>
-                                    <label>{numberFormat.format(Number(i.peso))} g</label>
+                                    <label>{numberFormat.format(i.pesoMedio)} g</label>
                                 </div>
                                 <div>
                                     <span className="w-24">GPD: </span>
-                                    <label>{numberFormat.format(Number(i.peso) / Number(i.idade))}</label>
+                                    <label>{numberFormat.format(i.gpd)}</label>
                                 </div>
                             </div>
                         ))}

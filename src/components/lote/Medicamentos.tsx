@@ -20,7 +20,7 @@ const Medicamentos = ({lote}: Props) => {
                         <div key={i.id} className="data-list">
                             <div>
                                 <span>Data</span>
-                                <label>{dateFormat.format(i.data)}</label>
+                                <label>{dateFormat.format(new Date(i.data))}</label>
                             </div>
                             <div>
                                 <span>Produto</span>
@@ -28,7 +28,7 @@ const Medicamentos = ({lote}: Props) => {
                             </div>
                             <div>
                                 <span>Quantidade</span>
-                                <label>{numberFormat.format(Number(i.quantidade))}</label>
+                                <label>{numberFormat.format(i.quantidade)}</label>
                             </div>
                             <div>
                                 <span>Partida</span>
@@ -37,23 +37,23 @@ const Medicamentos = ({lote}: Props) => {
 
                             <div>
                                 <span>Dose</span>
-                                <label>{numberFormat.format(Number(i.dose))}</label>
+                                <label>{numberFormat.format(i.dose)}</label>
                             </div>
                             <div>
                                 <span>Data de Validate</span>
-                                <label>{dateFormat.format(i.dataValidade)}</label>
+                                <label>{i.dataValidade ? dateFormat.format(new Date(i.dataValidade)) : ''}</label>
                             </div>
                             <div>
                                 <span>Data de Início</span>
-                                <label>{dateFormat.format(i.dataInicio)}</label>
+                                <label>{i.dataInicio ? dateFormat.format(new Date(i.dataInicio)) : ''}</label>
                             </div>
                             <div>
                                 <span>Data de Término</span>
-                                <label>{dateFormat.format(i.dataTermino)}</label>
+                                <label>{i.dataTermino ? dateFormat.format(new Date(i.dataTermino)) : ''}</label>
                             </div>
                             <div>
                                 <span>Período de Carência</span>
-                                <label>{i.diluicao}</label>
+                                <label>{i.carencia}</label>
                             </div>
                             <div>
                                 <span>Médico Veterinário</span>
@@ -61,11 +61,11 @@ const Medicamentos = ({lote}: Props) => {
                             </div>
                             <div>
                                 <span>Responsável</span>
-                                <label>{i.respExecusao}</label>
+                                <label>{i.responsavel}</label>
                             </div>
                             <div>
                                 <span>Data</span>
-                                <label>{dateFormat.format(i.dataExecucao)}</label>
+                                <label>{i.dataAplicacao ? dateFormat.format(new Date(i.dataAplicacao)) : ''}</label>
                             </div>
                             <div>
                                 <span>Observações </span>

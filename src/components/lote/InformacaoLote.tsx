@@ -12,7 +12,7 @@ const InformacaoLote = ({lote, parceiro, data}: Props) => {
             <div>
                 <div className="page-title">
                     <h2>
-                        Lote {lote.nrLote} - Aviário {lote.nrAviario}
+                        Lote {lote.numeroLote} - Aviário {lote.numeroAviario}
                     </h2>
                     <p>Última atualização de dados: {dateFormat.format(new Date(data))}</p>
                 </div>
@@ -21,15 +21,15 @@ const InformacaoLote = ({lote, parceiro, data}: Props) => {
                     <div className="data-card">
                         <div>
                             <span className="w-48">Lote: </span>
-                            <label>{lote.nrLote}</label>
+                            <label>{lote.numeroLote}</label>
                         </div>
                         <div>
                             <span className="w-48">Número do Aviário: </span>
-                            <label>{lote.nrAviario}</label>
+                            <label>{lote.numeroAviario}</label>
                         </div>
                         <div>
                             <span className="w-48">Número da Cama: </span>
-                            <label>{lote.nrCama}</label>
+                            <label>{lote.numeroCama}</label>
                         </div>
                         <div>
                             <span className="w-48">Intervalo:</span>
@@ -43,19 +43,19 @@ const InformacaoLote = ({lote, parceiro, data}: Props) => {
                     <div className="data-card">
                         <div>
                             <span className="w-48">Nome do Parceiro: </span>
-                            <label>{parceiro.proprietarioNome}</label>
+                            <label>{parceiro.nome}</label>
                         </div>
                         <div>
                             <span className="w-48">Código do Parceiro: </span>
-                            <label>{parceiro.codigoParceiro}</label>
+                            <label>{parceiro.codigoExterno}</label>
                         </div>
                         <div>
                             <span className="w-48">Localização do Aviário: </span>
-                            <label>{parceiro.localizacao}</label>
+                            <label>{parceiro.endereco}</label>
                         </div>
                         <div>
                             <span className="w-48">Município: </span>
-                            <label>{parceiro.municipio}</label>
+                            <label>{parceiro.cidade}</label>
                         </div>
                         <div>
                             <span className="w-48">UF: </span>
