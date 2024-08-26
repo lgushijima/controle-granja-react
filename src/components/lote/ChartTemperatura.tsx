@@ -1,14 +1,11 @@
 import {sortArrayData} from '@/lib/utils';
-import {Line, ResponsiveLine} from '@nivo/line';
+import {ResponsiveLine} from '@nivo/line';
 
 interface Props {
     lote: any;
 }
 
 const ChartTemperatura = ({lote}: Props) => {
-    const dateFormat = new Intl.DateTimeFormat('pt-BR');
-    const numberFormat = new Intl.NumberFormat('pt-BR');
-
     let days = [];
     let maxTempIdeal = [];
     let minTempIdeal = [];
@@ -23,7 +20,7 @@ const ChartTemperatura = ({lote}: Props) => {
     }
 
     let chartTemperatura = lote.controleTemperatura
-        ? sortArrayData(lote.controleTemperatura, 'dia', 'asc', true).map((t: any, i: number) => {
+        ? sortArrayData(lote.controleTemperatura, 'dia', 'asc', true).map((t: any) => {
               return {x: t.dia, y: t.temperatura || 0};
           })
         : [];
@@ -108,7 +105,7 @@ const ChartTemperatura = ({lote}: Props) => {
                         enableTouchCrosshair={true}
                         animate={false}
                         useMesh={true}
-                        tooltip={(data, b) => {
+                        tooltip={data => {
                             if (data.point.serieId == 'Temperatura no galpão') {
                                 return (
                                     <p className="bg-gray-800 text-white p-2 text-xs rounded-lg">

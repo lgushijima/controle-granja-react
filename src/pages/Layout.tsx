@@ -1,6 +1,6 @@
 import {Link, Outlet, useLocation} from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
-import {useQuery, useQueryClient} from '@tanstack/react-query';
+import {useQuery} from '@tanstack/react-query';
 import {axiosPrivate} from '@/api/axios';
 import {Button} from '@/components/ui/button';
 import {useState} from 'react';
@@ -18,7 +18,7 @@ const Layout = () => {
     const [menuOpen, setMenuOpen] = useState(true);
     const location = useLocation();
 
-    const queryClient = useQueryClient();
+    //const queryClient = useQueryClient();
     const {data, isFetching} = useQuery<LoteType[]>({
         queryKey: ['getlotes'],
         queryFn: async () => {
@@ -31,23 +31,23 @@ const Layout = () => {
         refetchInterval: 1000 * 60 * 15, // 5 minutos
     });
 
-    const invalidateQuery = async () => {
-        //-- option 1
-        const previousData = queryClient.getQueryData<LoteType[]>(['getlotes']);
-        if (previousData) {
-            const nextData = previousData.map(item => {
-                if (item.id === 'abc') {
-                    return {...item, property: 'new value'};
-                } else {
-                    return item;
-                }
-            });
-            queryClient.setQueryData(['getlotes'], nextData);
-        }
+    // const invalidateQuery = async () => {
+    //     //-- option 1
+    //     const previousData = queryClient.getQueryData<LoteType[]>(['getlotes']);
+    //     if (previousData) {
+    //         const nextData = previousData.map(item => {
+    //             if (item.id === 'abc') {
+    //                 return {...item, property: 'new value'};
+    //             } else {
+    //                 return item;
+    //             }
+    //         });
+    //         queryClient.setQueryData(['getlotes'], nextData);
+    //     }
 
-        //-- option 2: force new api request
-        //await queryClient.invalidateQueries(['getlotes']);
-    };
+    //     //-- option 2: force new api request
+    //     //await queryClient.invalidateQueries(['getlotes']);
+    // };
 
     const isMenuActive = (path: string, startsWith: string = '') => {
         if (startsWith) return location.pathname.startsWith(startsWith) ? 'active' : '';
@@ -90,20 +90,26 @@ const Layout = () => {
                                     <i className="fal fa-clipboard-list-check" /> Lotes
                                     {isFetching && <i className="fal fa-spinner fa-spin absolute top-3 right-2 " />}
                                 </Link>
-
-                                <ul>
-                                    {data?.map((item: any) => {
-                                        const isActive = location.pathname == `/lote/${item.id}`;
-                                        return (
-                                            <li key={item.id}>
-                                                <Link to={`lote/${item.id}`} className={isActive ? 'active' : ''}>
-                                                    Lote {item.numeroLote} - Aviário {item.numeroAviario}
-                                                    <span>{item.dataModificacao}</span>
-                                                </Link>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
+                                {(!data || (data && data.length == 0)) && (
+                                    <div className="text-center text-gray-400">
+                                        <span className="font-normal text-xs italic">Nenhum lote encontrado.</span>
+                                    </div>
+                                )}
+                                {data && data.length > 0 && (
+                                    <ul>
+                                        {data.map((item: any) => {
+                                            const isActive = location.pathname == `/lote/${item.id}`;
+                                            return (
+                                                <li key={item.id}>
+                                                    <Link to={`lote/${item.id}`} className={isActive ? 'active' : ''}>
+                                                        Lote {item.numeroLote} - Aviário {item.numeroAviario}
+                                                        <span>{item.dataModificacao}</span>
+                                                    </Link>
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                )}
                             </li>
                             <li>
                                 <Link to={`relatorios`} className={isMenuActive('/relatorios')}>

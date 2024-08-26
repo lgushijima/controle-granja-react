@@ -24,7 +24,7 @@
         @apply relative flex-1;
 
         .sidebar {
-            @apply absolute bg-white py-2 h-full w-72 transition-all z-20;
+            @apply absolute bg-white py-2 h-full w-72 transition-all z-20 text-sm;
             > nav {
                 @apply relative text-gray-700 font-medium;
 

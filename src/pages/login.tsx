@@ -1,6 +1,5 @@
 import useAuth from '@/hooks/useAuth';
 import axios from '@/api/axios';
-import {useEffect, useState} from 'react';
 
 import {Label} from '@/components/ui/label';
 import {Input} from '@/components/ui/input';
@@ -26,7 +25,7 @@ type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function Login() {
     const {openAlertDialog, closeAlertDialog, openAlertDialogLoading} = useAlertDialog();
-    const {auth, login} = useAuth();
+    const {login} = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -85,12 +84,7 @@ export default function Login() {
 
                     <div className="mb-2">
                         <Label className="block text-base text-gray-500 ">Senha</Label>
-                        <Input
-                            type="password"
-                            placeholder="Informe sua senha de acesso"
-                            autoComplete="false"
-                            {...register('senha')}
-                        />
+                        <Input type="password" placeholder="Informe sua senha de acesso" autoComplete="false" {...register('senha')} />
                     </div>
 
                     <Button type="submit" className="w-full mt-4" disabled={mutation.isPending}>

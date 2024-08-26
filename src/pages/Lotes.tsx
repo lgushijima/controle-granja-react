@@ -1,7 +1,14 @@
 export default function Lotes() {
     return (
-        <div className="p-5 h-full">
-            <div className="p-5 h-full bg-white rounded-2xl">Lotes</div>
+        <div className="page-content">
+            <div>
+                <div>
+                    <div className="page-title">
+                        <h2>Lotes</h2>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

@@ -30,7 +30,6 @@ const SelectBox = <T extends FieldValues>({
     fieldError,
     formatValue,
     onValueChange,
-    ...rest
 }: SelectBoxType<T>) => {
     return (
         <div className={`col ${divClassName}`}>

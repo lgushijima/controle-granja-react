@@ -7,7 +7,7 @@ interface Props {
 
 const ChartConsumoAgua = ({lote}: Props) => {
     let chartConsumoAgua = lote.consumoAgua
-        ? sortArrayData(lote.consumoAgua, 'dia', 'asc', true).map((t: any, i: number) => {
+        ? sortArrayData(lote.consumoAgua, 'dia', 'asc', true).map((t: any) => {
               return {x: t.dia, y: t.consumo || 0};
           })
         : [];
@@ -102,7 +102,7 @@ const ChartConsumoAgua = ({lote}: Props) => {
                         enableTouchCrosshair={true}
                         animate={false}
                         useMesh={true}
-                        tooltip={(data, b) => {
+                        tooltip={data => {
                             const title = data.point.serieId == 'Consumo de água' ? 'Consumo' : 'Média';
 
                             return (

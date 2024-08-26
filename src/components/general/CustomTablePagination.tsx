@@ -14,16 +14,14 @@ interface CustomTablePaginationProps {
     page: number;
     pageSize: number;
     total: number;
-    onPageClick: (page: number) => void;
 }
 
-export function CustomTablePagination({page, pageSize, total, onPageClick}: CustomTablePaginationProps) {
+export function CustomTablePagination({page, pageSize, total}: CustomTablePaginationProps) {
     const pages = getPaginationArray(pageSize, page, total, 1);
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [_, setSearchParams] = useSearchParams();
 
     const handlePageClick = (page: number) => {
-        onPageClick(page);
         setSearchParams(params => {
             params.set('p', String(page));
             return params;

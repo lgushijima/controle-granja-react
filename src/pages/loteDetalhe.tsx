@@ -1,5 +1,4 @@
 import {getLote} from '@/api/lote';
-import AcoesTomadas from '@/components/lote/AcoesTomadas';
 import CarregamentoLote from '@/components/lote/CarregamentoLote';
 import ChartAcoesTomadas from '@/components/lote/ChartAcoesTomadas';
 import ChartConsumoAgua from '@/components/lote/ChartConsumoAgua';
@@ -17,9 +16,7 @@ import PesagemLote from '@/components/lote/PesagemLote';
 import ProdutoQuimico from '@/components/lote/ProdutoQuimico';
 import RacaoRecebidaLote from '@/components/lote/RacaoRecebidaLote';
 import VacinaLote from '@/components/lote/VacinaLote';
-import useAlertDialog from '@/hooks/useAlertDialog';
 import useAuth from '@/hooks/useAuth';
-import {sortArrayData} from '@/lib/utils';
 import {LoteType} from '@/types/lotesTypes';
 import {keepPreviousData, useQuery} from '@tanstack/react-query';
 import {useParams} from 'react-router-dom';
@@ -27,20 +24,18 @@ import {useParams} from 'react-router-dom';
 const LoteDetalhe = () => {
     let {loteId} = useParams();
     const {auth, logout} = useAuth();
-    const dateFormat = new Intl.DateTimeFormat('pt-BR');
-    const numberFormat = new Intl.NumberFormat('pt-BR');
     // const {openAlertDialog, closeAlertDialog, openAlertDialogLoading} = useAlertDialog();
 
     if (!loteId) return;
 
-    const {data, isFetching} = useQuery<LoteType>({
+    const {data} = useQuery<LoteType>({
         queryKey: ['get-lote', loteId],
         queryFn: () => getLote(loteId, auth?.token),
         placeholderData: keepPreviousData,
         retry: 1,
         staleTime: 1000 * 60 * 5, // 1 minute
         refetchInterval: 1000 * 60 * 15, // 15 minutes
-        throwOnError: (data, err) => {
+        throwOnError: () => {
             logout();
             return false;
         },
@@ -68,7 +63,6 @@ const LoteDetalhe = () => {
             <ChartConsumoAgua lote={data} />
             <ChartUmidade lote={data} />
             <ChartAcoesTomadas lote={data} />
-            {/* <AcoesTomadas lote={jsonLote} /> */}
         </div>
     );
 };

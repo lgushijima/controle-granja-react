@@ -1,7 +1,14 @@
 export default function Dashboard() {
     return (
-        <div className="m-5">
-            <div className="p-5 bg-white rounded-2xl">Dashboard</div>
+        <div className="page-content">
+            <div>
+                <div>
+                    <div className="page-title">
+                        <h2>Dashboard</h2>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

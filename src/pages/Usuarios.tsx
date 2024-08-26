@@ -37,7 +37,7 @@ export default function Usuarios() {
         retry: 1,
         staleTime: 1000 * 60 * 5, // 1 minute
         refetchInterval: 1000 * 60 * 15, // 15 minutes
-        throwOnError: (data, err) => {
+        throwOnError: () => {
             logout();
             return false;
         },
@@ -45,7 +45,7 @@ export default function Usuarios() {
 
     const mutation = useMutation<boolean, AxiosError<APIErrorType>, UserType>({
         mutationFn: data => deleteUser(data, auth?.token),
-        onSuccess: (_, variables, context) => {
+        onSuccess: () => {
             closeAlertDialog();
             refetch();
         },
@@ -167,9 +167,6 @@ export default function Usuarios() {
                         data={data}
                         page={filters.numeroPagina}
                         pageSize={filters.tamanhoPagina}
-                        onPageClick={(p: number) => {
-                            //setPagina(p);
-                        }}
                     />
                 </div>
 
@@ -178,7 +175,7 @@ export default function Usuarios() {
                         isOpen={isUsuarioModalOpen}
                         selectedUser={selectedUser}
                         onClose={handleCloseDialog}
-                        onSuccess={data => {
+                        onSuccess={() => {
                             refetch();
                         }}
                     />

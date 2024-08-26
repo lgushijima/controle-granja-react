@@ -85,7 +85,7 @@ export function UsuarioCadastroModal({isOpen, selectedUser, onClose, onSuccess}:
 
     const mutation = useMutation<UserType, AxiosError<APIErrorType>, UserType>({
         mutationFn: data => saveUser(data, auth?.token),
-        onSuccess: (data, variables, context) => {
+        onSuccess: data => {
             closeAlertDialog();
             onClose();
             if (typeof onSuccess === 'function') onSuccess(data);

@@ -6,7 +6,7 @@ import App from './App.tsx';
 
 import {AuthProvider} from './context/AuthProvider.tsx';
 
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import {QueryClientProvider} from '@tanstack/react-query';
 import {queryClient} from './api/queryCliente.ts';
 import {AlertDialogProvider} from './context/AlertDialogProvider.tsx';

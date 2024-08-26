@@ -32,9 +32,9 @@ const ProfileDropDownMenu = () => {
         <DropdownMenu>
             <DropdownMenuTrigger>
                 <div className="flex items-center ">
-                    <div className="leading-4">
-                        <p className="mr-3">Olá {auth?.nome}!</p>
-                        <p className="font-sm font-normal">({getPerfil()})</p>
+                    <div className="leading-4 text-right mr-3">
+                        <p className="">Olá {auth?.nome}!</p>
+                        <p className="text-sm font-normal">({getPerfil()})</p>
                     </div>
                     <div className="user-dropdown">
                         <i className="fal fa-user text-2xl " />

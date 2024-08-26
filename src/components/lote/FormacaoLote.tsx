@@ -3,7 +3,6 @@ interface Props {
 }
 
 const FormacaoLote = ({lote}: Props) => {
-    const dateFormat = new Intl.DateTimeFormat('pt-BR');
     const numberFormat = new Intl.NumberFormat('pt-BR');
 
     let totalProgramado = 0;

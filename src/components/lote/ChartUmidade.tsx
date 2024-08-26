@@ -92,7 +92,7 @@ const ChartUmidade = ({lote}: Props) => {
                         enableTouchCrosshair={true}
                         animate={false}
                         useMesh={true}
-                        tooltip={(data, b) => {
+                        tooltip={data => {
                             if (data.point.serieId == 'Umidade no galpão') {
                                 return (
                                     <p className="bg-gray-800 text-white p-2 text-xs rounded-lg">

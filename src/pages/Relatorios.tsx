@@ -1,7 +1,14 @@
 export default function Relatorios() {
     return (
-        <div className="m-5">
-            <div className="p-5 bg-white rounded-2xl">Relatórios</div>
+        <div className="page-content">
+            <div>
+                <div>
+                    <div className="page-title">
+                        <h2>Relatórios</h2>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

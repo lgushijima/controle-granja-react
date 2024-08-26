@@ -97,6 +97,8 @@
   @apply border-b pb-4 text-gray-400 mb-4; }
   .page-title h2 {
     @apply text-xl font-semibold text-gray-700; }
+  .page-title p {
+    @apply text-sm; }
 
 .form-row {
   @apply flex flex-wrap -mx-2; }
@@ -141,7 +143,7 @@
   .main-content .body-content {
     @apply relative flex-1; }
     .main-content .body-content .sidebar {
-      @apply absolute bg-white py-2 h-full w-72 transition-all z-20; }
+      @apply absolute bg-white py-2 h-full w-72 transition-all z-20 text-sm; }
       .main-content .body-content .sidebar > nav {
         @apply relative text-gray-700 font-medium; }
         .main-content .body-content .sidebar > nav > ul > li > a {

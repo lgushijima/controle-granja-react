@@ -18,10 +18,9 @@ interface CustomTableProps<T> {
     page: number;
     pageSize: number;
     isFetching: boolean;
-    onPageClick: (page: number) => void;
 }
 
-export function CustomTable<T>({config, data, page, pageSize, onPageClick, isFetching}: CustomTableProps<T>) {
+export function CustomTable<T>({config, data, page, pageSize, isFetching}: CustomTableProps<T>) {
     const total = data?.total;
 
     return (
@@ -54,7 +53,7 @@ export function CustomTable<T>({config, data, page, pageSize, onPageClick, isFet
                     <TableRow>
                         <TableCell colSpan={config.length + 1}>
                             <div className="flex items-center justify-between">
-                                <CustomTablePagination page={page} pageSize={pageSize} total={total || 0} onPageClick={onPageClick} />
+                                <CustomTablePagination page={page} pageSize={pageSize} total={total || 0} />
 
                                 <div className="flex mx-0 whitespace-nowrap text-gray-500">
                                     Página {page} de {Math.ceil(total || 0 / pageSize)} | Total de registros: {total || 0}

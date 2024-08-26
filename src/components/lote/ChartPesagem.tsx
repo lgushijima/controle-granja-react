@@ -32,7 +32,7 @@ const ChartPesagem = ({lote}: Props) => {
     }
 
     let chartPesagem = lote.pesagem
-        ? sortArrayData(lote.pesagem, 'idade', 'asc', true).map((t: any, i: number) => {
+        ? sortArrayData(lote.pesagem, 'idade', 'asc', true).map((t: any) => {
               return {x: t.idade, y: t.pesoMedio || 0};
           })
         : [];
@@ -111,7 +111,7 @@ const ChartPesagem = ({lote}: Props) => {
                         enableTouchCrosshair={true}
                         animate={false}
                         useMesh={true}
-                        tooltip={(data, b) => {
+                        tooltip={data => {
                             const title = data.point.serieId == 'Pesagem média' ? 'Pesagem' : 'Meta';
 
                             return (

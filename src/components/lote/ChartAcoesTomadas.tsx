@@ -22,7 +22,7 @@ const ChartAcoesTomadas = ({lote}: Props) => {
     let chartAcao: any[] = [];
 
     if (lote.acaoTomada) {
-        sortArrayData(lote.acaoTomada, 'dia', 'asc', true).forEach((a: any, i: number) => {
+        sortArrayData(lote.acaoTomada, 'dia', 'asc', true).forEach((a: any) => {
             for (let prop in a) {
                 let map = chartMap.find(m => m.key == prop);
                 if (map && a[map.key] == true) {

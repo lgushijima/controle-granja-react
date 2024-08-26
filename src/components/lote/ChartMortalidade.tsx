@@ -7,7 +7,7 @@ interface Props {
 
 const ChartMortalidade = ({lote}: Props) => {
     let chartMortalidade = lote.mortalidade
-        ? sortArrayData(lote.mortalidade, 'dia', 'asc', true).map((t: any, i: number) => {
+        ? sortArrayData(lote.mortalidade, 'dia', 'asc', true).map((t: any) => {
               return {x: t.dia, y: (t.natural || 0) + (t.refugo || 0) + (t.locomocao || 0) + (t.outros || 0)};
           })
         : [];
