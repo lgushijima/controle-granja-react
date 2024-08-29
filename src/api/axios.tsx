@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-//const BASE_URL = 'http://localhost:60578';
-const BASE_URL = 'https://granjaapi.ushijima.com.br';
+//const BASE_URL = process.env.REACT_APP_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL;
+//const BASE_URL = 'https://granjaapi.ushijima.com.br';
 
 export default axios.create({
     baseURL: BASE_URL,

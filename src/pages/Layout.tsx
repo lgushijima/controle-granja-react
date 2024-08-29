@@ -1,10 +1,8 @@
 import {Link, Outlet, useLocation} from 'react-router-dom';
-import useAuth from '@/hooks/useAuth';
-import {useQuery} from '@tanstack/react-query';
-import {axiosPrivate} from '@/api/axios';
 import {Button} from '@/components/ui/button';
 import {useState} from 'react';
 import ProfileDropDownMenu from '@/components/general/ProfileDropDownMenu';
+import {useReactQuery} from '@/hooks/useReactQuery';
 
 type LoteType = {
     id: string;
@@ -14,22 +12,9 @@ type LoteType = {
 };
 
 const Layout = () => {
-    const {auth} = useAuth();
     const [menuOpen, setMenuOpen] = useState(true);
     const location = useLocation();
-
-    //const queryClient = useQueryClient();
-    const {data, isFetching} = useQuery<LoteType[]>({
-        queryKey: ['getlotes'],
-        queryFn: async () => {
-            const response = await axiosPrivate.get('api/Lotes/buscarLotes', {
-                headers: {Authorization: `bearer ${auth?.token}`},
-            });
-            return response.data;
-        },
-        staleTime: 1000 * 60 * 5, // 1 minute
-        refetchInterval: 1000 * 60 * 15, // 5 minutos
-    });
+    const {data, isFetching} = useReactQuery<LoteType[]>({key: ['get-lotes'], endpoint: 'api/Lotes/buscarLotes'});
 
     // const invalidateQuery = async () => {
     //     //-- option 1
