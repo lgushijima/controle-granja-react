@@ -78,6 +78,10 @@ const CarregamentoLote = ({lote}: Props) => {
                             <span className="w-48">Leitura inicial do hidrômetro:</span>
                             <label>{lote.leituraInicialHidrometro}</label>
                         </div>
+                        <div>
+                            <span className="w-48">Valor Unit. Estimado Final:</span>
+                            <label>R$ {numberFormat.format(Number(lote.valorUnitarioEstimadoFinal || 0))}</label>
+                        </div>
                     </div>
                 </div>
             </div>

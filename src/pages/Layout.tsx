@@ -8,13 +8,13 @@ type LoteType = {
     id: string;
     numeroLote: number;
     numeroAviario: number;
-    dataModificacao: string;
+    dataAlteracao: string;
 };
 
 const Layout = () => {
     const [menuOpen, setMenuOpen] = useState(true);
     const location = useLocation();
-    const {data, isFetching} = useReactQuery<LoteType[]>({key: ['get-lotes'], endpoint: 'api/Lotes/buscarLotes'});
+    const {data, isFetching, error} = useReactQuery<LoteType[]>({key: ['get-lotes'], endpoint: 'api/Lotes/buscarLotes'});
 
     // const invalidateQuery = async () => {
     //     //-- option 1
@@ -88,7 +88,7 @@ const Layout = () => {
                                                 <li key={item.id}>
                                                     <Link to={`lote/${item.id}`} className={isActive ? 'active' : ''}>
                                                         Lote {item.numeroLote} - Aviário {item.numeroAviario}
-                                                        <span>{item.dataModificacao}</span>
+                                                        <span>{item.dataAlteracao}</span>
                                                     </Link>
                                                 </li>
                                             );

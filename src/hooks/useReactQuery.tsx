@@ -18,11 +18,11 @@ export function useReactQuery<T = unknown>({key, endpoint, params}: props) {
             });
             return response.data;
         },
+        retry: 1,
         staleTime: 1000 * 60 * 5,
         refetchInterval: 1000 * 60 * 15,
         throwOnError: err => {
             console.error('Oops!', err);
-            debugger;
             return false;
         },
     });

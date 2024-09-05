@@ -5,5 +5,5 @@ export interface LoteSearchType extends PaginationType {
 }
 export interface LoteType {
     cliente: object;
-    dataModificacao: string;
+    dataAlteracao: string;
 }

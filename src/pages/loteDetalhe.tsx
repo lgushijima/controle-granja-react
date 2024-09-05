@@ -46,19 +46,22 @@ const LoteDetalhe = () => {
     console.log(data);
     return (
         <div className="p-5">
-            <InformacaoLote lote={data} parceiro={data.cliente} data={data.dataModificacao} />
+            <InformacaoLote lote={data} parceiro={data.cliente} data={data.dataAlteracao} />
             <CarregamentoLote lote={data} />
             <FormacaoLote lote={data} />
-            <VacinaLote lote={data} />
-            <RacaoRecebidaLote lote={data} />
-            <PesagemLote lote={data} />
-            <ControlePHeCloro lote={data} />
+
             <MortalidadeDiaria lote={data} />
+            <PesagemLote lote={data} />
             <ConsumoAgua lote={data} />
+            <RacaoRecebidaLote lote={data} />
+
+            <VacinaLote lote={data} />
+            <ControlePHeCloro lote={data} />
             <ProdutoQuimico lote={data} />
             <Medicamentos lote={data} />
-            <ChartPesagem lote={data} />
+
             <ChartMortalidade lote={data} />
+            <ChartPesagem lote={data} />
             <ChartTemperatura lote={data} />
             <ChartConsumoAgua lote={data} />
             <ChartUmidade lote={data} />

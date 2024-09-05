@@ -202,7 +202,7 @@
   .table-week .table-footer div {
     @apply text-sm  text-slate-500; }
     .table-week .table-footer div span {
-      @apply inline-block min-w-16 text-right font-semibold; }
+      @apply inline-block min-w-24 text-right font-semibold; }
 
 .table-week table {
   @apply w-full table-fixed text-sm; }

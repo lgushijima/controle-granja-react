@@ -134,6 +134,25 @@ const MortalidadeDiaria = ({lote}: Props) => {
                                         Total Remanescente:
                                         <span>{s.totalSemana == 0 ? '--' : numberFormat.format(s.totalRemanescente || 0)}</span>
                                     </div>
+
+                                    <div className="mt-2">
+                                        Valor Estimado Perdido:
+                                        <span className="text-red-700">
+                                            {s.totalSemana == 0
+                                                ? '--'
+                                                : 'R$ ' +
+                                                  numberFormat.format((s.totalSemana || 0) * (lote.valorUnitarioEstimadoFinal || 0))}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        Valor Estimado Remanescente:
+                                        <span className="text-green-700">
+                                            {s.totalSemana == 0
+                                                ? '--'
+                                                : 'R$ ' +
+                                                  numberFormat.format((s.totalRemanescente || 0) * (lote.valorUnitarioEstimadoFinal || 0))}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         ))}
