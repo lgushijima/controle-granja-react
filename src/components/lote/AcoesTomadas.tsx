@@ -2,9 +2,10 @@ import {sortArrayData} from '@/lib/utils';
 
 interface Props {
     lote: any;
+    print?: boolean;
 }
 
-const AcoesTomadas = ({lote}: Props) => {
+const AcoesTomadas = ({lote, print = false}: Props) => {
     const columns = [
         {label: 'Exaustores', key: 'exaustor'},
         {label: 'Nebulizadores', key: 'nebulizador'},
@@ -12,12 +13,14 @@ const AcoesTomadas = ({lote}: Props) => {
         {label: 'Cortinas', key: 'cortina'},
         {label: 'Aquecedores', key: 'aquecedor'},
     ];
+
     return (
         <section className="section-content">
             <div>
                 <div className="page-title">
                     <h2>Ações Tomadas</h2>
                 </div>
+
                 <div className="table-list grid gap-8 grid-cols-1">
                     <div className="table-week">
                         <table>
@@ -51,6 +54,8 @@ const AcoesTomadas = ({lote}: Props) => {
                         </table>
                     </div>
                 </div>
+
+                {print && <div></div>}
             </div>
         </section>
     );

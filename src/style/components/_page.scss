@@ -5,9 +5,9 @@
     @apply flex h-full flex-col;
 
     .header-wrapper {
-        @apply bg-primary px-5;
+        @apply bg-primary px-4;
         > div {
-            @apply flex items-center justify-between font-semibold text-white py-2;
+            @apply flex items-center justify-between font-semibold text-white py-1;
 
             .header-left,
             .header-right {
@@ -83,6 +83,23 @@
 
         .data-card-wrapper {
             @apply grid gap-4;
+        }
+        .table-data {
+            @apply text-left;
+
+            thead {
+                th {
+                    border: 1px solid #ccc;
+                    background-color: $primary-aux;
+                    @apply text-gray-700 p-1 uppercase text-xs;
+                }
+            }
+            tbody {
+                td {
+                    border: 1px solid #ccc;
+                    @apply text-gray-700 p-1 font-semibold;
+                }
+            }
         }
         .data-card {
             @apply border rounded-lg overflow-hidden;
@@ -177,14 +194,33 @@
 }
 
 @media screen and (max-width: 800px) {
+    .header-wrapper {
+        @apply bg-primary px-5;
+        > div {
+            @apply flex items-center justify-between font-semibold text-white py-2;
+
+            .header-left,
+            .header-right {
+                @apply flex items-center;
+            }
+
+            .user-dropdown {
+                @apply flex items-center justify-center rounded-full bg-white w-10 h-10  text-primary p-1;
+            }
+        }
+    }
+
     .main-content .header-wrapper {
         @apply px-3;
+        > div {
+            @apply p-0;
+        }
         .header-left {
             h2 {
                 @apply hidden;
             }
             button {
-                @apply px-2;
+                @apply px-2 text-xs;
             }
         }
         .header-right {
@@ -207,5 +243,77 @@
     }
     .section-content > div .data-list > div span {
         @apply w-32;
+    }
+}
+
+@media screen and (min-width: '801px') and (max-width: 1200px) {
+    .header-wrapper {
+        @apply bg-primary px-5;
+        > div {
+            @apply flex items-center justify-between font-semibold text-white py-2;
+
+            .header-left,
+            .header-right {
+                @apply flex items-center;
+            }
+
+            .user-dropdown {
+                @apply flex items-center justify-center rounded-full bg-white w-10 h-10  text-primary p-1;
+            }
+        }
+    }
+
+    .main-content .header-wrapper {
+        @apply px-3;
+        > div {
+            @apply p-0;
+        }
+        .header-left {
+            h2 {
+                @apply text-xs;
+            }
+            img {
+                @apply w-14;
+            }
+            button {
+                @apply px-2;
+            }
+        }
+        .header-right {
+            p {
+                @apply text-sm;
+            }
+            button {
+                > div > div {
+                    @apply leading-3;
+                }
+                .user-dropdown {
+                    @apply w-8 h-8;
+                    i {
+                        @apply text-lg;
+                    }
+                }
+            }
+        }
+    }
+    .sidebar {
+        @apply shadow-xl;
+    }
+    .page-wrapper {
+        @apply ml-0;
+    }
+    .section-content > div .data-list > div span {
+        @apply w-32;
+    }
+}
+
+@media print {
+    body {
+        background-color: transparent;
+    }
+    .section-content,
+    .table-week,
+    .data-card {
+        page-break-inside: avoid;
     }
 }

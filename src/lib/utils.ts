@@ -91,3 +91,9 @@ export const sortArrayData = (
 
     return sortedData;
 };
+
+export const interpolarPeso = (idade: number, idadeA: number, pesoA: number, idadeB: number, pesoB: number) => {
+    const pesoInterpolado = pesoA + ((pesoB - pesoA) / (idadeB - idadeA)) * (idade - idadeA);
+
+    return pesoInterpolado;
+};

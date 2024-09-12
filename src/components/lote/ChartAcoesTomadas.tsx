@@ -3,9 +3,10 @@ import {ResponsiveScatterPlot} from '@nivo/scatterplot';
 
 interface Props {
     lote: any;
+    print?: boolean;
 }
 
-const ChartAcoesTomadas = ({lote}: Props) => {
+const ChartAcoesTomadas = ({lote, print = false}: Props) => {
     let days = [];
     for (let day = 1; day <= 56; day++) {
         days.push(day);
@@ -47,10 +48,10 @@ const ChartAcoesTomadas = ({lote}: Props) => {
                     <h2>Ações Tomadas</h2>
                 </div>
 
-                <div style={{height: '400px', width: '100%'}}>
+                <div style={print ? {height: '340px', width: '1000px'} : {height: '400px'}}>
                     <ResponsiveScatterPlot
                         data={data}
-                        margin={{top: 50, left: 70, bottom: 100, right: 50}}
+                        margin={{top: 10, left: 70, bottom: 100, right: 50}}
                         colors={{scheme: 'dark2'}}
                         xScale={{type: 'linear', min: 1, max: 56}}
                         yScale={{type: 'linear', min: 0, max: 5}}

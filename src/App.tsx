@@ -9,11 +9,13 @@ import RequireAuth from './components/general/RequireAuth';
 import LoteDetalhe from './pages/LoteDetalhe';
 import Dashboard from './pages/Dashboard';
 import Relatorios from './pages/Relatorios';
+import ExportLoteDetalhe from './pages/ExportLoteDetalhe';
 
 function App() {
     return (
         <Routes>
             <Route path="login" element={<Login />} />
+            <Route path="export/:key" element={<ExportLoteDetalhe />} />
 
             <Route element={<RequireAuth />}>
                 <Route path="/" element={<Layout />}>

@@ -3,9 +3,10 @@ import {ResponsiveLine} from '@nivo/line';
 
 interface Props {
     lote: any;
+    print?: boolean;
 }
 
-const ChartMortalidade = ({lote}: Props) => {
+const ChartMortalidade = ({lote, print = false}: Props) => {
     let chartMortalidade = lote.mortalidade
         ? sortArrayData(lote.mortalidade, 'dia', 'asc', true).map((t: any) => {
               return {x: t.dia, y: (t.natural || 0) + (t.refugo || 0) + (t.locomocao || 0) + (t.outros || 0)};
@@ -49,10 +50,10 @@ const ChartMortalidade = ({lote}: Props) => {
                     <h2>Gráfico de Mortalidade</h2>
                 </div>
 
-                <div style={{height: '400px', width: '100%'}}>
+                <div style={print ? {height: '340px', width: '1000px'} : {height: '400px'}}>
                     <ResponsiveLine
                         data={data}
-                        margin={{top: 50, left: 70, bottom: 100, right: 50}}
+                        margin={{top: 10, left: 70, bottom: 100, right: 50}}
                         colors={{datum: 'color'}}
                         xScale={{type: 'point'}}
                         yScale={{

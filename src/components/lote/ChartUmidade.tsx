@@ -3,9 +3,10 @@ import {ResponsiveLine} from '@nivo/line';
 
 interface Props {
     lote: any;
+    print?: boolean;
 }
 
-const ChartUmidade = ({lote}: Props) => {
+const ChartUmidade = ({lote, print = false}: Props) => {
     let umidadeIdeal = [];
     for (let day = 1; day <= 56; day++) {
         umidadeIdeal.push({x: day, y: 54});
@@ -37,10 +38,10 @@ const ChartUmidade = ({lote}: Props) => {
                     <h2>Gráfico de Umidade</h2>
                 </div>
 
-                <div style={{height: '400px', width: '100%'}}>
+                <div style={print ? {height: '340px', width: '1000px'} : {height: '400px'}}>
                     <ResponsiveLine
                         data={data}
-                        margin={{top: 50, left: 70, bottom: 100, right: 50}}
+                        margin={{top: 10, left: 70, bottom: 100, right: 50}}
                         colors={{datum: 'color'}}
                         xScale={{type: 'point'}}
                         yScale={{

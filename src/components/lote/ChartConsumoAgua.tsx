@@ -3,9 +3,10 @@ import {ResponsiveLine} from '@nivo/line';
 
 interface Props {
     lote: any;
+    print?: boolean;
 }
 
-const ChartConsumoAgua = ({lote}: Props) => {
+const ChartConsumoAgua = ({lote, print = false}: Props) => {
     let chartConsumoAgua = lote.consumoAgua
         ? sortArrayData(lote.consumoAgua, 'dia', 'asc', true).map((t: any) => {
               return {x: t.dia, y: t.consumo || 0};
@@ -48,10 +49,10 @@ const ChartConsumoAgua = ({lote}: Props) => {
                     <h2>Gráfico de Consumo de Água</h2>
                 </div>
 
-                <div style={{height: '400px', width: '100%'}}>
+                <div style={print ? {height: '340px', width: '1000px'} : {height: '400px'}}>
                     <ResponsiveLine
                         data={data}
-                        margin={{top: 50, left: 70, bottom: 100, right: 50}}
+                        margin={{top: 10, left: 70, bottom: 100, right: 50}}
                         colors={{datum: 'color'}}
                         xScale={{type: 'point'}}
                         yScale={{

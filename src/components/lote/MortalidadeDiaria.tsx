@@ -2,9 +2,10 @@ import {sortArrayData} from '@/lib/utils';
 
 interface Props {
     lote: any;
+    print?: boolean;
 }
 
-const MortalidadeDiaria = ({lote}: Props) => {
+const MortalidadeDiaria = ({lote, print = false}: Props) => {
     const numberFormat = new Intl.NumberFormat('pt-BR');
 
     let totalProgramado = 0;
@@ -78,84 +79,94 @@ const MortalidadeDiaria = ({lote}: Props) => {
                 <div className="page-title">
                     <h2>Mortalidade Diária</h2>
                 </div>
-                <div className="table-list grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <div className="table-list grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {weeks &&
-                        sortArrayData(weeks, 'semana', 'asc', true).map((s: any) => (
-                            <div key={s.semana} className="table-week with-totals">
-                                <div className="table-title">
-                                    <h3>Semana {s.semana}</h3>
-                                    <div>({s.percentual.toFixed(2)}% Mort. Semanal)</div>
-                                </div>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                <span>Dia</span>
-                                            </th>
-                                            {mortalidadeColumns.map(c => (
-                                                <th key={c.key}>
-                                                    <span>{c.label}</span>
+                        sortArrayData(weeks, 'semana', 'asc', true)
+                            .filter(w => w.totalSemana > 0)
+                            .map((s: any) => (
+                                <div key={s.semana} className="table-week with-totals">
+                                    <div className="table-title">
+                                        <h3>Semana {s.semana}</h3>
+                                        <div>({s.percentual.toFixed(2)}% Mort. Semanal)</div>
+                                    </div>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <span>Dia</span>
                                                 </th>
-                                            ))}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {s.dias.map((item: any) => (
-                                            <tr key={item.dia}>
-                                                <td align="center" className="">
-                                                    <span>{item.dia}</span>
-                                                </td>
-                                                <td align="center" className="">
-                                                    <div>{item.natural || 0}</div>
-                                                </td>
-                                                <td align="center" className="">
-                                                    <div>{item.locomocao || 0}</div>
-                                                </td>
-                                                <td align="center" className="">
-                                                    <div>{item.refugo || 0}</div>
-                                                </td>
-                                                <td align="center" className="">
-                                                    <div>{item.outros || 0}</div>
-                                                </td>
-                                                <td align="center" className="">
-                                                    <div>{item.total || 0}</div>
-                                                </td>
+                                                {mortalidadeColumns.map(c => (
+                                                    <th key={c.key}>
+                                                        <span>{c.label}</span>
+                                                    </th>
+                                                ))}
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {s.dias.map((item: any) => (
+                                                <tr key={item.dia}>
+                                                    <td align="center" className="">
+                                                        <span>{item.dia}</span>
+                                                    </td>
+                                                    <td align="center" className="">
+                                                        <div>{item.natural || 0}</div>
+                                                    </td>
+                                                    <td align="center" className="">
+                                                        <div>{item.locomocao || 0}</div>
+                                                    </td>
+                                                    <td align="center" className="">
+                                                        <div>{item.refugo || 0}</div>
+                                                    </td>
+                                                    <td align="center" className="">
+                                                        <div>{item.outros || 0}</div>
+                                                    </td>
+                                                    <td align="center" className="">
+                                                        <div>{item.total || 0}</div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
 
-                                <div className="table-footer">
-                                    <div>
-                                        Total Acumulado:
-                                        <span>{s.totalSemana == 0 ? '--' : numberFormat.format(s.totalAcumulado || 0)}</span>
-                                    </div>
-                                    <div>
-                                        Total Remanescente:
-                                        <span>{s.totalSemana == 0 ? '--' : numberFormat.format(s.totalRemanescente || 0)}</span>
-                                    </div>
+                                    <div className="table-footer">
+                                        <div>
+                                            Total Acumulado:
+                                            <span>{s.totalSemana == 0 ? '--' : numberFormat.format(s.totalAcumulado || 0)}</span>
+                                        </div>
+                                        <div>
+                                            Total Remanescente:
+                                            <span>{s.totalSemana == 0 ? '--' : numberFormat.format(s.totalRemanescente || 0)}</span>
+                                        </div>
 
-                                    <div className="mt-2">
-                                        Valor Estimado Perdido:
-                                        <span className="text-red-700">
-                                            {s.totalSemana == 0
-                                                ? '--'
-                                                : 'R$ ' +
-                                                  numberFormat.format((s.totalSemana || 0) * (lote.valorUnitarioEstimadoFinal || 0))}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        Valor Estimado Remanescente:
-                                        <span className="text-green-700">
-                                            {s.totalSemana == 0
-                                                ? '--'
-                                                : 'R$ ' +
-                                                  numberFormat.format((s.totalRemanescente || 0) * (lote.valorUnitarioEstimadoFinal || 0))}
-                                        </span>
+                                        {!print && (
+                                            <div>
+                                                <div className="mt-2">
+                                                    Valor Estimado Perdido:
+                                                    <span className="text-red-700">
+                                                        {s.totalSemana == 0
+                                                            ? '--'
+                                                            : 'R$ ' +
+                                                              numberFormat.format(
+                                                                  (s.totalSemana || 0) * (lote.valorUnitarioEstimadoFinal || 0),
+                                                              )}
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    Valor Estimado Remanescente:
+                                                    <span className="text-green-700">
+                                                        {s.totalSemana == 0
+                                                            ? '--'
+                                                            : 'R$ ' +
+                                                              numberFormat.format(
+                                                                  (s.totalRemanescente || 0) * (lote.valorUnitarioEstimadoFinal || 0),
+                                                              )}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
                 </div>
             </div>
         </section>

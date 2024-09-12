@@ -1,4 +1,4 @@
-import {getLote} from '@/api/lote';
+import {getExportLote} from '@/api/lote';
 import CarregamentoLote from '@/components/lote/CarregamentoLote';
 import ChartAcoesTomadas from '@/components/lote/ChartAcoesTomadas';
 import ChartConsumoAgua from '@/components/lote/ChartConsumoAgua';
@@ -16,32 +16,28 @@ import PesagemLote from '@/components/lote/PesagemLote';
 import ProdutoQuimico from '@/components/lote/ProdutoQuimico';
 import RacaoRecebidaLote from '@/components/lote/RacaoRecebidaLote';
 import VacinaLote from '@/components/lote/VacinaLote';
-import useAuth from '@/hooks/useAuth';
 import {LoteType} from '@/types/lotesTypes';
 import {keepPreviousData, useQuery} from '@tanstack/react-query';
 import {useParams} from 'react-router-dom';
 
-const LoteDetalhe = () => {
-    let {loteId} = useParams();
-    const {auth, logout} = useAuth();
-    // const {openAlertDialog, closeAlertDialog, openAlertDialogLoading} = useAlertDialog();
-
-    if (!loteId) return;
+const ExportLoteDetalhe = () => {
+    let {key} = useParams();
+    if (!key) return;
 
     const {data} = useQuery<LoteType>({
-        queryKey: ['get-lote', loteId],
-        queryFn: () => getLote(loteId, auth?.token),
+        queryKey: ['export-lote', key],
+        queryFn: () => getExportLote(key),
         placeholderData: keepPreviousData,
         retry: 1,
         staleTime: 1000 * 60 * 5, // 1 minute
         refetchInterval: 1000 * 60 * 15, // 15 minutes
         throwOnError: () => {
-            logout();
             return false;
         },
     });
 
-    const print = false;
+    document.querySelector('body')?.classList.add('print');
+    const print = true;
 
     if (!data) return;
 
@@ -50,16 +46,16 @@ const LoteDetalhe = () => {
             <InformacaoLote lote={data} parceiro={data.cliente} data={data.dataAlteracao} print={print} />
             <CarregamentoLote lote={data} print={print} />
             <FormacaoLote lote={data} print={print} />
-
-            <MortalidadeDiaria lote={data} print={print} />
             <PesagemLote lote={data} print={print} />
-            <ConsumoAgua lote={data} print={print} />
-            <RacaoRecebidaLote lote={data} print={print} />
 
-            <VacinaLote lote={data} print={print} />
+            <RacaoRecebidaLote lote={data} print={print} />
             <ControlePHeCloro lote={data} print={print} />
+            <VacinaLote lote={data} print={print} />
             <ProdutoQuimico lote={data} print={print} />
             <Medicamentos lote={data} print={print} />
+
+            <MortalidadeDiaria lote={data} print={print} />
+            <ConsumoAgua lote={data} print={print} />
 
             <ChartMortalidade lote={data} print={print} />
             <ChartPesagem lote={data} print={print} />
@@ -71,4 +67,4 @@ const LoteDetalhe = () => {
     );
 };
 
-export default LoteDetalhe;
+export default ExportLoteDetalhe;

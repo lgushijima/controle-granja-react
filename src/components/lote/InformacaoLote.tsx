@@ -2,14 +2,23 @@ interface Props {
     lote: any;
     parceiro: any;
     data: string;
+    print?: boolean;
 }
 
-const InformacaoLote = ({lote, parceiro, data}: Props) => {
+const InformacaoLote = ({lote, parceiro, data, print = false}: Props) => {
     const dateFormat = new Intl.DateTimeFormat('pt-BR');
 
     return (
         <section className="section-content">
             <div>
+                {print && (
+                    <div className="page-title">
+                        <h2>
+                            {parceiro.nome} ({parceiro.codigoExterno}) - {parceiro.endereco}, {parceiro.cidade}/{parceiro.uf}
+                        </h2>
+                    </div>
+                )}
+
                 <div className="page-title">
                     <h2>
                         Lote {lote.numeroLote} - Aviário {lote.numeroAviario}
@@ -17,51 +26,23 @@ const InformacaoLote = ({lote, parceiro, data}: Props) => {
                     <p>Última atualização de dados: {dateFormat.format(new Date(data))}</p>
                 </div>
 
-                <div className="data-card-wrapper grid-cols-1 xl:grid-cols-2">
-                    <div className="data-card">
-                        <div>
-                            <span className="w-48">Lote: </span>
-                            <label>{lote.numeroLote}</label>
-                        </div>
-                        <div>
-                            <span className="w-48">Número do Aviário: </span>
-                            <label>{lote.numeroAviario}</label>
-                        </div>
-                        <div>
-                            <span className="w-48">Número da Cama: </span>
-                            <label>{lote.numeroCama}</label>
-                        </div>
-                        <div>
-                            <span className="w-48">Intervalo:</span>
-                            <label>{lote.intervalo}</label>
-                        </div>
-                        <div>
-                            <span className="w-48">Nome do Técnico:</span>
-                            <label>{lote.nomeTecnico}</label>
-                        </div>
-                    </div>
-                    <div className="data-card">
-                        <div>
-                            <span className="w-48">Nome do Parceiro: </span>
-                            <label>{parceiro.nome}</label>
-                        </div>
-                        <div>
-                            <span className="w-48">Código do Parceiro: </span>
-                            <label>{parceiro.codigoExterno}</label>
-                        </div>
-                        <div>
-                            <span className="w-48">Localização do Aviário: </span>
-                            <label>{parceiro.endereco}</label>
-                        </div>
-                        <div>
-                            <span className="w-48">Município: </span>
-                            <label>{parceiro.cidade}</label>
-                        </div>
-                        <div>
-                            <span className="w-48">UF: </span>
-                            <label>{parceiro.uf}</label>
-                        </div>
-                    </div>
+                <div className="data-card-wrapper">
+                    <table className="table-data">
+                        <thead>
+                            <tr>
+                                <th className="w-36">Número da Cama:</th>
+                                <th className="w-28">Intervalo:</th>
+                                <th>Nome do Técnico:</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{lote.numeroCama}</td>
+                                <td>{lote.intervalo}</td>
+                                <td>{lote.nomeTecnico}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>

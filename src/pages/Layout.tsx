@@ -14,7 +14,7 @@ type LoteType = {
 const Layout = () => {
     const [menuOpen, setMenuOpen] = useState(true);
     const location = useLocation();
-    const {data, isFetching, error} = useReactQuery<LoteType[]>({key: ['get-lotes'], endpoint: 'api/Lotes/buscarLotes'});
+    const {data, isFetching} = useReactQuery<LoteType[]>({key: ['get-lotes'], endpoint: 'api/Lotes/buscarLotes'});
 
     // const invalidateQuery = async () => {
     //     //-- option 1

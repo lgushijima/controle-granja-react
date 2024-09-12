@@ -2,9 +2,10 @@ import {sortArrayData} from '@/lib/utils';
 
 interface Props {
     lote: any;
+    print?: boolean;
 }
 
-const ConsumoAgua = ({lote}: Props) => {
+const ConsumoAgua = ({lote, print = false}: Props) => {
     const numberFormat = new Intl.NumberFormat('pt-BR');
 
     let diasConsumoAgua = [];
@@ -52,61 +53,67 @@ const ConsumoAgua = ({lote}: Props) => {
                 <div className="page-title">
                     <h2>Consumo Diário de Água</h2>
                 </div>
-                <div className="table-list grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {weeks &&
-                        sortArrayData(weeks, 'semana', 'asc', true).map((s: any) => (
-                            <div key={s.semana} className="table-week">
-                                <div className="table-title">
-                                    <h3>Semana {s.semana}</h3>
-                                </div>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                <span>Dia</span>
-                                            </th>
-                                            <th>
-                                                <span>Leitura do Hidrômetro</span>
-                                            </th>
-                                            <th>
-                                                <span>Consummo (m³)</span>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {s.dias.map((dia: any) => (
-                                            <tr key={dia.dia}>
-                                                <td align="center" className="">
-                                                    <span>{dia.dia}</span>
-                                                </td>
-                                                <td align="center" className="">
-                                                    <div>{dia.leituraHidrometro || 0}</div>
-                                                </td>
-                                                <td align="center" className="">
-                                                    <div>{dia.consumo || 0}</div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
 
-                                <div className="table-footer">
-                                    <div>
-                                        Total Consumido na Semana (m³):
-                                        <span>
-                                            {s.totalConsumoAguaSemana == 0 ? '--' : numberFormat.format(s.totalConsumoAguaSemana || 0)}
-                                        </span>
+                <div className="table-list grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {weeks &&
+                        sortArrayData(weeks, 'semana', 'asc', true)
+                            .filter(w => w.totalConsumoAguaSemana > 0)
+                            .map((s: any) => (
+                                <div key={s.semana} className="table-week">
+                                    <div className="table-title">
+                                        <h3>Semana {s.semana}</h3>
                                     </div>
-                                    <div>
-                                        Total Acumulado (m³):
-                                        <span>
-                                            {s.totalConsumoAguaSemana == 0 ? '--' : numberFormat.format(s.totalConsumoAguaAcumulado || 0)}
-                                        </span>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <span>Dia</span>
+                                                </th>
+                                                <th>
+                                                    <span>Leitura do Hidrômetro</span>
+                                                </th>
+                                                <th>
+                                                    <span>Consummo (m³)</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {s.dias.map((dia: any) => (
+                                                <tr key={dia.dia}>
+                                                    <td align="center" className="">
+                                                        <span>{dia.dia}</span>
+                                                    </td>
+                                                    <td align="center" className="">
+                                                        <div>{dia.leituraHidrometro || 0}</div>
+                                                    </td>
+                                                    <td align="center" className="">
+                                                        <div>{dia.consumo || 0}</div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+
+                                    <div className="table-footer">
+                                        <div>
+                                            Total Consumido na Semana (m³):
+                                            <span>
+                                                {s.totalConsumoAguaSemana == 0 ? '--' : numberFormat.format(s.totalConsumoAguaSemana || 0)}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            Total Acumulado (m³):
+                                            <span>
+                                                {s.totalConsumoAguaSemana == 0
+                                                    ? '--'
+                                                    : numberFormat.format(s.totalConsumoAguaAcumulado || 0)}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
                 </div>
+                {print && <div></div>}
             </div>
         </section>
     );

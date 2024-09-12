@@ -132,9 +132,9 @@
 .main-content {
   @apply flex h-full flex-col; }
   .main-content .header-wrapper {
-    @apply bg-primary px-5; }
+    @apply bg-primary px-4; }
     .main-content .header-wrapper > div {
-      @apply flex items-center justify-between font-semibold text-white py-2; }
+      @apply flex items-center justify-between font-semibold text-white py-1; }
       .main-content .header-wrapper > div .header-left,
       .main-content .header-wrapper > div .header-right {
         @apply flex items-center; }
@@ -179,6 +179,15 @@
     @apply p-5; }
     .section-content > div .data-card-wrapper {
       @apply grid gap-4; }
+    .section-content > div .table-data {
+      @apply text-left; }
+      .section-content > div .table-data thead th {
+        border: 1px solid #ccc;
+        background-color: #e3efe1;
+        @apply text-gray-700 p-1 uppercase text-xs; }
+      .section-content > div .table-data tbody td {
+        border: 1px solid #ccc;
+        @apply text-gray-700 p-1 font-semibold; }
     .section-content > div .data-card {
       @apply border rounded-lg overflow-hidden; }
       .section-content > div .data-card.with-title > div:first-of-type {
@@ -237,12 +246,23 @@
   pointer-events: none; }
 
 @media screen and (max-width: 800px) {
+  .header-wrapper {
+    @apply bg-primary px-5; }
+    .header-wrapper > div {
+      @apply flex items-center justify-between font-semibold text-white py-2; }
+      .header-wrapper > div .header-left,
+      .header-wrapper > div .header-right {
+        @apply flex items-center; }
+      .header-wrapper > div .user-dropdown {
+        @apply flex items-center justify-center rounded-full bg-white w-10 h-10  text-primary p-1; }
   .main-content .header-wrapper {
     @apply px-3; }
+    .main-content .header-wrapper > div {
+      @apply p-0; }
     .main-content .header-wrapper .header-left h2 {
       @apply hidden; }
     .main-content .header-wrapper .header-left button {
-      @apply px-2; }
+      @apply px-2 text-xs; }
     .main-content .header-wrapper .header-right p {
       @apply text-base; }
     .main-content .header-wrapper .header-right .user-dropdown {
@@ -256,6 +276,49 @@
   .section-content > div .data-list > div span {
     @apply w-32; } }
 
+@media screen and (min-width: 801px) and (max-width: 1200px) {
+  .header-wrapper {
+    @apply bg-primary px-5; }
+    .header-wrapper > div {
+      @apply flex items-center justify-between font-semibold text-white py-2; }
+      .header-wrapper > div .header-left,
+      .header-wrapper > div .header-right {
+        @apply flex items-center; }
+      .header-wrapper > div .user-dropdown {
+        @apply flex items-center justify-center rounded-full bg-white w-10 h-10  text-primary p-1; }
+  .main-content .header-wrapper {
+    @apply px-3; }
+    .main-content .header-wrapper > div {
+      @apply p-0; }
+    .main-content .header-wrapper .header-left h2 {
+      @apply text-xs; }
+    .main-content .header-wrapper .header-left img {
+      @apply w-14; }
+    .main-content .header-wrapper .header-left button {
+      @apply px-2; }
+    .main-content .header-wrapper .header-right p {
+      @apply text-sm; }
+    .main-content .header-wrapper .header-right button > div > div {
+      @apply leading-3; }
+    .main-content .header-wrapper .header-right button .user-dropdown {
+      @apply w-8 h-8; }
+      .main-content .header-wrapper .header-right button .user-dropdown i {
+        @apply text-lg; }
+  .sidebar {
+    @apply shadow-xl; }
+  .page-wrapper {
+    @apply ml-0; }
+  .section-content > div .data-list > div span {
+    @apply w-32; } }
+
+@media print {
+  body {
+    background-color: transparent; }
+  .section-content,
+  .table-week,
+  .data-card {
+    page-break-inside: avoid; } }
+
 html,
 body,
 #root {
@@ -263,11 +326,16 @@ body,
   margin: 0;
   min-height: 100%;
   height: 100%;
-  background-color: #e3efe1; }
+  font-size: 16px; }
   html *:focus-visible,
   body *:focus-visible,
   #root *:focus-visible {
     outline: none; }
+
+body {
+  background-color: #e3efe1; }
+  body.print {
+    background-color: transparent; }
 
 ::placeholder {
   color: #ccc !important;

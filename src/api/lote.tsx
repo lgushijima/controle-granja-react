@@ -9,6 +9,12 @@ export async function getLotes(filters?: LoteSearchType, token?: string) {
     return response.data;
 }
 
+export async function getDashboard(loteId: string, token?: string) {
+    const header = token ? {headers: {Authorization: `bearer ${token}`}} : {};
+    const response = await axiosPrivate.get(`api/Lotes/Dashboard?id=${loteId}`, header);
+    return response.data;
+}
+
 export async function getLote(loteId: string, token?: string) {
     const header = token ? {headers: {Authorization: `bearer ${token}`}} : {};
     const response = await axiosPrivate.get(`api/Lotes/BuscarDetalhe?id=${loteId}`, header);
@@ -23,4 +29,9 @@ export async function deleteLote(data: LoteType, token?: string) {
 export async function saveUser(data: LoteType, token?: string) {
     const header = token ? {headers: {Authorization: `bearer ${token}`}} : {};
     return axiosPrivate.post('api/Lotes/Salvar', data, header).then(response => response.data);
+}
+
+export async function getExportLote(key: string) {
+    const response = await axiosPrivate.get(`api/Export/LoteDetalhe?key=${key}`);
+    return response.data;
 }

@@ -1,52 +1,85 @@
-import {sortArrayData} from '@/lib/utils';
+import {interpolarPeso, sortArrayData} from '@/lib/utils';
 import {ResponsiveLine} from '@nivo/line';
 
 interface Props {
     lote: any;
+    print?: boolean;
 }
 
-const ChartPesagem = ({lote}: Props) => {
-    let pesoInicial = lote.pesoMedio;
+const ChartPesagem = ({lote, print = false}: Props) => {
+    const pesoInicial = lote.pesoMedio || 0;
 
-    let metaPesagemData: any = [];
+    let metaPesagemData = [];
+    let pesagemData = [];
+    let sourceMeta = [];
+
     if (lote.metaPesagem) {
-        let result = [];
         let data = sortArrayData(lote.metaPesagem, 'idade', 'asc', true);
         if (data) {
             for (let i = 0; i < data.length; i++) {
-                let pesoAnterior = 0;
-
                 const item = data[i];
-                pesoAnterior = item.referencia === 1 ? pesoInicial : result[i - 1].peso || pesoInicial;
+                const pesoAnterior: number = item.referencia == 1 ? pesoInicial : sourceMeta[i - 1].peso || pesoInicial;
                 const peso = (pesoAnterior || 0) * (item.conversao || 0);
-                result.push({...item, ...{peso}});
+                sourceMeta.push({...item, ...{peso}});
+            }
+        }
+    }
+
+    let _meta = {idade: 1, peso: pesoInicial};
+    let _peso = {idade: 1, pesoMedio: pesoInicial};
+    let _ref = [];
+    for (let i = 1; i <= 56; i++) {
+        _ref.push({x: i, y: 1});
+        if (sourceMeta) {
+            let meta = sourceMeta.find(t => t.idade >= i);
+            if (meta) {
+                if (meta.idade == i) {
+                    metaPesagemData.push({x: i, y: meta.peso});
+                    _meta = meta;
+                } else {
+                    if (i == 1) {
+                        metaPesagemData.push({x: i, y: pesoInicial});
+                    } else {
+                        let calc = interpolarPeso(i, _meta.idade, _meta.peso, meta.idade, meta.peso);
+                        metaPesagemData.push({x: i, y: calc});
+                    }
+                }
             }
         }
 
-        metaPesagemData = [
-            {x: 1, y: pesoInicial},
-            ...result.map(t => {
-                return {x: t.idade, y: t.peso || 0};
-            }),
-        ];
+        if (lote.pesagem) {
+            let peso = sortArrayData(lote.pesagem, 'idade', 'asc', true).find((t: any) => t.idade >= i);
+            if (peso) {
+                if (peso.idade == i) {
+                    pesagemData.push({x: i, y: peso.pesoMedio});
+                    _peso = peso;
+                } else {
+                    if (i == 1) {
+                        pesagemData.push({x: i, y: pesoInicial});
+                    } else {
+                        let calc = interpolarPeso(i, _peso.idade, _peso.pesoMedio, peso.idade, peso.pesoMedio);
+                        pesagemData.push({x: i, y: calc});
+                    }
+                }
+            }
+        }
     }
-
-    let chartPesagem = lote.pesagem
-        ? sortArrayData(lote.pesagem, 'idade', 'asc', true).map((t: any) => {
-              return {x: t.idade, y: t.pesoMedio || 0};
-          })
-        : [];
 
     const data = [
         {
-            id: 'Meta de peso médio',
-            color: '#51c159',
-            data: metaPesagemData,
+            id: '-',
+            color: 'transparent',
+            data: _ref,
         },
         {
             id: 'Pesagem média',
             color: '#444444',
-            data: [{x: 1, y: pesoInicial}, ...chartPesagem],
+            data: pesagemData,
+        },
+        {
+            id: 'Meta de peso médio',
+            color: '#51c159',
+            data: metaPesagemData,
         },
     ];
 
@@ -57,16 +90,15 @@ const ChartPesagem = ({lote}: Props) => {
                     <h2>Gráfico de Pesagem Média</h2>
                 </div>
 
-                <div style={{height: '400px', width: '100%'}}>
+                <div style={print ? {height: '340px', width: '1000px'} : {height: '400px'}}>
                     <ResponsiveLine
                         data={data}
-                        margin={{top: 50, left: 70, bottom: 100, right: 50}}
+                        margin={{top: 10, left: 70, bottom: 100, right: 50}}
                         colors={{datum: 'color'}}
                         xScale={{type: 'point'}}
                         yScale={{
                             type: 'linear',
                             min: 0,
-
                             stacked: false,
                             reverse: false,
                         }}
@@ -77,10 +109,11 @@ const ChartPesagem = ({lote}: Props) => {
                             tickSize: 5,
                             tickPadding: 5,
                             tickRotation: 0,
-                            legend: 'Idade (Dias)',
+                            legend: 'Dia',
                             legendOffset: 36,
                             legendPosition: 'middle',
                             truncateTickAt: 0,
+                            tickValues: [1, 7, 14, 21, 28, 35, 42, 49, 56],
                         }}
                         axisLeft={{
                             tickSize: 5,
@@ -112,6 +145,9 @@ const ChartPesagem = ({lote}: Props) => {
                         animate={false}
                         useMesh={true}
                         tooltip={data => {
+                            if (data.point.serieId == '-') {
+                                return;
+                            }
                             const title = data.point.serieId == 'Pesagem média' ? 'Pesagem' : 'Meta';
 
                             return (

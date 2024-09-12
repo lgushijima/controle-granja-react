@@ -3,9 +3,10 @@ import {ResponsiveLine} from '@nivo/line';
 
 interface Props {
     lote: any;
+    print?: boolean;
 }
 
-const ChartTemperatura = ({lote}: Props) => {
+const ChartTemperatura = ({lote, print = false}: Props) => {
     let days = [];
     let maxTempIdeal = [];
     let minTempIdeal = [];
@@ -24,7 +25,7 @@ const ChartTemperatura = ({lote}: Props) => {
               return {x: t.dia, y: t.temperatura || 0};
           })
         : [];
-    console.log(lote.controleTemperatura);
+
     const data = [
         {
             id: 'Mínimo ideal',
@@ -50,10 +51,10 @@ const ChartTemperatura = ({lote}: Props) => {
                     <h2>Gráfico de Temperatura</h2>
                 </div>
 
-                <div style={{height: '400px', width: '100%'}}>
+                <div style={print ? {height: '340px', width: '1000px'} : {height: '400px'}}>
                     <ResponsiveLine
                         data={data}
-                        margin={{top: 50, left: 70, bottom: 100, right: 50}}
+                        margin={{top: 10, left: 70, bottom: 100, right: 50}}
                         colors={{datum: 'color'}}
                         xScale={{type: 'point'}}
                         yScale={{

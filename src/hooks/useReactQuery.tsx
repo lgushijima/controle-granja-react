@@ -7,8 +7,8 @@ interface props {
     endpoint: string;
     params?: any;
 }
-export function useReactQuery<T = unknown>({key, endpoint, params}: props) {
-    const {auth, logout} = useAuth();
+export function useReactQuery<T = unknown>({key, endpoint}: props) {
+    const {auth} = useAuth();
 
     const {data, isFetching, error} = useQuery<T>({
         queryKey: key,
