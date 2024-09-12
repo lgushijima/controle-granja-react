@@ -179,15 +179,15 @@
     @apply p-5; }
     .section-content > div .data-card-wrapper {
       @apply grid gap-4; }
+      .section-content > div .data-card-wrapper.table-wrapper {
+        @apply border rounded-lg overflow-hidden; }
     .section-content > div .table-data {
-      @apply text-left; }
+      @apply border-hidden text-left; }
       .section-content > div .table-data thead th {
-        border: 1px solid #ccc;
         background-color: #e3efe1;
-        @apply text-gray-700 p-1 uppercase text-xs; }
+        @apply border text-gray-700 p-1 uppercase text-xs; }
       .section-content > div .table-data tbody td {
-        border: 1px solid #ccc;
-        @apply text-gray-700 p-1 font-semibold; }
+        @apply border text-gray-700 p-1 font-semibold; }
     .section-content > div .data-card {
       @apply border rounded-lg overflow-hidden; }
       .section-content > div .data-card.with-title > div:first-of-type {

@@ -50,7 +50,7 @@ const ProdutoQuimico = ({lote, print = false}: Props) => {
                 )}
 
                 {print && (
-                    <div className="data-card-wrapper">
+                    <div className="data-card-wrapper table-wrapper">
                         <table className="table-data">
                             <thead>
                                 <tr>

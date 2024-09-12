@@ -26,7 +26,7 @@ const InformacaoLote = ({lote, parceiro, data, print = false}: Props) => {
                     <p>Última atualização de dados: {dateFormat.format(new Date(data))}</p>
                 </div>
 
-                <div className="data-card-wrapper">
+                <div className="data-card-wrapper table-wrapper">
                     <table className="table-data">
                         <thead>
                             <tr>

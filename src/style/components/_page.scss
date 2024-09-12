@@ -83,21 +83,23 @@
 
         .data-card-wrapper {
             @apply grid gap-4;
+
+            &.table-wrapper {
+                @apply border rounded-lg overflow-hidden;
+            }
         }
         .table-data {
-            @apply text-left;
+            @apply border-hidden text-left;
 
             thead {
                 th {
-                    border: 1px solid #ccc;
                     background-color: $primary-aux;
-                    @apply text-gray-700 p-1 uppercase text-xs;
+                    @apply border text-gray-700 p-1 uppercase text-xs;
                 }
             }
             tbody {
                 td {
-                    border: 1px solid #ccc;
-                    @apply text-gray-700 p-1 font-semibold;
+                    @apply border text-gray-700 p-1 font-semibold;
                 }
             }
         }
